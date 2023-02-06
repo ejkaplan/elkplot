@@ -113,8 +113,12 @@ def join_paths(
 def shade(
     polygon: shapely.Polygon, angle: float, spacing: float
 ) -> shapely.MultiLineString:
-    polygon = affinity.rotate(polygon, -angle, use_radians=True, origin=polygon.centroid)
+    polygon = affinity.rotate(
+        polygon, -angle, use_radians=True, origin=polygon.centroid
+    )
     x0, y0, x1, y1 = polygon.bounds
-    shading = shapely.MultiLineString([[(x0, y), (x1, y)] for y in np.arange(y0+0.5*spacing, y1, spacing)])
+    shading = shapely.MultiLineString(
+        [[(x0, y), (x1, y)] for y in np.arange(y0 + 0.5 * spacing, y1, spacing)]
+    )
     shading = polygon.intersection(shading)
     return affinity.rotate(shading, angle, use_radians=True, origin=polygon.centroid)
