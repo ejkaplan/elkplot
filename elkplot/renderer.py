@@ -29,7 +29,7 @@ def batch_drawings(
         for path in shapely.get_parts(layers):
             grp = Group()
             screen_coords = [(dpi * x, dpi * (height - y)) for x, y in path.coords]
-            vertices = path[0] + tuple(chain(*screen_coords)) + screen_coords[-1]
+            vertices = screen_coords[0] + tuple(chain(*screen_coords)) + screen_coords[-1]
             batch.add(
                 len(vertices) // 2,
                 gl.GL_LINE_STRIP,

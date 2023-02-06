@@ -1,0 +1,1 @@
+SKIP_RENDER_TESTS = True
