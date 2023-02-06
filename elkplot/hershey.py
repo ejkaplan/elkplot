@@ -9,6 +9,8 @@ import shapely.affinity as affinity
 from .hershey_fonts import *
 from .shape_utils import size
 
+# Taken with modifications from https://github.com/fogleman/axi
+
 HersheyFont = list[tuple[float, float, list[list[tuple[float, float]]]]]
 
 
@@ -33,7 +35,7 @@ def text(
     return result
 
 
-def _word_wrap(string: str, width: float, measure_func) -> list[str]:
+def word_wrap(string: str, width: float, measure_func) -> list[str]:
     result = []
     for line in string.split("\n"):
         fields = itertools.groupby(line, lambda x: x.isspace())
@@ -92,7 +94,7 @@ class Font(object):
             align: float = 0,
             justify: bool = False,
     ) -> shapely.MultiLineString:
-        lines = _word_wrap(string, width, self.measure)
+        lines = word_wrap(string, width, self.measure)
         line_shapes = [self.text(line) for line in lines]
         max_width = max(size(t)[0] for t in line_shapes)
         if justify:

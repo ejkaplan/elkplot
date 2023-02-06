@@ -1,3 +1,5 @@
+# Taken with modifications from https://github.com/fogleman/axi
+
 ASTROLOGY = [
     (-8, 8, [[]]),
     (

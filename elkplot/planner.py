@@ -4,6 +4,9 @@ from math import sqrt, hypot
 from typing import NamedTuple
 
 
+# Taken with modifications from https://github.com/fogleman/axi
+
+
 # a planner computes a motion profile for a list of (x, y) points
 class Planner:
     def __init__(self, acceleration: float, max_velocity: float, corner_factor: float):

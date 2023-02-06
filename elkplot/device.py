@@ -10,6 +10,8 @@ from tqdm import tqdm
 
 from .planner import Planner, Plan
 
+# Taken with modifications from https://github.com/fogleman/axi
+
 DEFAULT_CONFIGS = """[DEFAULT]
 timeslice_ms = 10
 microstepping_mode = 1

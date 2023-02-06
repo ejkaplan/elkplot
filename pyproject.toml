@@ -10,6 +10,11 @@ python = "^3.11"
 pyserial = "^3.5"
 tqdm = "^4.64.1"
 shapely = "^2.0.1"
+pyglet = "1.5.27,<1.6.0"
+svg-path = "^6.2"
+rtree = "^1.0.1"
+hypothesis = "^6.67.1"
+pytest = "^7.2.1"
 
 
 [build-system]
