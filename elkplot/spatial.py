@@ -1,3 +1,5 @@
+# Modified from https://nb.paulbutler.org/optimizing-plots-with-tsp-solver/
+
 from collections import Counter
 
 import rtree
@@ -12,7 +14,9 @@ class PathGraph:
     # The origin is always at index 0.
     ORIGIN = 0
 
-    def __init__(self, drawing: shapely.MultiLineString, origin: tuple[float, float] = (0, 0)):
+    def __init__(
+        self, drawing: shapely.MultiLineString, origin: tuple[float, float] = (0, 0)
+    ):
         """Constructs a PathGraph from the output of svgpathtools.svg2paths."""
         self.paths: list[shapely.LineString] = shapely.get_parts(drawing)
         # For any node i, endpoints[i] will be a pair containing that node's
@@ -75,19 +79,17 @@ class PathGraph:
     def check_valid_solution(self, solution: list[int]):
         """Check that the solution is valid: every path is visited exactly once."""
         expected = Counter(
-            i for (i, _) in self.iter_starts_with_index()
-            if i < self.get_disjoint(i)
+            i for (i, _) in self.iter_starts_with_index() if i < self.get_disjoint(i)
         )
-        actual = Counter(
-            min(i, self.get_disjoint(i))
-            for i in solution
-        )
+        actual = Counter(min(i, self.get_disjoint(i)) for i in solution)
         difference = Counter(expected)
         difference.subtract(actual)
         difference = {k: v for k, v in difference.items() if v != 0}
         if difference:
-            print('Solution is not valid!'
-                  'Difference in node counts (expected - actual): {}'.format(difference))
+            print(
+                "Solution is not valid!"
+                "Difference in node counts (expected - actual): {}".format(difference)
+            )
             return False
         return True
 

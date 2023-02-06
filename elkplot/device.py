@@ -48,8 +48,8 @@ def find_port():
     else:
         print("Which axidraw to use?")
         for i, port in enumerate(ports):
-            n0 = port[2].index('SER=') + 4
-            n1 = port[2].index('LOCATION') - 1
+            n0 = port[2].index("SER=") + 4
+            n1 = port[2].index("LOCATION") - 1
             print(f"{i}) {port[2][n0:n1]}")
         idx = int(input())
         return ports[idx][0]

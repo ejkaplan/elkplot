@@ -15,7 +15,7 @@ HersheyFont = list[tuple[float, float, list[list[tuple[float, float]]]]]
 
 
 def text(
-        string: str, font: HersheyFont = FUTURAL, spacing: float = 0, extra: float = 0
+    string: str, font: HersheyFont = FUTURAL, spacing: float = 0, extra: float = 0
 ) -> shapely.MultiLineString:
     result = shapely.MultiLineString()
     x = 0
@@ -87,12 +87,12 @@ class Font(object):
         return size(t)
 
     def wrap(
-            self,
-            string: str,
-            width: float,
-            line_spacing: float = 1,
-            align: float = 0,
-            justify: bool = False,
+        self,
+        string: str,
+        width: float,
+        line_spacing: float = 1,
+        align: float = 0,
+        justify: bool = False,
     ) -> shapely.MultiLineString:
         lines = word_wrap(string, width, self.measure)
         line_shapes = [self.text(line) for line in lines]

@@ -18,8 +18,9 @@ colors = [
 ]
 
 
-def batch_drawings(layers: list[shapely.MultiLineString], height: float,
-                   dpi: float) -> Batch:
+def batch_drawings(
+    layers: list[shapely.MultiLineString], height: float, dpi: float
+) -> Batch:
     assert len(layers) <= len(colors)
     batch = Batch()
     for i, drawing in enumerate(layers):
@@ -29,16 +30,24 @@ def batch_drawings(layers: list[shapely.MultiLineString], height: float,
             grp = Group()
             screen_coords = [(dpi * x, dpi * (height - y)) for x, y in path.coords]
             vertices = path[0] + tuple(chain(*screen_coords)) + screen_coords[-1]
-            batch.add(len(vertices) // 2, gl.GL_LINE_STRIP, grp, ('v2f', vertices),
-                      ('c4B', color * (len(vertices) // 2)))
+            batch.add(
+                len(vertices) // 2,
+                gl.GL_LINE_STRIP,
+                grp,
+                ("v2f", vertices),
+                ("c4B", color * (len(vertices) // 2)),
+            )
     return batch
 
 
-def render_gl(drawings: list[shapely.MultiLineString], width: float, height: float, dpi=128):
+def render_gl(
+    drawings: list[shapely.MultiLineString], width: float, height: float, dpi=128
+):
     batch = batch_drawings(drawings, height, dpi)
     config = gl.Config(sample_buffers=1, samples=8, double_buffer=True)
-    win = window.Window(int(width * dpi), int(height * dpi), "plot preview",
-                        config=config)
+    win = window.Window(
+        int(width * dpi), int(height * dpi), "plot preview", config=config
+    )
 
     @win.event
     def on_draw():
