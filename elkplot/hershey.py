@@ -17,7 +17,7 @@ HersheyFont = list[tuple[float, float, list[list[tuple[float, float]]]]]
 def text(
     string: str, font: HersheyFont = FUTURAL, spacing: float = 0, extra: float = 0
 ) -> shapely.MultiLineString:
-    result = shapely.MultiLineString()
+    results = []
     x = 0
     for ch in string:
         index = ord(ch) - 32
@@ -28,11 +28,11 @@ def text(
         for path in coords:
             path = [(x + i - lt, j) for i, j in path]
             if path:
-                result = result.union(shapely.linestrings(path))
+                results.append(shapely.linestrings(path))
         x += rt - lt + spacing
         if index == 0:
             x += extra
-    return result
+    return shapely.union_all(results)
 
 
 def word_wrap(string: str, width: float, measure_func) -> list[str]:

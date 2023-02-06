@@ -101,7 +101,7 @@ class PathIndex:
         for index, coordinate in path_graph.iter_starts_with_index():
             self.idx.add(index, coordinate + coordinate)
 
-    def get_nearest(self, coordinate: tuple[float, float]):
+    def get_nearest(self, coordinate: tuple[float, float]) -> int:
         return next(self.idx.nearest(coordinate))
 
     def delete(self, index: int):

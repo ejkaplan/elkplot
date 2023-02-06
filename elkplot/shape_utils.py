@@ -1,26 +1,28 @@
-from typing import Optional
+from typing import TypeVar
 
+import numpy as np
 import shapely
-import shapely.ops
 import shapely.affinity as affinity
+import shapely.ops
 
 from elkplot.spatial import PathGraph, greedy_walk
 
+GeometryT = TypeVar("GeometryT", bound=shapely.Geometry)
+
 
 def geom_to_multilinestring(geom: shapely.Geometry) -> shapely.MultiLineString:
-    lines = shapely.MultiLineString()
-    if isinstance(
-            geom, (shapely.LineString, shapely.LinearRing, shapely.MultiLineString)
-    ):
-        lines = lines.union(geom)
+    if isinstance(geom, shapely.MultiLineString):
+        return geom
+    if isinstance(geom, (shapely.LineString, shapely.LinearRing)):
+        return shapely.multilinestrings([geom])
     elif isinstance(geom, (shapely.Polygon, shapely.MultiPolygon)):
-        lines = lines.union(geom.boundary)
+        return shapely.multilinestrings(geom.boundary)
     elif isinstance(geom, shapely.GeometryCollection):
-        for sub_geom in shapely.get_parts(
-                geom
-        ):  # Replace with iteration if too expensive
-            lines = lines.union(geom_to_multilinestring(sub_geom))
-    return lines
+        parts = [
+            geom_to_multilinestring(sub_geom) for sub_geom in shapely.get_parts(geom)
+        ]
+        return shapely.union_all(parts)
+    return shapely.MultiLineString()
 
 
 def size(geom: shapely.Geometry) -> tuple[float, float]:
@@ -28,11 +30,11 @@ def size(geom: shapely.Geometry) -> tuple[float, float]:
     return x_max - x_min, y_max - y_min
 
 
-def up_length(drawing: shapely.MultiLineString) -> float:
+def up_length(lines: shapely.MultiLineString) -> float:
     distance = 0
     origin = shapely.points((0, 0))
     pen_position = origin
-    for path in shapely.get_parts(drawing):
+    for path in shapely.get_parts(lines):
         path_start, path_end = shapely.points(path.coords[0]), shapely.points(
             path.coords[-1]
         )
@@ -41,17 +43,78 @@ def up_length(drawing: shapely.MultiLineString) -> float:
     return distance
 
 
-def sort_paths(drawing: shapely.MultiLineString) -> shapely.MultiLineString:
-    path_graph = PathGraph(drawing)
+def sort_paths(lines: shapely.MultiLineString) -> shapely.MultiLineString:
+    path_graph = PathGraph(lines)
     path_order = list(greedy_walk(path_graph))
     return path_graph.get_route_from_solution(path_order)
 
 
-def rotate_to_fit(layers: list[shapely.MultiLineString], width: float, height: float, step: float = 0.05,origin: tuple[float, float] | str,use_radians: bool = True) -> Optional[list[shapely.MultiLineString]]:
-    combined = shapely.union_all(layers)
-    for angle = np.arange(0, np.pi, step):
-        rotated = affinity.rotate(combined, angle, origin=origin)
+def scale_to_fit(
+    drawing: GeometryT,
+    width: float,
+    height: float,
+    padding: float = 0,
+    origin: tuple[float, float] | str = "center",
+) -> GeometryT:
+    width -= padding * 2
+    height -= padding * 2
+    w, h = size(drawing)
+    if w == 0:
+        scale = height / h
+    elif h == 0:
+        scale = width / w
+    else:
+        scale = min(width / w, height / h)
+    return affinity.scale(drawing, scale, scale, origin=origin)
+
+
+def rotate_and_scale_to_fit(
+    drawing: GeometryT,
+    width: float,
+    height: float,
+    padding: float = 0,
+    origin: tuple[float, float] | str = "center",
+    increment: float = 0.02,
+) -> GeometryT:
+    width -= padding * 2
+    height -= padding * 2
+    desired_ratio = width / height
+    best_geom, best_error = None, float("inf")
+    for angle in np.arange(0, np.pi, increment):
+        rotated = affinity.rotate(drawing, angle, origin, True)
         w, h = size(rotated)
-        if w <= width and h <= height:
-            return [affity.rotate(layer, angle, origin=origin) for layer in layers]
-    return None
+        ratio = w / h
+        error = np.abs(ratio - desired_ratio) / desired_ratio
+        if error < best_error:
+            best_geom, best_error = rotated, error
+    return scale_to_fit(best_geom, width, height, origin=origin)
+
+
+def join_paths(
+    lines: shapely.MultiLineString, tolerance: float
+) -> shapely.MultiLineString:
+    new_order = sort_paths(lines)
+    parts = list(shapely.get_parts(new_order))
+    out_lines = []
+    while len(parts) >= 2:
+        a = parts.pop(0)
+        b = parts[0]
+        a_end = shapely.Point(a.coords[-1])
+        b_start = shapely.Point(b.coords[0])
+        if a_end.distance(b_start) <= tolerance:
+            new_line = shapely.linestrings(list(a.coords) + b.coords[1:])
+            parts[0] = new_line
+        else:
+            out_lines.append(a)
+    out_lines += parts
+    return shapely.multilinestrings(out_lines)
+
+
+def shade(
+    polygon: shapely.Polygon, angle: float, spacing: float
+) -> shapely.MultiLineString:
+    polygon = affinity.rotate(polygon, -angle, use_radians=True, origin=polygon.centroid)
+    x0, y0, x1, y1 = polygon.bounds
+    shading = shapely.MultiLineString([[(x0, y), (x1, y)] for y in np.arange(y0+0.5*spacing, y1, spacing)])
+    shading = polygon.intersection(shading)
+    return affinity.rotate(shading, angle, use_radians=True, origin=polygon.centroid)
