@@ -7,7 +7,7 @@ import shapely
 import shapely.affinity as affinity
 
 from .hershey_fonts import *
-from .shape_utils import size
+from elkplot.shape_utils import size
 
 # Taken with modifications from https://github.com/fogleman/axi
 
