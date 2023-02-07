@@ -222,7 +222,7 @@ class Device(object):
         bar = tqdm(total=drawing.length)
         path: shapely.LineString
         for path in shapely.get_parts(drawing):
-            jog = shapely.linestrings([position, path.coords[0]])
+            jog = shapely.LineString([position, shapely.Point(path.coords[0])])
             self.run_path(jog, jog=True)
             self.pen_down()
             self.run_path(path)
@@ -230,7 +230,7 @@ class Device(object):
             position = path.coords[-1]
             bar.update(path.length)
         bar.close()
-        self.run_path(shapely.linestrings([position, origin]), jog=True)
+        self.run_path(shapely.LineString([position, origin]), jog=True)
 
     def plan_drawing(self, drawing: shapely.MultiLineString):
         result = []
