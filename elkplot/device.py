@@ -215,11 +215,11 @@ class Device(object):
         plan = planner.plan(list(path.coords))
         self.run_plan(plan)
 
-    def run_layer(self, drawing: shapely.MultiLineString):
+    def run_layer(self, drawing: shapely.MultiLineString, label: str = None):
         self.pen_up()
         origin = shapely.Point(0, 0)
         position = origin
-        bar = tqdm(total=drawing.length)
+        bar = tqdm(total=drawing.length, desc=label)
         path: shapely.LineString
         for path in shapely.get_parts(drawing):
             jog = shapely.LineString([position, shapely.Point(path.coords[0])])

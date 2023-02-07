@@ -32,5 +32,5 @@ def draw(
     device.enable_motors()
     for layer, label in zip(layers, layer_labels):
         input(f"Press enter when you're ready to draw {label}")
-        device.run_layer(layer)
+        device.run_layer(layer, label)
     device.disable_motors()
