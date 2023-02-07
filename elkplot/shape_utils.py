@@ -16,7 +16,7 @@ def geom_to_multilinestring(geom: shapely.Geometry) -> shapely.MultiLineString:
     if isinstance(geom, (shapely.LineString, shapely.LinearRing)):
         return shapely.multilinestrings([geom])
     elif isinstance(geom, (shapely.Polygon, shapely.MultiPolygon)):
-        return shapely.multilinestrings(geom.boundary)
+        return geom_to_multilinestring(geom.boundary)
     elif isinstance(geom, shapely.GeometryCollection):
         parts = [
             geom_to_multilinestring(sub_geom) for sub_geom in shapely.get_parts(geom)
@@ -88,6 +88,18 @@ def rotate_and_scale_to_fit(
         if error < best_error:
             best_geom, best_error = rotated, error
     return scale_to_fit(best_geom, width, height, origin=origin)
+
+
+def center(
+    drawing: GeometryT, width: float, height: float, use_centroid=False
+) -> GeometryT:
+    if use_centroid:
+        center_point = drawing.centroid
+    else:
+        xmin, ymin, xmax, ymax = drawing.bounds
+        center_point = shapely.Point((xmin + xmax) / 2, (ymin + ymax) / 2)
+    dx, dy = width / 2 - center_point.x, height / 2 - center_point.y
+    return affinity.translate(drawing, dx, dy)
 
 
 def join_paths(

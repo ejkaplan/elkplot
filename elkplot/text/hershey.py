@@ -6,8 +6,8 @@ from string import printable
 import shapely
 import shapely.affinity as affinity
 
-from .hershey_fonts import *
 from elkplot.shape_utils import size
+from .hershey_fonts import *
 
 # Taken with modifications from https://github.com/fogleman/axi
 

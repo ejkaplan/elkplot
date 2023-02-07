@@ -29,7 +29,7 @@ jog_max_velocity = 8
 vid_pid = 04d8:fd92"""
 
 
-def available() -> bool:
+def axidraw_available() -> bool:
     config = load_config()
     vid_pid = config["DEFAULT"]["vid_pid"].upper()
     ports = [port for port in comports() if vid_pid in port[2]]
@@ -76,10 +76,10 @@ class Device(object):
         self.steps_per_mm = 80 / self.step_divider
         self.pen_up_position = float(config["DEFAULT"]["pen_up_position"])
         self.pen_up_speed = float(config["DEFAULT"]["pen_up_speed"])
-        self.pen_up_delay = int(config["DEFAULT"]["pen_up_delay"])
+        self.pen_up_delay = float(config["DEFAULT"]["pen_up_delay"])
         self.pen_down_position = float(config["DEFAULT"]["pen_down_position"])
         self.pen_down_speed = float(config["DEFAULT"]["pen_down_speed"])
-        self.pen_down_delay = int(config["DEFAULT"]["pen_down_delay"])
+        self.pen_down_delay = float(config["DEFAULT"]["pen_down_delay"])
         self.acceleration = float(config["DEFAULT"]["acceleration"])
         self.max_velocity = float(config["DEFAULT"]["max_velocity"])
         self.corner_factor = float(config["DEFAULT"]["corner_factor"])
@@ -215,7 +215,7 @@ class Device(object):
         plan = planner.plan(list(path.coords))
         self.run_plan(plan)
 
-    def run(self, drawing: shapely.MultiLineString):
+    def run_layer(self, drawing: shapely.MultiLineString):
         self.pen_up()
         origin = shapely.Point(0, 0)
         position = origin

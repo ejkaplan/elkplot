@@ -6,7 +6,7 @@ import shapely
 from pyglet import window, gl, app
 from pyglet.graphics import Batch, Group
 
-colors = [
+COLORS = [
     (0, 0, 255, 255),  # blue
     (255, 0, 0, 255),  # red
     (0, 82, 33, 255),  # dark green
@@ -21,15 +21,17 @@ colors = [
 def batch_drawings(
     layers: list[shapely.MultiLineString], height: float, dpi: float
 ) -> Batch:
-    assert len(layers) <= len(colors)
+    assert len(layers) <= len(COLORS)
     batch = Batch()
-    for i, drawing in enumerate(layers):
-        color = colors[i]
+    for i, layer in enumerate(layers):
+        color = COLORS[i]
         path: shapely.LineString
-        for path in shapely.get_parts(layers):
+        for path in shapely.get_parts(layer):
             grp = Group()
             screen_coords = [(dpi * x, dpi * (height - y)) for x, y in path.coords]
-            vertices = screen_coords[0] + tuple(chain(*screen_coords)) + screen_coords[-1]
+            vertices = (
+                screen_coords[0] + tuple(chain(*screen_coords)) + screen_coords[-1]
+            )
             batch.add(
                 len(vertices) // 2,
                 gl.GL_LINE_STRIP,
@@ -40,8 +42,11 @@ def batch_drawings(
     return batch
 
 
-def render_gl(
-    drawings: list[shapely.MultiLineString], width: float, height: float, dpi=128
+def render(
+    drawings: list[shapely.MultiLineString],
+    width: float,
+    height: float,
+    dpi: float = 128,
 ):
     batch = batch_drawings(drawings, height, dpi)
     config = gl.Config(sample_buffers=1, samples=8, double_buffer=True)

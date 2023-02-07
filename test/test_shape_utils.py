@@ -11,8 +11,9 @@ from elkplot.shape_utils import (
     size,
     rotate_and_scale_to_fit,
     join_paths,
+    center,
 )
-from test.strategies import multilinestrings, layers
+from test.strategies import multilinestrings, layers, linestrings
 
 
 @given(drawing=multilinestrings)
@@ -71,3 +72,14 @@ def test_join_paths_small_tolerance(lines: shapely.MultiLineString):
 def test_join_paths_big_tolerance(lines: shapely.MultiLineString):
     joined = join_paths(lines, 100)
     assert len(shapely.get_parts(joined)) == 1
+
+
+@given(lines=linestrings)
+def test_center(lines: shapely.LineString):
+    centered_bounding = center(lines, 20, 20)
+    xmin, ymin, xmax, ymax = centered_bounding.bounds
+    assert (xmin + xmax) / 2 == pytest.approx(10)
+    assert (ymin + ymax) / 2 == pytest.approx(10)
+    centered_centroid = center(lines, 20, 20, True)
+    assert centered_centroid.centroid.x == pytest.approx(10)
+    assert centered_centroid.centroid.y == pytest.approx(10)
