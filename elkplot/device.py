@@ -1,7 +1,7 @@
-import os
 import time
 from configparser import ConfigParser
 from math import modf
+from pathlib import Path
 
 import shapely
 from serial import Serial
@@ -12,26 +12,17 @@ from .planner import Planner, Plan
 
 # Taken with modifications from https://github.com/fogleman/axi
 
-DEFAULT_CONFIGS = """[DEFAULT]
-timeslice_ms = 10
-microstepping_mode = 1
-pen_up_position = 60
-pen_up_speed = 150
-pen_up_delay = 5
-pen_down_position=40
-pen_down_speed = 150
-pen_down_delay = 0
-acceleration = 16
-max_velocity = 4
-corner_factor = 0.001
-jog_acceleration = 16
-jog_max_velocity = 8
-vid_pid = 04d8:fd92"""
+
+CONFIG_FILEPATH = Path(__file__).parent / "axidraw.ini"
+
+
+class MissingAxidrawException(Exception):
+    ...
 
 
 def axidraw_available() -> bool:
     config = load_config()
-    vid_pid = config["DEFAULT"]["vid_pid"].upper()
+    vid_pid = config["DEVICE"]["vid_pid"].upper()
     ports = [port for port in comports() if vid_pid in port[2]]
     return len(ports) > 0
 
@@ -39,7 +30,7 @@ def axidraw_available() -> bool:
 def find_port():
     # TODO: More elegant axidraw selection
     config = load_config()
-    vid_pid = config["DEFAULT"]["vid_pid"].upper()
+    vid_pid = config["DEVICE"]["vid_pid"].upper()
     ports = [port for port in comports() if vid_pid in port[2]]
     if len(ports) == 0:
         return None
@@ -56,64 +47,59 @@ def find_port():
 
 
 def load_config() -> ConfigParser:
-    here = os.path.dirname(os.path.abspath(__file__))
-    filename = os.path.join(here, "axidraw.ini")
-    if not os.path.exists(filename):
-        with open(filename, "w") as f:
-            f.write(DEFAULT_CONFIGS)
     config = ConfigParser()
-    config.read(filename)
+    config.read(CONFIG_FILEPATH)
     return config
 
 
 class Device(object):
-    def __init__(self):
+    def __init__(self, pen: str = "DEFAULT"):
         config = load_config()
-        self.timeslice_ms = int(config["DEFAULT"]["timeslice_ms"])
-        self.microstepping_mode = int(config["DEFAULT"]["microstepping_mode"])
+        self.timeslice_ms = int(config["DEVICE"]["timeslice_ms"])
+        self.microstepping_mode = int(config["DEVICE"]["microstepping_mode"])
         self.step_divider = 2 ** (self.microstepping_mode - 1)
         self.steps_per_unit = 2032 / self.step_divider
         self.steps_per_mm = 80 / self.step_divider
-        self.pen_up_position = float(config["DEFAULT"]["pen_up_position"])
-        self.pen_up_speed = float(config["DEFAULT"]["pen_up_speed"])
-        self.pen_up_delay = int(config["DEFAULT"]["pen_up_delay"])
-        self.pen_down_position = float(config["DEFAULT"]["pen_down_position"])
-        self.pen_down_speed = float(config["DEFAULT"]["pen_down_speed"])
-        self.pen_down_delay = int(config["DEFAULT"]["pen_down_delay"])
-        self.acceleration = float(config["DEFAULT"]["acceleration"])
-        self.max_velocity = float(config["DEFAULT"]["max_velocity"])
-        self.corner_factor = float(config["DEFAULT"]["corner_factor"])
-        self.jog_acceleration = float(config["DEFAULT"]["jog_acceleration"])
-        self.jog_max_velocity = float(config["DEFAULT"]["jog_max_velocity"])
-        self.vid_pid = str(config["DEFAULT"]["vid_pid"])
+        self.vid_pid = str(config["DEVICE"]["vid_pid"])
+        self.pen = pen
+
+        if pen not in config:
+            pen = "DEFAULT"
+
+        self.pen_up_position = float(config[pen]["pen_up_position"])
+        self.pen_up_speed = float(config[pen]["pen_up_speed"])
+        self.pen_up_delay = int(config[pen]["pen_up_delay"])
+        self.pen_down_position = float(config[pen]["pen_down_position"])
+        self.pen_down_speed = float(config[pen]["pen_down_speed"])
+        self.pen_down_delay = int(config[pen]["pen_down_delay"])
+        self.acceleration = float(config[pen]["acceleration"])
+        self.max_velocity = float(config[pen]["max_velocity"])
+        self.corner_factor = float(config[pen]["corner_factor"])
+        self.jog_acceleration = float(config[pen]["jog_acceleration"])
+        self.jog_max_velocity = float(config[pen]["jog_max_velocity"])
 
         self.error = (0, 0)  # accumulated step error
 
         port = find_port()
         if port is None:
-            raise Exception("cannot find axidraw device")
+            raise MissingAxidrawException()
         self.serial = Serial(port, timeout=1)
         self.configure()
 
     def write_settings(self):
-        here = os.path.dirname(os.path.abspath(__file__))
-        filename = os.path.join(here, "axidraw.ini")
-        config = ConfigParser()
-        config["DEFAULT"]["timeslice_ms"] = str(self.timeslice_ms)
-        config["DEFAULT"]["microstepping_mode"] = str(self.microstepping_mode)
-        config["DEFAULT"]["pen_up_position"] = str(self.pen_up_position)
-        config["DEFAULT"]["pen_up_speed"] = str(self.pen_up_speed)
-        config["DEFAULT"]["pen_up_delay"] = str(self.pen_up_delay)
-        config["DEFAULT"]["pen_down_position"] = str(self.pen_down_position)
-        config["DEFAULT"]["pen_down_speed"] = str(self.pen_down_speed)
-        config["DEFAULT"]["pen_down_delay"] = str(self.pen_down_delay)
-        config["DEFAULT"]["acceleration"] = str(self.acceleration)
-        config["DEFAULT"]["max_velocity"] = str(self.max_velocity)
-        config["DEFAULT"]["corner_factor"] = str(self.corner_factor)
-        config["DEFAULT"]["jog_acceleration"] = str(self.jog_acceleration)
-        config["DEFAULT"]["jog_max_velocity"] = str(self.jog_max_velocity)
-        config["DEFAULT"]["vid_pid"] = str(self.vid_pid)
-        with open(filename, "w") as configfile:
+        config = load_config()
+        config[self.pen]["pen_up_position"] = str(self.pen_up_position)
+        config[self.pen]["pen_up_speed"] = str(self.pen_up_speed)
+        config[self.pen]["pen_up_delay"] = str(self.pen_up_delay)
+        config[self.pen]["pen_down_position"] = str(self.pen_down_position)
+        config[self.pen]["pen_down_speed"] = str(self.pen_down_speed)
+        config[self.pen]["pen_down_delay"] = str(self.pen_down_delay)
+        config[self.pen]["acceleration"] = str(self.acceleration)
+        config[self.pen]["max_velocity"] = str(self.max_velocity)
+        config[self.pen]["corner_factor"] = str(self.corner_factor)
+        config[self.pen]["jog_acceleration"] = str(self.jog_acceleration)
+        config[self.pen]["jog_max_velocity"] = str(self.jog_max_velocity)
+        with open(CONFIG_FILEPATH, "w") as configfile:
             config.write(configfile)
 
     def configure(self):

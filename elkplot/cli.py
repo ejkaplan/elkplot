@@ -62,16 +62,18 @@ def calibrate():
 @click.argument("width", type=float)
 @click.argument("height", type=float)
 @click.argument("margin", type=float)
-def penlift(width: float, height: float, margin: float):
-    calibrate_penlift(width, height, margin)
+@click.argument("pen", type=str)
+def penlift(width: float, height: float, margin: float, pen: str):
+    calibrate_penlift(width, height, margin, pen)
 
 
 @calibrate.command()
 @click.argument("width", type=float)
 @click.argument("height", type=float)
 @click.argument("margin", type=float)
-def speed(width: float, height: float, margin: float):
-    calibrate_speed(width, height, margin)
+@click.argument("pen", type=str)
+def speed(width: float, height: float, margin: float, pen: str):
+    calibrate_speed(width, height, margin, pen)
 
 
 if __name__ == "__main__":
