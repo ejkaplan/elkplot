@@ -4,59 +4,64 @@ import elkplot
 
 
 @click.group()
-def main():
+def cli():
     ...
 
 
-@main.command()
+@cli.command()
 def zero():
     elkplot.Device().zero_position()
 
 
-@main.command()
+@cli.command()
 def home():
     elkplot.Device().home()
 
 
-@main.command()
+@cli.command()
 def up():
     elkplot.Device().pen_up()
 
 
-@main.command()
+@cli.command()
 def down():
     elkplot.Device().pen_down()
 
 
-@main.command()
+@cli.command()
 def on():
     elkplot.Device().enable_motors()
 
 
-@main.command()
+@cli.command()
 def off():
     elkplot.Device().disable_motors()
 
 
-@main.command()
+@cli.command()
 @click.argument("dx", type=float)
 @click.argument("dy", type=float)
 def move(dx: float, dy: float):
     elkplot.Device().move(dx, dy)
 
 
-@main.command()
+@cli.command()
 @click.argument("x", type=float)
 @click.argument("y", type=float)
 def goto(x: float, y: float):
     elkplot.Device().goto(x, y)
 
 
-@main.command()
+@cli.group()
+def calibrate():
+    ...
+
+
+@calibrate.command()
 @click.argument("width", type=float)
 @click.argument("height", type=float)
 @click.argument("margin", type=float)
-def calibrate_height(width: float, height: float, margin: float):
+def pen_lift(width: float, height: float, margin: float):
     device = elkplot.Device()
     corners = [(margin, margin), (width - margin, height - margin)]
     for corner in corners:
@@ -87,11 +92,11 @@ def calibrate_height(width: float, height: float, margin: float):
     device.write_settings()
 
 
-@main.command()
+@calibrate.command()
 @click.argument("width", type=float)
 @click.argument("height", type=float)
 @click.argument("margin", type=float)
-def calibrate_speed(width: float, height: float, margin: float):
+def speed(width: float, height: float, margin: float):
     device = elkplot.Device()
     y = margin
     offset = (height - 2 * margin) / 50
@@ -114,4 +119,4 @@ def calibrate_speed(width: float, height: float, margin: float):
 
 
 if __name__ == "__main__":
-    main()
+    cli()
