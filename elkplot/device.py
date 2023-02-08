@@ -17,7 +17,7 @@ timeslice_ms = 10
 microstepping_mode = 1
 pen_up_position = 60
 pen_up_speed = 150
-pen_up_delay = 0.05
+pen_up_delay = 5
 pen_down_position=40
 pen_down_speed = 150
 pen_down_delay = 0
@@ -76,10 +76,10 @@ class Device(object):
         self.steps_per_mm = 80 / self.step_divider
         self.pen_up_position = float(config["DEFAULT"]["pen_up_position"])
         self.pen_up_speed = float(config["DEFAULT"]["pen_up_speed"])
-        self.pen_up_delay = float(config["DEFAULT"]["pen_up_delay"])
+        self.pen_up_delay = int(config["DEFAULT"]["pen_up_delay"])
         self.pen_down_position = float(config["DEFAULT"]["pen_down_position"])
         self.pen_down_speed = float(config["DEFAULT"]["pen_down_speed"])
-        self.pen_down_delay = float(config["DEFAULT"]["pen_down_delay"])
+        self.pen_down_delay = int(config["DEFAULT"]["pen_down_delay"])
         self.acceleration = float(config["DEFAULT"]["acceleration"])
         self.max_velocity = float(config["DEFAULT"]["max_velocity"])
         self.corner_factor = float(config["DEFAULT"]["corner_factor"])
@@ -154,6 +154,7 @@ class Device(object):
 
     def goto(self, x: float, y: float, jog=True):
         # TODO: jog if pen up
+        print("YO")
         px, py = self.read_position()
         self.run_path(shapely.linestrings([(px, py), (x, y)]), jog)
 

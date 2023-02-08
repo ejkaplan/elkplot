@@ -23,4 +23,4 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-elkplot = "elkplot.cli:main"
+elk = "elkplot.cli:cli"
