@@ -41,4 +41,3 @@ def test_draw():
     drawing = scale_to_fit(drawing, *sizes.LETTER, 0.5)
     drawing = center(drawing, *sizes.LETTER)
     draw(drawing, preview_size=sizes.LETTER, preview_dpi=64)
-
