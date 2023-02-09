@@ -1,7 +1,7 @@
 import click
 
 import elkplot
-from elkplot.calibrate import calibrate_penlift, calibrate_speed
+from elkplot.calibrate import _calibrate_penlift, _calibrate_speed
 
 
 @click.group()
@@ -64,7 +64,7 @@ def calibrate():
 @click.argument("margin", type=float)
 @click.argument("pen", type=str)
 def penlift(width: float, height: float, margin: float, pen: str):
-    calibrate_penlift(width, height, margin, pen)
+    _calibrate_penlift(width, height, margin, pen)
 
 
 @calibrate.command()
@@ -73,7 +73,7 @@ def penlift(width: float, height: float, margin: float, pen: str):
 @click.argument("margin", type=float)
 @click.argument("pen", type=str)
 def speed(width: float, height: float, margin: float, pen: str):
-    calibrate_speed(width, height, margin, pen)
+    _calibrate_speed(width, height, margin, pen)
 
 
 if __name__ == "__main__":

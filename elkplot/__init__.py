@@ -1,7 +1,7 @@
 from .device import Device
 from .renderer import render
 from .shape_utils import (
-    geom_to_multilinestring,
+    _geom_to_multilinestring,
     size,
     up_length,
     sort_paths,

@@ -3,7 +3,7 @@ from typing import Optional
 import shapely
 
 from elkplot.device import Device, axidraw_available
-from elkplot import render, geom_to_multilinestring, sizes
+from elkplot import render, _geom_to_multilinestring, sizes
 
 
 def draw(
@@ -17,10 +17,10 @@ def draw(
 ) -> None:
     if isinstance(drawing, shapely.GeometryCollection):
         layers = [
-            geom_to_multilinestring(layer) for layer in shapely.get_parts(drawing)
+            _geom_to_multilinestring(layer) for layer in shapely.get_parts(drawing)
         ]
     else:
-        layers = [geom_to_multilinestring(drawing)]
+        layers = [_geom_to_multilinestring(drawing)]
     if layer_labels is None:
         layer_labels = [f"Layer #{i}" for i in range(len(layers))]
     else:
