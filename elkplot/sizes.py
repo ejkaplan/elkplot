@@ -1,5 +1,5 @@
 def cm(in_length: float) -> float:
-    return in_length * 2.54
+    return in_length / 2.54
 
 
 A3 = (16.5, 11.7)
