@@ -68,11 +68,15 @@ def _sort_paths_single(lines: shapely.MultiLineString) -> shapely.MultiLineStrin
     return path_graph.get_route_from_solution(path_order)
 
 
-def sort_paths(geometry: shapely.Geometry) -> shapely.MultiLineString | shapely.GeometryCollection:
+def sort_paths(
+    geometry: shapely.Geometry,
+) -> shapely.MultiLineString | shapely.GeometryCollection:
     if isinstance(geometry, shapely.MultiLineString):
         return _sort_paths_single(geometry)
     elif isinstance(geometry, shapely.GeometryCollection):
-        return shapely.GeometryCollection([_sort_paths_single(layer) for layer in shapely.get_parts(geometry)])
+        return shapely.GeometryCollection(
+            [_sort_paths_single(layer) for layer in shapely.get_parts(geometry)]
+        )
     else:
         raise TypeError()
 
@@ -184,9 +188,7 @@ def _join_paths_single(
             new_mid = (a.coords[-1][0] + b.coords[0][0]) / 2, (
                 a.coords[-1][1] + b.coords[0][1]
             ) / 2
-            new_line = shapely.linestrings(
-                list(a.coords) + list(b.coords)
-            )
+            new_line = shapely.linestrings(list(a.coords) + list(b.coords))
             parts[0] = new_line
         else:
             out_lines.append(a)
@@ -194,11 +196,18 @@ def _join_paths_single(
     return shapely.multilinestrings(out_lines)
 
 
-def join_paths(geometry: shapely.Geometry, tolerance: float) -> shapely.MultiLineString | shapely.GeometryCollection:
+def join_paths(
+    geometry: shapely.Geometry, tolerance: float
+) -> shapely.MultiLineString | shapely.GeometryCollection:
     if isinstance(geometry, shapely.MultiLineString):
         return _join_paths_single(geometry, tolerance)
     elif isinstance(geometry, shapely.GeometryCollection):
-        return shapely.GeometryCollection([_join_paths_single(layer) for layer in shapely.get_parts(geometry)])
+        return shapely.GeometryCollection(
+            [
+                _join_paths_single(layer, tolerance)
+                for layer in shapely.get_parts(geometry)
+            ]
+        )
     else:
         raise TypeError()
 
