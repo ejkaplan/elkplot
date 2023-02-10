@@ -176,7 +176,7 @@ def join_paths(
                 a.coords[-1][1] + b.coords[0][1]
             ) / 2
             new_line = shapely.linestrings(
-                list(a.coords)[:-1] + [new_mid] + b.coords[1:]
+                list(a.coords) + list(b.coords)
             )
             parts[0] = new_line
         else:

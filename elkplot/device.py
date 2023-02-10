@@ -20,16 +20,16 @@ class MissingAxidrawException(Exception):
     ...
 
 
-def axidraw_available() -> bool:
-    config = load_config()
+def _axidraw_available() -> bool:
+    config = _load_config()
     vid_pid = config["DEVICE"]["vid_pid"].upper()
     ports = [port for port in comports() if vid_pid in port[2]]
     return len(ports) > 0
 
 
-def find_port():
+def _find_port():
     # TODO: More elegant axidraw selection
-    config = load_config()
+    config = _load_config()
     vid_pid = config["DEVICE"]["vid_pid"].upper()
     ports = [port for port in comports() if vid_pid in port[2]]
     if len(ports) == 0:
@@ -46,7 +46,7 @@ def find_port():
         return ports[idx][0]
 
 
-def load_config() -> ConfigParser:
+def _load_config() -> ConfigParser:
     config = ConfigParser()
     config.read(CONFIG_FILEPATH)
     return config
@@ -54,7 +54,7 @@ def load_config() -> ConfigParser:
 
 class Device(object):
     def __init__(self, pen: str = "DEFAULT"):
-        config = load_config()
+        config = _load_config()
         self.timeslice_ms = int(config["DEVICE"]["timeslice_ms"])
         self.microstepping_mode = int(config["DEVICE"]["microstepping_mode"])
         self.step_divider = 2 ** (self.microstepping_mode - 1)
@@ -80,14 +80,14 @@ class Device(object):
 
         self.error = (0, 0)  # accumulated step error
 
-        port = find_port()
+        port = _find_port()
         if port is None:
             raise MissingAxidrawException()
         self.serial = Serial(port, timeout=1)
         self.configure()
 
     def write_settings(self):
-        config = load_config()
+        config = _load_config()
         config[self.pen]["pen_up_position"] = str(self.pen_up_position)
         config[self.pen]["pen_up_speed"] = str(self.pen_up_speed)
         config[self.pen]["pen_up_delay"] = str(self.pen_up_delay)

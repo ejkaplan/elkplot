@@ -1,7 +1,9 @@
 from __future__ import division
 
+from colorsys import hsv_to_rgb
 from itertools import chain
 
+import numpy as np
 import shapely
 from pyglet import window, gl, app
 from pyglet.graphics import Batch, Group
@@ -18,13 +20,19 @@ COLORS = [
 ]
 
 
-def batch_drawings(
+def _vivid_color(rng: np.random.Generator) -> tuple[int, int, int, int]:
+    r, g, b = hsv_to_rgb(rng.integers(0, 256), 255, 255)
+    return int(r*256), int(g*256), int(b*256), 255
+
+
+def _batch_drawings(
     layers: list[shapely.MultiLineString], height: float, dpi: float
 ) -> Batch:
-    assert len(layers) <= len(COLORS)
+    rng = np.random.default_rng()
+    my_colors = COLORS + [_vivid_color(rng) for _ in range(len(layers) - len(COLORS))]
     batch = Batch()
     for i, layer in enumerate(layers):
-        color = COLORS[i]
+        color = my_colors[i]
         path: shapely.LineString
         for path in shapely.get_parts(layer):
             grp = Group()
@@ -47,8 +55,19 @@ def render(
     width: float,
     height: float,
     dpi: float = 128,
-):
-    batch = batch_drawings(drawings, height, dpi)
+) -> None:
+    """
+    NOTE: You will probably not want to call this directly and instead use elkplot.draw
+    Displays a preview of what the plotter will draw. Each layer is rendered in a different color. The first 8 layers'
+    colors have been chosen with maximum distinguishability in mind. If (for some reason) you need more than 8 layers,
+    subsequent layers' colors are chosen randomly and no guarantees are made about legibility.
+    :param drawings: A list of MultiLineStrings, one per layer to be drawn
+    :param width: The width of the page (in inches)
+    :param height: The height of the page (in inches)
+    :param dpi: How large would you like the preview shown in screen pixels per plotter-inch
+    :return:
+    """
+    batch = _batch_drawings(drawings, height, dpi)
     config = gl.Config(sample_buffers=1, samples=8, double_buffer=True)
     win = window.Window(
         int(width * dpi), int(height * dpi), "plot preview", config=config

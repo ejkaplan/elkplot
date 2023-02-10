@@ -74,6 +74,11 @@ def test_join_paths_big_tolerance(lines: shapely.MultiLineString):
     assert len(shapely.get_parts(joined)) == 1
 
 
+def test_join_paths_squares(squares: shapely.MultiLineString):
+    joined = join_paths(squares, 0.01)
+    assert len(shapely.get_parts(joined)) < len(shapely.get_parts(squares))
+
+
 @given(lines=linestrings)
 def test_center(lines: shapely.LineString):
     centered_bounding = center(lines, 20, 20)

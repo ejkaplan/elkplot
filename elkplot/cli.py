@@ -2,6 +2,7 @@ import click
 
 import elkplot
 from elkplot.calibrate import _calibrate_penlift, _calibrate_speed
+from elkplot.device import _load_config
 
 
 @click.group()
@@ -51,6 +52,13 @@ def move(dx: float, dy: float):
 @click.argument("y", type=float)
 def goto(x: float, y: float):
     elkplot.Device().goto(x, y)
+
+
+@cli.command()
+def pen_list():
+    config = _load_config()
+    names = ["-" + name for name in config.keys() if name not in {"DEFAULT", "DEVICE"}]
+    print("\n".join(names))
 
 
 @cli.group()
