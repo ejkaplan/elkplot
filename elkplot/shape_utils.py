@@ -55,7 +55,7 @@ def up_length(lines: shapely.MultiLineString) -> float:
     return distance
 
 
-def sort_paths(lines: shapely.MultiLineString) -> shapely.MultiLineString:
+def _sort_paths_single(lines: shapely.MultiLineString) -> shapely.MultiLineString:
     """
     Re-order the LineStrings in a MultiLineString to reduce the pen-up travel distance.
     Does not guarantee optimality, but usually improves plot times significantly.
@@ -66,6 +66,15 @@ def sort_paths(lines: shapely.MultiLineString) -> shapely.MultiLineString:
     path_graph = PathGraph(lines)
     path_order = list(greedy_walk(path_graph))
     return path_graph.get_route_from_solution(path_order)
+
+
+def sort_paths(geometry: shapely.Geometry) -> shapely.MultiLineString | shapely.GeometryCollection:
+    if isinstance(geometry, shapely.MultiLineString):
+        return _sort_paths_single(geometry)
+    elif isinstance(geometry, shapely.GeometryCollection):
+        return shapely.GeometryCollection([_sort_paths_single(layer) for layer in shapely.get_parts(geometry)])
+    else:
+        raise TypeError()
 
 
 def scale_to_fit(
@@ -152,7 +161,7 @@ def center(
     return affinity.translate(drawing, dx, dy)
 
 
-def join_paths(
+def _join_paths_single(
     lines: shapely.MultiLineString, tolerance: float
 ) -> shapely.MultiLineString:
     """
@@ -183,6 +192,15 @@ def join_paths(
             out_lines.append(a)
     out_lines += parts
     return shapely.multilinestrings(out_lines)
+
+
+def join_paths(geometry: shapely.Geometry, tolerance: float) -> shapely.MultiLineString | shapely.GeometryCollection:
+    if isinstance(geometry, shapely.MultiLineString):
+        return _join_paths_single(geometry, tolerance)
+    elif isinstance(geometry, shapely.GeometryCollection):
+        return shapely.GeometryCollection([_join_paths_single(layer) for layer in shapely.get_parts(geometry)])
+    else:
+        raise TypeError()
 
 
 def shade(
