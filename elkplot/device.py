@@ -142,7 +142,6 @@ class Device(object):
 
     def goto(self, x: float, y: float, jog=True):
         # TODO: jog if pen up
-        print("YO")
         px, py = self.read_position()
         self.run_path(shapely.linestrings([(px, py), (x, y)]), jog)
 
