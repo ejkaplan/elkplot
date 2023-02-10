@@ -1,7 +1,7 @@
 from elkplot import Device
 
 
-def calibrate_penlift(width: float, height: float, margin: float, pen: str):
+def _calibrate_penlift(width: float, height: float, margin: float, pen: str):
     device = Device(pen)
     corners = [(margin, margin), (width - margin, height - margin)]
     for corner in corners:
@@ -33,7 +33,7 @@ def calibrate_penlift(width: float, height: float, margin: float, pen: str):
     device.disable_motors()
 
 
-def calibrate_speed(width: float, height: float, margin: float, pen: str):
+def _calibrate_speed(width: float, height: float, margin: float, pen: str):
     device = Device(pen)
     y = margin
     offset = (height - 2 * margin) / 50
