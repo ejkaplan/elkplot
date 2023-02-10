@@ -88,6 +88,8 @@ class Device(object):
 
     def write_settings(self):
         config = _load_config()
+        if not config.has_section(self.pen):
+            config.add_section(self.pen)
         config[self.pen]["pen_up_position"] = str(self.pen_up_position)
         config[self.pen]["pen_up_speed"] = str(self.pen_up_speed)
         config[self.pen]["pen_up_delay"] = str(self.pen_up_delay)
