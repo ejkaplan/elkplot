@@ -1,9 +1,11 @@
 # Modified from https://nb.paulbutler.org/optimizing-plots-with-tsp-solver/
 
 from collections import Counter
+from typing import Optional
 
 import rtree
 import shapely
+from tqdm import tqdm
 
 
 def reverse_path(path: shapely.LineString) -> shapely.LineString:
@@ -113,9 +115,10 @@ class PathIndex:
         self.delete(self.path_graph.get_disjoint(index))
 
 
-def greedy_walk(path_graph: PathGraph) -> int:
+def greedy_walk(path_graph: PathGraph, label: Optional[int]=None) -> int:
     path_index = PathIndex(path_graph)
     location = path_graph.get_coordinates(path_graph.ORIGIN)
+    bar = tqdm(total=len(path_index.idx) // 2, desc=f"Optimizing layer #{label}" if label else None)
     while True:
         try:
             next_point = path_index.get_nearest(location)
@@ -123,4 +126,5 @@ def greedy_walk(path_graph: PathGraph) -> int:
             break
         location = path_graph.get_coordinates(next_point, True)
         path_index.delete_pair(next_point)
+        bar.update(1)
         yield next_point

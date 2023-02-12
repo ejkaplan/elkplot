@@ -1,4 +1,4 @@
-from typing import TypeVar
+from typing import TypeVar, Optional
 
 import numpy as np
 import shapely
@@ -55,7 +55,7 @@ def up_length(lines: shapely.MultiLineString) -> float:
     return distance
 
 
-def _sort_paths_single(lines: shapely.MultiLineString) -> shapely.MultiLineString:
+def _sort_paths_single(lines: shapely.MultiLineString, label: Optional[int] = None) -> shapely.MultiLineString:
     """
     Re-order the LineStrings in a MultiLineString to reduce the pen-up travel distance.
     Does not guarantee optimality, but usually improves plot times significantly.
@@ -64,7 +64,7 @@ def _sort_paths_single(lines: shapely.MultiLineString) -> shapely.MultiLineStrin
     :return: The re-ordered MultiLineString
     """
     path_graph = PathGraph(lines)
-    path_order = list(greedy_walk(path_graph))
+    path_order = list(greedy_walk(path_graph, label))
     return path_graph.get_route_from_solution(path_order)
 
 
@@ -75,7 +75,7 @@ def sort_paths(
         return _sort_paths_single(geometry)
     elif isinstance(geometry, shapely.GeometryCollection):
         return shapely.GeometryCollection(
-            [_sort_paths_single(layer) for layer in shapely.get_parts(geometry)]
+            [_sort_paths_single(layer, i) for i, layer in enumerate(shapely.get_parts(geometry))]
         )
     else:
         raise TypeError()
