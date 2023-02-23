@@ -1,14 +1,14 @@
 import shapely
 from hypothesis import strategies as st
 
-from elkplot import UREG
+from elkplot import UNITS
 
 
-def quantities(min_val: float, max_val: float, unit: str | UREG.Unit):
+def quantities(min_val: float, max_val: float, unit: str | UNITS.Unit):
     magnitude = st.floats(min_val, max_val, allow_nan=False, allow_subnormal=False)
-    unit = UREG.Unit(unit)
+    unit = UNITS.Unit(unit)
 
-    def quant(m: float) -> UREG.Quantity:
+    def quant(m: float) -> UNITS.Quantity:
         return m * unit
 
     return st.builds(quant, magnitude)

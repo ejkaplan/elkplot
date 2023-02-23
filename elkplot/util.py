@@ -4,7 +4,7 @@ from typing import Optional
 import shapely
 import winsound
 
-from elkplot import render, _geom_to_multilinestring, sizes, UREG
+from elkplot import render, _geom_to_multilinestring, sizes, UNITS
 from elkplot.device import Device, _axidraw_available
 
 
@@ -12,7 +12,7 @@ class AxidrawNotFoundError(IOError):
     ...
 
 
-@UREG.wraps(None, (None, UREG.inch, UREG.inch, None, None, None, None, None, None, None), False)
+@UNITS.wraps(None, (None, UNITS.inch, UNITS.inch, None, None, None, None, None, None, None), False)
 def draw(
     drawing: shapely.Geometry | list[shapely.Geometry],
     width: float = sizes.A3[0],

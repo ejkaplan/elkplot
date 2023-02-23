@@ -4,7 +4,7 @@ import shapely
 from hypothesis import given
 from hypothesis.strategies import floats
 
-from elkplot import UREG
+from elkplot import UNITS
 from elkplot.shape_utils import (
     up_length,
     sort_paths,
@@ -83,7 +83,7 @@ def test_join_paths_squares(squares: shapely.MultiLineString):
 
 @given(lines=linestrings)
 def test_center(lines: shapely.LineString):
-    size = 20 * UREG.inch
+    size = 20 * UNITS.inch
     centered_bounding = center(lines, size, size)
     xmin, ymin, xmax, ymax = centered_bounding.bounds
     assert (xmin + xmax) / 2 == pytest.approx(10)

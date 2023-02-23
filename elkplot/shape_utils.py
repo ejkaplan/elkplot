@@ -6,7 +6,7 @@ import shapely
 import shapely.affinity as affinity
 import shapely.ops
 
-from elkplot.sizes import UREG
+from elkplot.sizes import UNITS
 from elkplot.spatial import PathGraph, greedy_walk
 
 GeometryT = TypeVar("GeometryT", bound=shapely.Geometry)
@@ -34,7 +34,7 @@ def size(geom: GeometryT) -> tuple[pint.Quantity, pint.Quantity]:
     :return: (width, height)
     """
     x_min, y_min, x_max, y_max = geom.bounds
-    return (x_max - x_min) * UREG.inch, (y_max - y_min) * UREG.inch
+    return (x_max - x_min) * UNITS.inch, (y_max - y_min) * UNITS.inch
 
 
 def up_length(lines: shapely.MultiLineString) -> pint.Quantity:
@@ -54,7 +54,7 @@ def up_length(lines: shapely.MultiLineString) -> pint.Quantity:
         )
         distance += shapely.distance(pen_position, path_start)
         pen_position = path_end
-    return distance * UREG.inch
+    return distance * UNITS.inch
 
 
 def _sort_paths_single(
@@ -88,7 +88,7 @@ def sort_paths(
         raise TypeError()
 
 
-@UREG.wraps(None, (None, UREG.inch, UREG.inch, UREG.inch), False)
+@UNITS.wraps(None, (None, UNITS.inch, UNITS.inch, UNITS.inch), False)
 def scale_to_fit(
     drawing: GeometryT,
     width: float,
@@ -116,7 +116,7 @@ def scale_to_fit(
     return affinity.scale(drawing, scale, scale)
 
 
-@UREG.wraps(None, (None, UREG.inch, UREG.inch, UREG.inch, UREG.rad), False)
+@UNITS.wraps(None, (None, UNITS.inch, UNITS.inch, UNITS.inch, UNITS.rad), False)
 def rotate_and_scale_to_fit(
     drawing: GeometryT,
     width: float,
@@ -150,7 +150,7 @@ def rotate_and_scale_to_fit(
     return scale_to_fit(best_geom, width, height)
 
 
-@UREG.wraps(None, (None, UREG.inch, UREG.inch, None), False)
+@UNITS.wraps(None, (None, UNITS.inch, UNITS.inch, None), False)
 def center(
     drawing: GeometryT,
     width: float,
@@ -175,7 +175,7 @@ def center(
     return affinity.translate(drawing, dx, dy)
 
 
-@UREG.wraps(None, (None, UREG.inch, None, None), False)
+@UNITS.wraps(None, (None, UNITS.inch, None, None), False)
 def _join_paths_single(
     lines: shapely.MultiLineString,
     tolerance: float,
@@ -207,7 +207,7 @@ def _join_paths_single(
     return shapely.multilinestrings(out_lines)
 
 
-@UREG.wraps(None, (None, UREG.inch, None), False)
+@UNITS.wraps(None, (None, UNITS.inch, None), False)
 def join_paths(
     geometry: shapely.Geometry, tolerance: float, pbar: bool = True
 ) -> shapely.MultiLineString | shapely.GeometryCollection:
@@ -224,7 +224,7 @@ def join_paths(
         raise TypeError()
 
 
-@UREG.wraps(None, (None, UREG.rad, UREG.inch), False)
+@UNITS.wraps(None, (None, UNITS.rad, UNITS.inch), False)
 def shade(
     polygon: shapely.Polygon, angle: float, spacing: float
 ) -> shapely.MultiLineString:

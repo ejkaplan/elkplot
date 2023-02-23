@@ -4,12 +4,12 @@ import shapely
 from pytest import fixture
 from shapely import affinity
 
-from elkplot import sizes, UREG
+from elkplot import sizes, UNITS
 
 rng = np.random.default_rng(0)
 
 
-@UREG.wraps(None, (UREG.inch, UREG.inch, None))
+@UNITS.wraps(None, (UNITS.inch, UNITS.inch, None))
 def random_squares(width: float, height: float, n: int) -> shapely.MultiLineString:
     square = shapely.linestrings([(-1, -1), (-1, 1), (1, 1), (1, -1), (-1, -1)])
     return shapely.union_all(
@@ -20,7 +20,7 @@ def random_squares(width: float, height: float, n: int) -> shapely.MultiLineStri
     )
 
 
-@UREG.wraps(None, (UREG.inch, UREG.inch, None))
+@UNITS.wraps(None, (UNITS.inch, UNITS.inch, None))
 def random_triangles(width: float, height: float, n: int) -> shapely.MultiLineString:
     triangle = shapely.linestrings([(0, -1), (-1, 1), (1, 1), (0, -1)])
     return shapely.union_all(
@@ -31,7 +31,7 @@ def random_triangles(width: float, height: float, n: int) -> shapely.MultiLineSt
     )
 
 
-def approx_equals(value: UREG.Quantity, desired: UREG.Quantity, unit: UREG.Unit | str) -> bool:
+def approx_equals(value: UNITS.Quantity, desired: UNITS.Quantity, unit: UNITS.Unit | str) -> bool:
     value, desired = value.to(unit), desired.to(unit)
     return value.magnitude == pytest.approx(desired.magnitude)
 
