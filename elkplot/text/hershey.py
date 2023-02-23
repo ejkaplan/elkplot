@@ -63,7 +63,7 @@ class Font(object):
     def __init__(self, font: HersheyFont, point_size: float):
         self.font = font
         self.max_height = size(text(printable, font))[1]
-        self.scale = (point_size / 72) / self.max_height
+        self.scale = ((point_size / 72) / self.max_height).magnitude
 
     def text(self, string: str) -> shapely.MultiLineString:
         t = text(string, self.font)

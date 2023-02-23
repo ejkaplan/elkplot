@@ -12,8 +12,8 @@ def test_draw(squares, triangles):
     layers = [squares, triangles]
     layers = [layer.difference(text.buffer(0.1)) for layer in layers]
     layers.append(text)
-    layers = [join_paths(layer, 0.01) for layer in layers]
     drawing = shapely.geometrycollections(layers)
     drawing = scale_to_fit(drawing, *sizes.LETTER, 0.5)
+    drawing = join_paths(drawing, 0.01, pbar=False)
     drawing = center(drawing, *sizes.LETTER)
-    draw(drawing, paper_size=sizes.LETTER, preview_dpi=64)
+    draw(drawing, *sizes.LETTER, preview_dpi=64, plot=False)

@@ -1,10 +1,12 @@
 from typing import TypeVar, Optional
 
 import numpy as np
+import pint
 import shapely
 import shapely.affinity as affinity
 import shapely.ops
 
+from elkplot.sizes import UREG
 from elkplot.spatial import PathGraph, greedy_walk
 
 GeometryT = TypeVar("GeometryT", bound=shapely.Geometry)
@@ -25,17 +27,17 @@ def _geom_to_multilinestring(geom: shapely.Geometry) -> shapely.MultiLineString:
     return shapely.MultiLineString()
 
 
-def size(geom: GeometryT) -> tuple[float, float]:
+def size(geom: GeometryT) -> tuple[pint.Quantity, pint.Quantity]:
     """
     Return the width and height in inches of a shapely geometry.
     :param geom: The geometry to measure
     :return: (width, height)
     """
     x_min, y_min, x_max, y_max = geom.bounds
-    return x_max - x_min, y_max - y_min
+    return (x_max - x_min) * UREG.inch, (y_max - y_min) * UREG.inch
 
 
-def up_length(lines: shapely.MultiLineString) -> float:
+def up_length(lines: shapely.MultiLineString) -> pint.Quantity:
     """
     Calculate the total distance traveled by the pen while it is lifted, moving between shapes.
     If you want to know the pen-down distance, call `geometry.length`.
@@ -52,10 +54,12 @@ def up_length(lines: shapely.MultiLineString) -> float:
         )
         distance += shapely.distance(pen_position, path_start)
         pen_position = path_end
-    return distance
+    return distance * UREG.inch
 
 
-def _sort_paths_single(lines: shapely.MultiLineString, label: Optional[int] = None) -> shapely.MultiLineString:
+def _sort_paths_single(
+    lines: shapely.MultiLineString, label: Optional[int] = None, pbar: bool = True
+) -> shapely.MultiLineString:
     """
     Re-order the LineStrings in a MultiLineString to reduce the pen-up travel distance.
     Does not guarantee optimality, but usually improves plot times significantly.
@@ -64,23 +68,27 @@ def _sort_paths_single(lines: shapely.MultiLineString, label: Optional[int] = No
     :return: The re-ordered MultiLineString
     """
     path_graph = PathGraph(lines)
-    path_order = list(greedy_walk(path_graph, label))
+    path_order = list(greedy_walk(path_graph, label, pbar))
     return path_graph.get_route_from_solution(path_order)
 
 
 def sort_paths(
-    geometry: shapely.Geometry,
+    geometry: shapely.Geometry, pbar: bool = True
 ) -> shapely.MultiLineString | shapely.GeometryCollection:
     if isinstance(geometry, shapely.MultiLineString):
-        return _sort_paths_single(geometry)
+        return _sort_paths_single(geometry, pbar=pbar)
     elif isinstance(geometry, shapely.GeometryCollection):
         return shapely.GeometryCollection(
-            [_sort_paths_single(layer, i) for i, layer in enumerate(shapely.get_parts(geometry))]
+            [
+                _sort_paths_single(layer, i, pbar)
+                for i, layer in enumerate(shapely.get_parts(geometry))
+            ]
         )
     else:
         raise TypeError()
 
 
+@UREG.wraps(None, (None, UREG.inch, UREG.inch, UREG.inch), False)
 def scale_to_fit(
     drawing: GeometryT,
     width: float,
@@ -98,7 +106,7 @@ def scale_to_fit(
     """
     width -= padding * 2
     height -= padding * 2
-    w, h = size(drawing)
+    w, h = (dim.magnitude for dim in size(drawing))
     if w == 0:
         scale = height / h
     elif h == 0:
@@ -108,6 +116,7 @@ def scale_to_fit(
     return affinity.scale(drawing, scale, scale)
 
 
+@UREG.wraps(None, (None, UREG.inch, UREG.inch, UREG.inch, UREG.rad), False)
 def rotate_and_scale_to_fit(
     drawing: GeometryT,
     width: float,
@@ -141,6 +150,7 @@ def rotate_and_scale_to_fit(
     return scale_to_fit(best_geom, width, height)
 
 
+@UREG.wraps(None, (None, UREG.inch, UREG.inch, None), False)
 def center(
     drawing: GeometryT,
     width: float,
@@ -165,8 +175,12 @@ def center(
     return affinity.translate(drawing, dx, dy)
 
 
+@UREG.wraps(None, (None, UREG.inch, None, None), False)
 def _join_paths_single(
-    lines: shapely.MultiLineString, tolerance: float
+    lines: shapely.MultiLineString,
+    tolerance: float,
+    layer: Optional[int] = None,
+    pbar: bool = True,
 ) -> shapely.MultiLineString:
     """
     Merges lines in a multilinestring whose endpoints fall within a certain tolerance distance of each other.
@@ -176,7 +190,7 @@ def _join_paths_single(
         one longer LineString
     :return: The merged geometry
     """
-    new_order = sort_paths(lines)
+    new_order = _sort_paths_single(lines, layer, pbar)
     parts = list(shapely.get_parts(new_order))
     out_lines = []
     while len(parts) >= 2:
@@ -185,9 +199,6 @@ def _join_paths_single(
         a_end = shapely.Point(a.coords[-1])
         b_start = shapely.Point(b.coords[0])
         if a_end.distance(b_start) <= tolerance:
-            new_mid = (a.coords[-1][0] + b.coords[0][0]) / 2, (
-                a.coords[-1][1] + b.coords[0][1]
-            ) / 2
             new_line = shapely.linestrings(list(a.coords) + list(b.coords))
             parts[0] = new_line
         else:
@@ -196,22 +207,24 @@ def _join_paths_single(
     return shapely.multilinestrings(out_lines)
 
 
+@UREG.wraps(None, (None, UREG.inch, None), False)
 def join_paths(
-    geometry: shapely.Geometry, tolerance: float
+    geometry: shapely.Geometry, tolerance: float, pbar: bool = True
 ) -> shapely.MultiLineString | shapely.GeometryCollection:
     if isinstance(geometry, shapely.MultiLineString):
-        return _join_paths_single(geometry, tolerance)
+        return _join_paths_single(geometry, tolerance, pbar=pbar)
     elif isinstance(geometry, shapely.GeometryCollection):
         return shapely.GeometryCollection(
             [
-                _join_paths_single(layer, tolerance)
-                for layer in shapely.get_parts(geometry)
+                _join_paths_single(layer, tolerance, i, pbar=pbar)
+                for i, layer in enumerate(shapely.get_parts(geometry))
             ]
         )
     else:
         raise TypeError()
 
 
+@UREG.wraps(None, (None, UREG.rad, UREG.inch), False)
 def shade(
     polygon: shapely.Polygon, angle: float, spacing: float
 ) -> shapely.MultiLineString:

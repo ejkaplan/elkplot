@@ -3,13 +3,13 @@ import pytest
 import shapely
 from shapely import affinity
 
-from elkplot import sizes
-from elkplot.renderer import render
+from elkplot import sizes, draw, UREG
 from test import config
 
 rng = np.random.default_rng(0)
 
 
+@UREG.wraps(None, (UREG.inch, UREG.inch, None))
 def random_squares(width: float, height: float, n: int) -> shapely.MultiLineString:
     square = shapely.linestrings([(-1, -1), (-1, 1), (1, 1), (1, -1), (-1, -1)])
     return shapely.union_all(
@@ -20,6 +20,7 @@ def random_squares(width: float, height: float, n: int) -> shapely.MultiLineStri
     )
 
 
+@UREG.wraps(None, (UREG.inch, UREG.inch, None))
 def random_triangles(width: float, height: float, n: int) -> shapely.MultiLineString:
     triangle = shapely.linestrings([(0, -1), (-1, 1), (1, 1), (0, -1)])
     return shapely.union_all(
@@ -32,9 +33,9 @@ def random_triangles(width: float, height: float, n: int) -> shapely.MultiLineSt
 
 @pytest.mark.skipif(config.SKIP_RENDER_TESTS, reason="skipping rendering tests")
 def test_draw():
-    render(
+    draw(
         [random_squares(*sizes.A3, 20), random_triangles(*sizes.A3, 20)],
-        16.5,
-        11.7,
-        64,
+        *sizes.A3,
+        preview_dpi=64,
+        plot=False
     )

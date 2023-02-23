@@ -11,7 +11,7 @@ from .shape_utils import (
     shade,
     center,
 )
-from .sizes import cm
+from .sizes import UREG
 from .svg_load import load_svg
 from .text.hershey import text, Font
 from .text.hershey_fonts import (

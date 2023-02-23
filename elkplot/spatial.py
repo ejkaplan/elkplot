@@ -115,10 +115,16 @@ class PathIndex:
         self.delete(self.path_graph.get_disjoint(index))
 
 
-def greedy_walk(path_graph: PathGraph, label: Optional[int]=None) -> int:
+def greedy_walk(
+    path_graph: PathGraph, label: Optional[int] = None, pbar: bool = True
+) -> int:
     path_index = PathIndex(path_graph)
     location = path_graph.get_coordinates(path_graph.ORIGIN)
-    bar = tqdm(total=len(path_index.idx) // 2, desc=f"Optimizing layer #{label}" if label else None)
+    bar = tqdm(
+        total=len(path_index.idx) // 2,
+        desc=f"Optimizing layer #{label}" if label is not None else None,
+        disable=not pbar,
+    )
     while True:
         try:
             next_point = path_index.get_nearest(location)
