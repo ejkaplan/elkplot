@@ -1,6 +1,6 @@
 from __future__ import division
 
-from colorsys import hsv_to_rgb
+from colorsys import hsv_to_rgb, hls_to_rgb
 from itertools import chain
 
 import numpy as np
@@ -21,16 +21,15 @@ COLORS = [
 ]
 
 
-def _vivid_color(rng: np.random.Generator) -> tuple[int, int, int, int]:
-    r, g, b = hsv_to_rgb(rng.integers(0, 256), 255, 255)
-    return int(r*256), int(g*256), int(b*256), 255
+def _random_color(rng: np.random.Generator) -> tuple[int, int, int, int]:
+    return tuple((*rng.integers(0, 256, 3), 255))
 
 
 def _batch_drawings(
     layers: list[shapely.MultiLineString], height: float, dpi: float
 ) -> Batch:
     rng = np.random.default_rng()
-    my_colors = COLORS + [_vivid_color(rng) for _ in range(len(layers) - len(COLORS))]
+    my_colors = COLORS + [_random_color(rng) for _ in range(len(layers) - len(COLORS))]
     batch = Batch()
     for i, layer in enumerate(layers):
         color = my_colors[i]

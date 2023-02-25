@@ -51,6 +51,11 @@ def svg_quadratic_bezier_parse(
 
 
 def load_svg(path: str) -> shapely.GeometryCollection:
+    """
+    Import an SVG into shapely geometry
+    :param path: The path on your system to the .svg file
+    :return: A GeometryCollection containing the linestrings and polygons from the svg
+    """
     with open(path) as f:
         doc = minidom.parse(f)
     paths = [
@@ -79,7 +84,7 @@ def load_svg(path: str) -> shapely.GeometryCollection:
                     edge = path_points
                 path_points = []
         if polygon:
-            shapes.append(shapely.polygons(edge, holes))
+            shapes.append(shapely.Polygon(edge, holes))
         else:
-            shapes.append(shapely.linestrings(path_points))
+            shapes.append(shapely.LineString(path_points))
     return shapely.geometrycollections(shapes)
