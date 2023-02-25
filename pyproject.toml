@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "elkplot"
 version = "0.1.0"
-description = ""
+description = "A library for making and executing generative art for the Axidraw line of pen plotters."
 authors = ["El Kaplan <kaplan.el.j@gmail.com>"]
 readme = "README.md"
 
