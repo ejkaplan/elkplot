@@ -1,4 +1,4 @@
-from typing import TypeVar, Optional
+from typing import TypeVar
 
 import numpy as np
 import pint
@@ -7,7 +7,7 @@ import shapely.affinity as affinity
 import shapely.ops
 
 from elkplot.sizes import UNITS
-from elkplot.spatial import PathGraph, greedy_walk
+from elkplot.spatial import PathGraph, vrp_solver
 
 GeometryT = TypeVar("GeometryT", bound=shapely.Geometry)
 
@@ -58,7 +58,8 @@ def up_length(lines: shapely.MultiLineString) -> pint.Quantity:
 
 
 def _sort_paths_single(
-    lines: shapely.MultiLineString, label: Optional[int] = None, pbar: bool = True
+    lines: shapely.MultiLineString,
+    tsp_time: float = 60,
 ) -> shapely.MultiLineString:
     """
     Re-order the LineStrings in a MultiLineString to reduce the pen-up travel distance.
@@ -68,19 +69,19 @@ def _sort_paths_single(
     :return: The re-ordered MultiLineString
     """
     path_graph = PathGraph(lines)
-    path_order = list(greedy_walk(path_graph, label, pbar))
+    path_order = vrp_solver(path_graph, runtime_seconds=tsp_time)
     return path_graph.get_route_from_solution(path_order)
 
 
 def sort_paths(
-    geometry: shapely.Geometry, pbar: bool = True
+    geometry: shapely.Geometry, tsp_time: float = 60, pbar: bool = True
 ) -> shapely.MultiLineString | shapely.GeometryCollection:
     if isinstance(geometry, shapely.MultiLineString):
-        return _sort_paths_single(geometry, pbar=pbar)
+        return _sort_paths_single(geometry, tsp_time=tsp_time, pbar=pbar)
     elif isinstance(geometry, shapely.GeometryCollection):
         return shapely.GeometryCollection(
             [
-                _sort_paths_single(layer, i, pbar)
+                _sort_paths_single(layer, i, tsp_time=tsp_time, pbar=pbar)
                 for i, layer in enumerate(shapely.get_parts(geometry))
             ]
         )
@@ -175,12 +176,11 @@ def center(
     return affinity.translate(drawing, dx, dy)
 
 
-@UNITS.wraps(None, (None, UNITS.inch, None, None), False)
+@UNITS.wraps(None, (None, UNITS.inch, None), False)
 def _join_paths_single(
     lines: shapely.MultiLineString,
     tolerance: float,
-    layer: Optional[int] = None,
-    pbar: bool = True,
+    tsp_time: int = 60,
 ) -> shapely.MultiLineString:
     """
     Merges lines in a multilinestring whose endpoints fall within a certain tolerance distance of each other.
@@ -190,7 +190,7 @@ def _join_paths_single(
         one longer LineString
     :return: The merged geometry
     """
-    new_order = _sort_paths_single(lines, layer, pbar)
+    new_order = _sort_paths_single(lines, tsp_time)
     parts = list(shapely.get_parts(new_order))
     out_lines = []
     while len(parts) >= 2:
@@ -209,14 +209,14 @@ def _join_paths_single(
 
 @UNITS.wraps(None, (None, UNITS.inch, None), False)
 def join_paths(
-    geometry: shapely.Geometry, tolerance: float, pbar: bool = True
+    geometry: shapely.Geometry, tolerance: float, tsp_time: int = 60
 ) -> shapely.MultiLineString | shapely.GeometryCollection:
     if isinstance(geometry, shapely.MultiLineString):
-        return _join_paths_single(geometry, tolerance, pbar=pbar)
+        return _join_paths_single(geometry, tolerance, tsp_time)
     elif isinstance(geometry, shapely.GeometryCollection):
         return shapely.GeometryCollection(
             [
-                _join_paths_single(layer, tolerance, i, pbar=pbar)
+                _join_paths_single(layer, tolerance, tsp_time)
                 for i, layer in enumerate(shapely.get_parts(geometry))
             ]
         )

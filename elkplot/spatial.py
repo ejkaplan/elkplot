@@ -1,10 +1,12 @@
 # Modified from https://nb.paulbutler.org/optimizing-plots-with-tsp-solver/
 
 from collections import Counter
+from time import time
 from typing import Optional
 
 import rtree
 import shapely
+from ortools.constraint_solver import pywrapcp, routing_enums_pb2
 from tqdm import tqdm
 
 
@@ -45,7 +47,7 @@ class PathGraph:
     def cost(self, i: int, j: int):
         """Returns the distance between the end of path i
         and the start of path j."""
-        return shapely.distance(self.endpoints[i][1], self.endpoints[j][0])
+        return shapely.distance(shapely.Point(self.endpoints[i][1]), shapely.Point(self.endpoints[j][0]))
 
     def get_coordinates(self, i: int, end: bool = False) -> tuple[float, float]:
         """Returns the starting coordinates of node i as a pair,
@@ -134,3 +136,55 @@ def greedy_walk(
         path_index.delete_pair(next_point)
         bar.update(1)
         yield next_point
+
+
+def vrp_solver(path_graph: PathGraph, runtime_seconds: int=60):
+    """Solve a path using or-tools' Vehicle Routing Problem solver.
+    Params:
+        path_graph        the PathGraph representing the problem
+        initial_solution  a solution to start with (list of indices, not
+                          including the origin)
+        runtime_seconds   how long to search before returning
+
+    Returns: a (solution, curve) pair where the solution is a list of
+        indices and the curve is a list of (clock seconds, best solution)
+        pairs representing the progress of the solution over time.
+    """
+    # Create the VRP routing model. The 1 means we are only looking
+    # for a single path.
+    manager = pywrapcp.RoutingIndexManager(path_graph.num_nodes(), 1, path_graph.ORIGIN)
+    routing = pywrapcp.RoutingModel(manager)
+
+    # For every path node, add a disjunction so that we do not also
+    # draw its reverse.
+    for disjunction in path_graph.iter_disjunctions():
+        routing.AddDisjunction(disjunction)
+
+    # Wrap the distance function so that it converts to an integer,
+    # as or-tools requires. Values are multiplied by COST_MULTIPLIER
+    # prior to conversion to reduce the loss of precision.
+    COST_MULTIPLIER = 1e4
+
+    def distance(i, j) -> int:
+        from_node = manager.IndexToNode(i)
+        to_node = manager.IndexToNode(j)
+        return int(path_graph.cost(from_node, to_node) * COST_MULTIPLIER)
+
+    transit_callback_index = routing.RegisterTransitCallback(distance)
+    routing.SetArcCostEvaluatorOfAllVehicles(transit_callback_index)
+
+    search_parameters = pywrapcp.DefaultRoutingSearchParameters()
+    search_parameters.first_solution_strategy = (
+        routing_enums_pb2.FirstSolutionStrategy.PATH_CHEAPEST_ARC)
+    search_parameters.time_limit.seconds = runtime_seconds
+
+    solution = routing.SolveWithParameters(search_parameters)
+
+    # Iterate over the result to produce a list to return as the solution.
+    out = []
+    index = routing.Start(0)
+    while not routing.IsEnd(index):
+        index = solution.Value(routing.NextVar(index))
+        if index != 0 and index != path_graph.num_nodes():
+            out.append(index)
+    return out
