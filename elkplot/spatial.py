@@ -176,7 +176,8 @@ def vrp_solver(path_graph: PathGraph, runtime_seconds: int=60):
     search_parameters = pywrapcp.DefaultRoutingSearchParameters()
     search_parameters.first_solution_strategy = (
         routing_enums_pb2.FirstSolutionStrategy.PATH_CHEAPEST_ARC)
-    search_parameters.time_limit.seconds = runtime_seconds
+    if runtime_seconds is not None:
+        search_parameters.time_limit.seconds = runtime_seconds
 
     solution = routing.SolveWithParameters(search_parameters)
 

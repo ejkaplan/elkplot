@@ -1,4 +1,4 @@
-from typing import TypeVar
+from typing import TypeVar, Optional
 
 import numpy as np
 import pint
@@ -59,7 +59,7 @@ def up_length(lines: shapely.MultiLineString) -> pint.Quantity:
 
 def _sort_paths_single(
     lines: shapely.MultiLineString,
-    tsp_time: float = 60,
+    tsp_time: Optional[float] = None,
 ) -> shapely.MultiLineString:
     """
     Re-order the LineStrings in a MultiLineString to reduce the pen-up travel distance.
@@ -74,7 +74,7 @@ def _sort_paths_single(
 
 
 def sort_paths(
-    geometry: shapely.Geometry, tsp_time: float = 60
+    geometry: shapely.Geometry, tsp_time: Optional[float] = None
 ) -> shapely.MultiLineString | shapely.GeometryCollection:
     if isinstance(geometry, shapely.MultiLineString):
         return _sort_paths_single(geometry, tsp_time=tsp_time)
@@ -180,7 +180,7 @@ def center(
 def _join_paths_single(
     lines: shapely.MultiLineString,
     tolerance: float,
-    tsp_time: int = 60,
+    tsp_time: Optional[int] = None,
 ) -> shapely.MultiLineString:
     """
     Merges lines in a multilinestring whose endpoints fall within a certain tolerance distance of each other.
@@ -209,7 +209,7 @@ def _join_paths_single(
 
 @UNITS.wraps(None, (None, UNITS.inch, None), False)
 def join_paths(
-    geometry: shapely.Geometry, tolerance: float, tsp_time: int = 60
+    geometry: shapely.Geometry, tolerance: float, tsp_time: Optional[int] = None
 ) -> shapely.MultiLineString | shapely.GeometryCollection:
     if isinstance(geometry, shapely.MultiLineString):
         return _join_paths_single(geometry, tolerance, tsp_time)
