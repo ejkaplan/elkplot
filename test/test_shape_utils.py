@@ -21,7 +21,7 @@ from test.strategies import multilinestrings, layers, linestrings, quantities
 @given(drawing=multilinestrings)
 def test_sort_paths(drawing: shapely.MultiLineString):
     unoptimized_penup_dist = up_length(drawing)
-    optimized_drawing = sort_paths(drawing, tsp_time=1)
+    optimized_drawing = sort_paths(drawing, pbar=False)
     optimized_penup_dist = up_length(optimized_drawing)
     assert optimized_penup_dist <= unoptimized_penup_dist
 
