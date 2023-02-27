@@ -74,14 +74,14 @@ def _sort_paths_single(
 
 
 def sort_paths(
-    geometry: shapely.Geometry, tsp_time: float = 60, pbar: bool = True
+    geometry: shapely.Geometry, tsp_time: float = 60
 ) -> shapely.MultiLineString | shapely.GeometryCollection:
     if isinstance(geometry, shapely.MultiLineString):
-        return _sort_paths_single(geometry, tsp_time=tsp_time, pbar=pbar)
+        return _sort_paths_single(geometry, tsp_time=tsp_time)
     elif isinstance(geometry, shapely.GeometryCollection):
         return shapely.GeometryCollection(
             [
-                _sort_paths_single(layer, i, tsp_time=tsp_time, pbar=pbar)
+                _sort_paths_single(layer, tsp_time=tsp_time)
                 for i, layer in enumerate(shapely.get_parts(geometry))
             ]
         )
