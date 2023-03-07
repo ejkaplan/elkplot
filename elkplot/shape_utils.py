@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from typing import TypeVar, Optional
 
 import numpy as np
@@ -245,3 +246,14 @@ def shade(
     )
     shading = polygon.intersection(shading)
     return affinity.rotate(shading, angle, use_radians=True, origin=polygon.centroid)
+
+
+@dataclass
+class DrawingStats:
+    pen_down_dist: UNITS.Quantity
+    pen_up_dist: UNITS.Quantity
+
+
+def plot_statistics(drawing: shapely.Geometry) -> DrawingStats:
+    mls = _geom_to_multilinestring(drawing)
+    return DrawingStats(up_length(mls), mls.length)
