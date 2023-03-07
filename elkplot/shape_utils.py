@@ -250,10 +250,11 @@ def shade(
 
 @dataclass
 class DrawingStats:
-    pen_down_dist: UNITS.Quantity
-    pen_up_dist: UNITS.Quantity
+    pen_down_dist: pint.Quantity
+    pen_up_dist: pint.Quantity
+    path_count: int
 
 
 def plot_statistics(drawing: shapely.Geometry) -> DrawingStats:
     mls = _geom_to_multilinestring(drawing)
-    return DrawingStats(up_length(mls), mls.length)
+    return DrawingStats(up_length(mls), mls.length * UNITS.inch, shapely.get_num_geometries(mls))
