@@ -10,6 +10,7 @@ from .shape_utils import (
     join_paths,
     shade,
     center,
+    plot_statistics,
 )
 from .sizes import UNITS
 from .svg_load import load_svg
