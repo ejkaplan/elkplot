@@ -224,15 +224,16 @@ def join_paths(
         raise TypeError()
 
 
-@UNITS.wraps(None, (None, UNITS.rad, UNITS.inch), False)
+@UNITS.wraps(None, (None, UNITS.rad, UNITS.inch, None), False)
 def shade(
-    polygon: shapely.Polygon, angle: float, spacing: float
+    polygon: shapely.Polygon, angle: float, spacing: float, offset: float = 0.5
 ) -> shapely.MultiLineString:
     """
     Create parallel lines that fill in the body of a Polygon
     :param polygon: The polygon to shade
     :param angle: The angle at which the parallel fill lines should run
     :param spacing: The spacing between two fill lines, measured perpendicular to the lines
+    :param offset: The offset of the first line, as a float in [0, 1], a percentage of the spacing
     :return: The fill lines
     """
     polygon = affinity.rotate(
@@ -240,7 +241,7 @@ def shade(
     )
     x0, y0, x1, y1 = polygon.bounds
     shading = shapely.MultiLineString(
-        [[(x0, y), (x1, y)] for y in np.arange(y0 + 0.5 * spacing, y1, spacing)]
+        [[(x0, y), (x1, y)] for y in np.arange(y0 + offset * spacing, y1, spacing)]
     )
     shading = polygon.intersection(shading)
     return affinity.rotate(shading, angle, use_radians=True, origin=polygon.centroid)
