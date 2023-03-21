@@ -1,8 +1,7 @@
-import platform
 from typing import Optional
 
+import beepy
 import shapely
-import winsound
 
 from elkplot import render, _geom_to_multilinestring, sizes, UNITS
 from elkplot.device import Device, _axidraw_available
@@ -63,8 +62,8 @@ def draw(
     device = Device(pen) if device is None else device
     device.enable_motors()
     for layer, label in zip(layers, layer_labels):
-        if beep and platform.system() == "Windows":
-            winsound.Beep(1000, 500)
+        if beep:
+            beepy.beep('ping')
         input(f"Press enter when you're ready to draw {label}")
         device.run_layer(layer, label)
     device.disable_motors()
