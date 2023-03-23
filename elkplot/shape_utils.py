@@ -185,8 +185,7 @@ def _join_paths_single(
     lines: shapely.MultiLineString,
     tolerance: float,
     layer: Optional[int] = None,
-    pbar: bool = True,
-    label: Optional[int] = None
+    pbar: bool = True
 ) -> shapely.MultiLineString:
     """
     Merges lines in a multilinestring whose endpoints fall within a certain tolerance distance of each other.
@@ -200,7 +199,7 @@ def _join_paths_single(
     index = PathIndex(graph)
     bar = tqdm(
         total=len(index) // 2,
-        desc = f"Joining layer #{label}" if label is not None else "Joining",
+        desc = f"Joining layer #{layer}" if layer is not None else "Joining",
         disable = not pbar
     )
     lines = []
