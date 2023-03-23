@@ -1,8 +1,8 @@
 from typing import Optional
 
-import beepy
 import shapely
 
+import elkplot
 from elkplot import render, _geom_to_multilinestring, sizes, UNITS
 from elkplot.device import Device, _axidraw_available
 
@@ -11,7 +11,7 @@ class AxidrawNotFoundError(IOError):
     ...
 
 
-@UNITS.wraps(None, (None, UNITS.inch, UNITS.inch, None, None, None, None, None, None, None), False)
+@UNITS.wraps(None, (None, UNITS.inch, UNITS.inch, None, None, None, None, None, None), False)
 def draw(
     drawing: shapely.Geometry | list[shapely.Geometry],
     width: float = sizes.A3[0],
@@ -21,7 +21,6 @@ def draw(
     preview: bool = True,
     preview_dpi: float = 128,
     plot: bool = True,
-    beep: bool = True,
     device: Optional[Device] = None,
 ) -> None:
     """
@@ -38,7 +37,6 @@ def draw(
     :param preview: Should a preview of the plot be rendered to the screen before plotting begins?
     :param preview_dpi: Preview render size in DPI (screen-pixels per plot-inch)
     :param plot: Should the drawing be plotted?
-    :param beep: Should the computer beep to alert you to change pens? Only works on windows.
     :param device: Which connected axidraw to use. If no input provided, it'll figure it out on its own
     """
     if isinstance(drawing, shapely.GeometryCollection):
@@ -62,8 +60,6 @@ def draw(
     device = Device(pen) if device is None else device
     device.enable_motors()
     for layer, label in zip(layers, layer_labels):
-        if beep:
-            beepy.beep('ping')
         input(f"Press enter when you're ready to draw {label}")
         device.run_layer(layer, label)
     device.disable_motors()

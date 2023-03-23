@@ -1,7 +1,6 @@
 # Modified from https://nb.paulbutler.org/optimizing-plots-with-tsp-solver/
 
 from collections import Counter
-from time import time
 from typing import Optional
 
 import rtree
@@ -47,7 +46,9 @@ class PathGraph:
     def cost(self, i: int, j: int):
         """Returns the distance between the end of path i
         and the start of path j."""
-        return shapely.distance(shapely.Point(self.endpoints[i][1]), shapely.Point(self.endpoints[j][0]))
+        return shapely.distance(
+            shapely.Point(self.endpoints[i][1]), shapely.Point(self.endpoints[j][0])
+        )
 
     def get_coordinates(self, i: int, end: bool = False) -> tuple[float, float]:
         """Returns the starting coordinates of node i as a pair,
@@ -103,7 +104,10 @@ class PathIndex:
         self.idx = rtree.index.Index()
         self.path_graph = path_graph
         for index, coordinate in path_graph.iter_starts_with_index():
-            self.idx.add(index, coordinate + coordinate)
+            self.add(index, coordinate)
+
+    def add(self, index: int, coordinate: tuple[float, float]):
+        self.idx.add(index, coordinate + coordinate)
 
     def get_nearest(self, coordinate: tuple[float, float]) -> int:
         return next(self.idx.nearest(coordinate))
@@ -112,9 +116,12 @@ class PathIndex:
         coordinate = self.path_graph.get_coordinates(index)
         self.idx.delete(index, coordinate + coordinate)
 
-    def delete_pair(self, index: int):
+    def delete_pair(self, index: int) -> None:
         self.delete(index)
         self.delete(self.path_graph.get_disjoint(index))
+
+    def __len__(self):
+        return len(self.idx)
 
 
 def greedy_walk(
@@ -138,7 +145,7 @@ def greedy_walk(
         yield next_point
 
 
-def vrp_solver(path_graph: PathGraph, runtime_seconds: int=60):
+def vrp_solver(path_graph: PathGraph, runtime_seconds: int = 60):
     """Solve a path using or-tools' Vehicle Routing Problem solver.
     Params:
         path_graph        the PathGraph representing the problem
@@ -175,7 +182,8 @@ def vrp_solver(path_graph: PathGraph, runtime_seconds: int=60):
 
     search_parameters = pywrapcp.DefaultRoutingSearchParameters()
     search_parameters.first_solution_strategy = (
-        routing_enums_pb2.FirstSolutionStrategy.PATH_CHEAPEST_ARC)
+        routing_enums_pb2.FirstSolutionStrategy.PATH_CHEAPEST_ARC
+    )
     if runtime_seconds is not None:
         search_parameters.time_limit.seconds = runtime_seconds
 

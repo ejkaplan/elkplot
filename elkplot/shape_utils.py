@@ -8,7 +8,7 @@ import shapely.affinity as affinity
 import shapely.ops
 
 from elkplot.sizes import UNITS
-from elkplot.spatial import PathGraph, greedy_walk
+from elkplot.spatial import PathGraph, greedy_walk, PathIndex, reverse_path
 
 GeometryT = TypeVar("GeometryT", bound=shapely.Geometry)
 
@@ -176,6 +176,10 @@ def center(
     return affinity.translate(drawing, dx, dy)
 
 
+def weld(a: shapely.LineString, b: shapely.LineString) -> shapely.LineString:
+    return shapely.LineString(list(a.coords) + list(b.coords))
+
+
 @UNITS.wraps(None, (None, UNITS.inch, None, None), False)
 def _join_paths_single(
     lines: shapely.MultiLineString,
@@ -191,21 +195,40 @@ def _join_paths_single(
         one longer LineString
     :return: The merged geometry
     """
-    new_order = _sort_paths_single(lines, layer, pbar)
-    parts = list(shapely.get_parts(new_order))
-    out_lines = []
-    while len(parts) >= 2:
-        a = parts.pop(0)
-        b = parts[0]
-        a_end = shapely.Point(a.coords[-1])
-        b_start = shapely.Point(b.coords[0])
-        if a_end.distance(b_start) <= tolerance:
-            new_line = shapely.linestrings(list(a.coords) + list(b.coords))
-            parts[0] = new_line
-        else:
-            out_lines.append(a)
-    out_lines += parts
-    return shapely.multilinestrings(out_lines)
+    graph = PathGraph(lines)
+    index = PathIndex(graph)
+    lines = []
+    while len(index) > 0:
+        idx = index.get_nearest(graph.get_coordinates(graph.ORIGIN))
+        index.delete_pair(idx)
+        start, end = graph.get_coordinates(idx, end=False), graph.get_coordinates(
+            idx, end=True
+        )
+        path = graph.get_path(idx)
+        while True:
+            changed = False
+            nearest_start_idx = index.get_nearest(start)
+            dist = graph.cost(nearest_start_idx, idx)
+            if dist <= tolerance:
+                near = reverse_path(graph.get_path(nearest_start_idx))
+                path = weld(near, path)
+                start = graph.get_coordinates(nearest_start_idx, end=True)
+                index.delete_pair(nearest_start_idx)
+                changed = True
+            if len(index) == 0:
+                break
+            nearest_end_idx = index.get_nearest(end)
+            dist = graph.cost(idx, nearest_end_idx)
+            if dist <= tolerance:
+                near = graph.get_path(nearest_end_idx)
+                path = weld(path, near)
+                end = graph.get_coordinates(nearest_end_idx, end=False)
+                index.delete_pair(nearest_end_idx)
+                changed = True
+            if not changed or len(index) == 0:
+                break
+        lines.append(path)
+    return shapely.MultiLineString(lines)
 
 
 @UNITS.wraps(None, (None, UNITS.inch, None), False)
@@ -257,4 +280,6 @@ class DrawingStats:
 
 def plot_statistics(drawing: shapely.Geometry) -> DrawingStats:
     mls = _geom_to_multilinestring(drawing)
-    return DrawingStats(up_length(mls), mls.length * UNITS.inch, shapely.get_num_geometries(mls))
+    return DrawingStats(
+        up_length(mls), mls.length * UNITS.inch, shapely.get_num_geometries(mls)
+    )
