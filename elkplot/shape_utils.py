@@ -6,6 +6,7 @@ import pint
 import shapely
 import shapely.affinity as affinity
 import shapely.ops
+from tqdm import tqdm
 
 from elkplot.sizes import UNITS
 from elkplot.spatial import PathGraph, greedy_walk, PathIndex, reverse_path
@@ -195,6 +196,7 @@ def _join_paths_single(
         one longer LineString
     :return: The merged geometry
     """
+    lines = shapely.ops.linemerge(lines)
     graph = PathGraph(lines)
     index = PathIndex(graph)
     bar = tqdm(
