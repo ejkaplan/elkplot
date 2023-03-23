@@ -130,8 +130,8 @@ def greedy_walk(
     path_index = PathIndex(path_graph)
     location = path_graph.get_coordinates(path_graph.ORIGIN)
     bar = tqdm(
-        total=len(path_index.idx) // 2,
-        desc=f"Optimizing layer #{label}" if label is not None else "Optimizing",
+        total=len(path_index) // 2,
+        desc=f"Sorting layer #{label}" if label is not None else "Sorting",
         disable=not pbar,
     )
     while True:

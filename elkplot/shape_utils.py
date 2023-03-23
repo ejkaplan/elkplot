@@ -186,6 +186,7 @@ def _join_paths_single(
     tolerance: float,
     layer: Optional[int] = None,
     pbar: bool = True,
+    label: Optional[int] = None
 ) -> shapely.MultiLineString:
     """
     Merges lines in a multilinestring whose endpoints fall within a certain tolerance distance of each other.
@@ -197,10 +198,16 @@ def _join_paths_single(
     """
     graph = PathGraph(lines)
     index = PathIndex(graph)
+    bar = tqdm(
+        total=len(index) // 2,
+        desc = f"Joining layer #{label}" if label is not None else "Joining",
+        disable = not pbar
+    )
     lines = []
     while len(index) > 0:
         idx = index.get_nearest(graph.get_coordinates(graph.ORIGIN))
         index.delete_pair(idx)
+        bar.update(1)
         start, end = graph.get_coordinates(idx, end=False), graph.get_coordinates(
             idx, end=True
         )
@@ -217,6 +224,7 @@ def _join_paths_single(
                 path = weld(near, path)
                 start = graph.get_coordinates(nearest_start_idx, end=True)
                 index.delete_pair(nearest_start_idx)
+                bar.update(1)
                 changed = True
             try:
                 nearest_end_idx = index.get_nearest(end)
@@ -228,6 +236,7 @@ def _join_paths_single(
                 path = weld(path, near)
                 end = graph.get_coordinates(nearest_end_idx, end=False)
                 index.delete_pair(nearest_end_idx)
+                bar.update(1)
                 changed = True
             if not changed:
                 break
