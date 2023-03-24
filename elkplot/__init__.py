@@ -4,13 +4,12 @@ from .shape_utils import (
     _geom_to_multilinestring,
     size,
     up_length,
-    sort_paths,
     scale_to_fit,
     rotate_and_scale_to_fit,
-    join_paths,
     shade,
     center,
     metrics,
+    optimize
 )
 from .sizes import UNITS
 from .svg_load import load_svg
