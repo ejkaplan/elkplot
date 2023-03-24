@@ -1,7 +1,7 @@
 # Modified from https://nb.paulbutler.org/optimizing-plots-with-tsp-solver/
 
 from collections import Counter
-from typing import Optional
+from typing import Generator
 
 import rtree
 import shapely
@@ -61,7 +61,8 @@ class PathGraph:
         for i in range(1, len(self.endpoints)):
             yield i, self.get_coordinates(i)
 
-    def get_disjoint(self, i):
+    @staticmethod
+    def get_disjoint(i):
         """For the node i, returns the index of the node associated with
         its path's opposite direction."""
         return ((i - 1) ^ 1) + 1
@@ -125,13 +126,12 @@ class PathIndex:
 
 
 def greedy_walk(
-    path_graph: PathGraph, label: Optional[int] = None, pbar: bool = True
-) -> int:
+    path_graph: PathGraph, pbar: bool = True
+) -> Generator[int]:
     path_index = PathIndex(path_graph)
     location = path_graph.get_coordinates(path_graph.ORIGIN)
     bar = tqdm(
         total=len(path_index) // 2,
-        desc=f"Sorting layer #{label}" if label is not None else "Sorting",
         disable=not pbar,
         leave=False,
     )
