@@ -186,7 +186,7 @@ def _join_paths_single(
     lines: shapely.MultiLineString,
     tolerance: float,
     layer: Optional[int] = None,
-    pbar: bool = True
+    pbar: bool = True,
 ) -> shapely.MultiLineString:
     """
     Merges lines in a multilinestring whose endpoints fall within a certain tolerance distance of each other.
@@ -197,12 +197,14 @@ def _join_paths_single(
     :return: The merged geometry
     """
     lines = shapely.ops.linemerge(lines)
+    if tolerance <= 0:
+        return lines
     graph = PathGraph(lines)
     index = PathIndex(graph)
     bar = tqdm(
         total=len(index) // 2,
-        desc = f"Joining layer #{layer}" if layer is not None else "Joining",
-        disable = not pbar
+        desc=f"Joining layer #{layer}" if layer is not None else "Joining",
+        disable=not pbar,
     )
     lines = []
     while len(index) > 0:
@@ -260,6 +262,18 @@ def join_paths(
         )
     else:
         raise TypeError()
+
+
+def optimize(
+    geometry: shapely.Geometry,
+    join_tolerance: float = 0,
+    sort: bool = True,
+    pbar: bool = True,
+) -> shapely.Geometry:
+    geometry = join_paths(geometry, join_tolerance, pbar)
+    if sort:
+        geometry = sort_paths(geometry, pbar)
+    return geometry
 
 
 @UNITS.wraps(None, (None, UNITS.rad, UNITS.inch, None), False)
