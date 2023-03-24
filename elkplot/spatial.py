@@ -133,7 +133,7 @@ def greedy_walk(
         total=len(path_index) // 2,
         desc=f"Sorting layer #{label}" if label is not None else "Sorting",
         disable=not pbar,
-        leave=True,
+        leave=False,
     )
     while True:
         try:
