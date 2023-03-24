@@ -11,7 +11,7 @@ class AxidrawNotFoundError(IOError):
     ...
 
 
-@UNITS.wraps(None, (None, UNITS.inch, UNITS.inch, None, None, None, None, None, None), False)
+@UNITS.wraps(None, (None, "inch", "inch", None, None, None, None, None, None), False)
 def draw(
     drawing: shapely.Geometry | list[shapely.Geometry],
     width: float = sizes.A3[0],

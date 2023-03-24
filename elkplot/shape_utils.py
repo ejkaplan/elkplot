@@ -90,7 +90,7 @@ def sort_paths(
         raise TypeError()
 
 
-@UNITS.wraps(None, (None, UNITS.inch, UNITS.inch, UNITS.inch), False)
+@UNITS.wraps(None, (None, "inch", "inch", "inch"), False)
 def scale_to_fit(
     drawing: GeometryT,
     width: float,
@@ -118,7 +118,7 @@ def scale_to_fit(
     return affinity.scale(drawing, scale, scale)
 
 
-@UNITS.wraps(None, (None, UNITS.inch, UNITS.inch, UNITS.inch, UNITS.rad), False)
+@UNITS.wraps(None, (None, "inch", "inch", "inch", "rad"), False)
 def rotate_and_scale_to_fit(
     drawing: GeometryT,
     width: float,
@@ -152,7 +152,7 @@ def rotate_and_scale_to_fit(
     return scale_to_fit(best_geom, width, height)
 
 
-@UNITS.wraps(None, (None, UNITS.inch, UNITS.inch, None), False)
+@UNITS.wraps(None, (None, "inch", "inch", None), False)
 def center(
     drawing: GeometryT,
     width: float,
@@ -181,7 +181,7 @@ def weld(a: shapely.LineString, b: shapely.LineString) -> shapely.LineString:
     return shapely.LineString(list(a.coords) + list(b.coords))
 
 
-@UNITS.wraps(None, (None, UNITS.inch, None, None), False)
+@UNITS.wraps(None, (None, "inch", None, None), False)
 def _join_paths_single(
     lines: shapely.MultiLineString,
     tolerance: float,
@@ -247,7 +247,7 @@ def _join_paths_single(
     return shapely.MultiLineString(lines)
 
 
-@UNITS.wraps(None, (None, UNITS.inch, None), False)
+@UNITS.wraps(None, (None, "inch", None), False)
 def join_paths(
     geometry: shapely.Geometry, tolerance: float, pbar: bool = True
 ) -> shapely.MultiLineString | shapely.GeometryCollection:
@@ -264,6 +264,7 @@ def join_paths(
         raise TypeError()
 
 
+@UNITS.wraps(None, (None, "inch", None, None), False)
 def optimize(
     geometry: shapely.Geometry,
     join_tolerance: float = 0,
@@ -276,7 +277,7 @@ def optimize(
     return geometry
 
 
-@UNITS.wraps(None, (None, UNITS.rad, UNITS.inch, None), False)
+@UNITS.wraps(None, (None, "rad", "inch", None), False)
 def shade(
     polygon: shapely.Polygon, angle: float, spacing: float, offset: float = 0.5
 ) -> shapely.MultiLineString:
