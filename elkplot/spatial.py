@@ -1,7 +1,7 @@
 # Modified from https://nb.paulbutler.org/optimizing-plots-with-tsp-solver/
 
 from collections import Counter
-from typing import Generator
+from typing import Iterable
 
 import rtree
 import shapely
@@ -18,7 +18,7 @@ class PathGraph:
     ORIGIN = 0
 
     def __init__(
-        self, drawing: shapely.MultiLineString, origin: tuple[float, float] = (0, 0)
+            self, drawing: shapely.MultiLineString, origin: tuple[float, float] = (0, 0)
     ):
         """Constructs a PathGraph from the output of svgpathtools.svg2paths."""
         self.paths: list[shapely.LineString] = shapely.get_parts(drawing)
@@ -55,24 +55,24 @@ class PathGraph:
         or the end coordinates iff end is True."""
         return self.endpoints[i][end]
 
-    def iter_starts_with_index(self):
+    def iter_starts_with_index(self) -> Iterable[tuple[int, tuple[float, float]]]:
         """Returns a generator over (index, start coordinate) pairs,
         excluding the origin."""
         for i in range(1, len(self.endpoints)):
             yield i, self.get_coordinates(i)
 
     @staticmethod
-    def get_disjoint(i):
+    def get_disjoint(i) -> int:
         """For the node i, returns the index of the node associated with
         its path's opposite direction."""
         return ((i - 1) ^ 1) + 1
 
-    def iter_disjunctions(self):
+    def iter_disjunctions(self) -> Iterable[tuple[int, tuple[float, float]]]:
         """Returns a generator over 2-element lists of indexes which must
         be mutually exclusive in a solution (i.e. pairs of nodes which represent
         the same path in opposite directions.)"""
         for i in range(1, len(self.endpoints), 2):
-            yield [i, self.get_disjoint(i)]
+            yield i, self.get_disjoint(i)
 
     def num_nodes(self):
         """Returns the number of nodes in the graph (including the origin.)"""
@@ -126,8 +126,8 @@ class PathIndex:
 
 
 def greedy_walk(
-    path_graph: PathGraph, pbar: bool = True
-) -> Generator[int]:
+        path_graph: PathGraph, pbar: bool = True
+) -> Iterable[int]:
     path_index = PathIndex(path_graph)
     location = path_graph.get_coordinates(path_graph.ORIGIN)
     bar = tqdm(
