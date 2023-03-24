@@ -6,6 +6,7 @@ import pint
 import shapely
 import shapely.affinity as affinity
 import shapely.ops
+from tqdm import tqdm
 
 from elkplot.sizes import UNITS
 from elkplot.spatial import PathGraph, greedy_walk, PathIndex, reverse_path
@@ -185,7 +186,7 @@ def _join_paths_single(
     lines: shapely.MultiLineString,
     tolerance: float,
     layer: Optional[int] = None,
-    pbar: bool = True,
+    pbar: bool = True
 ) -> shapely.MultiLineString:
     """
     Merges lines in a multilinestring whose endpoints fall within a certain tolerance distance of each other.
@@ -195,37 +196,50 @@ def _join_paths_single(
         one longer LineString
     :return: The merged geometry
     """
+    lines = shapely.ops.linemerge(lines)
     graph = PathGraph(lines)
     index = PathIndex(graph)
+    bar = tqdm(
+        total=len(index) // 2,
+        desc = f"Joining layer #{layer}" if layer is not None else "Joining",
+        disable = not pbar
+    )
     lines = []
     while len(index) > 0:
         idx = index.get_nearest(graph.get_coordinates(graph.ORIGIN))
         index.delete_pair(idx)
+        bar.update(1)
         start, end = graph.get_coordinates(idx, end=False), graph.get_coordinates(
             idx, end=True
         )
         path = graph.get_path(idx)
         while True:
             changed = False
-            nearest_start_idx = index.get_nearest(start)
+            try:
+                nearest_start_idx = index.get_nearest(start)
+            except StopIteration:
+                break
             dist = graph.cost(nearest_start_idx, idx)
             if dist <= tolerance:
                 near = reverse_path(graph.get_path(nearest_start_idx))
                 path = weld(near, path)
                 start = graph.get_coordinates(nearest_start_idx, end=True)
                 index.delete_pair(nearest_start_idx)
+                bar.update(1)
                 changed = True
-            if len(index) == 0:
+            try:
+                nearest_end_idx = index.get_nearest(end)
+            except StopIteration:
                 break
-            nearest_end_idx = index.get_nearest(end)
             dist = graph.cost(idx, nearest_end_idx)
             if dist <= tolerance:
                 near = graph.get_path(nearest_end_idx)
                 path = weld(path, near)
                 end = graph.get_coordinates(nearest_end_idx, end=False)
                 index.delete_pair(nearest_end_idx)
+                bar.update(1)
                 changed = True
-            if not changed or len(index) == 0:
+            if not changed:
                 break
         lines.append(path)
     return shapely.MultiLineString(lines)

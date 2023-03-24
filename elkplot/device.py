@@ -8,6 +8,7 @@ from serial import Serial
 from serial.tools.list_ports import comports
 from tqdm import tqdm
 
+import elkplot
 from .planner import Planner, Plan
 
 # Taken with modifications from https://github.com/fogleman/axi
@@ -207,11 +208,12 @@ class Device(object):
         self.pen_up()
         origin = shapely.Point(0, 0)
         position = origin
-        bar = tqdm(total=drawing.length, desc=label)
+        bar = tqdm(total=drawing.length + elkplot.up_length(drawing), desc=label)
         path: shapely.LineString
         for path in shapely.get_parts(drawing):
             jog = shapely.LineString([position, shapely.Point(path.coords[0])])
             self.run_path(jog, jog=True)
+            bar.update(jog.length)
             self.pen_down()
             self.run_path(path)
             self.pen_up()
