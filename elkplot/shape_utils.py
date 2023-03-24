@@ -182,7 +182,7 @@ def weld(a: shapely.LineString, b: shapely.LineString) -> shapely.LineString:
     return shapely.LineString(list(a.coords) + list(b.coords))
 
 
-@UNITS.wraps(None, (None, "inch", None, None), False)
+@UNITS.wraps(None, (None, "inch", None), False)
 def _join_paths_single(
         lines: shapely.MultiLineString,
         tolerance: float,
