@@ -302,14 +302,17 @@ def shade(
 
 
 @dataclass
-class DrawingStats:
+class DrawingMetrics:
     pen_down_dist: pint.Quantity
     pen_up_dist: pint.Quantity
     path_count: int
 
+    def __str__(self) -> str:
+        return f"{self.path_count} paths, pen down: {self.pen_down_dist}, pen up: {self.pen_up_dist}"
 
-def metrics(drawing: shapely.Geometry) -> DrawingStats:
+
+def metrics(drawing: shapely.Geometry) -> DrawingMetrics:
     mls = _geom_to_multilinestring(drawing)
-    return DrawingStats(
+    return DrawingMetrics(
         mls.length * UNITS.inch, up_length(mls), shapely.get_num_geometries(mls)
     )
