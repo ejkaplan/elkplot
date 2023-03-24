@@ -84,7 +84,7 @@ def sort_paths(
             [
                 _sort_paths_single(layer, pbar)
                 for i, layer in
-                tqdm(enumerate(shapely.get_parts(geometry)), desc="Sorting Layers", leave=False, disable=not pbar)
+                tqdm(enumerate(shapely.get_parts(geometry)), desc="Sorting Layers", disable=not pbar)
             ]
         )
     else:
@@ -258,7 +258,7 @@ def join_paths(
             [
                 _join_paths_single(layer, tolerance, pbar=pbar)
                 for i, layer in
-                tqdm(enumerate(shapely.get_parts(geometry)), desc="Joining Layers", leave=False, disable=not pbar)
+                tqdm(enumerate(shapely.get_parts(geometry)), desc="Joining Layers", disable=not pbar)
             ]
         )
     else:
