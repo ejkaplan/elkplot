@@ -205,6 +205,7 @@ def _join_paths_single(
         total=len(index) // 2,
         desc=f"Joining layer #{layer}" if layer is not None else "Joining",
         disable=not pbar,
+        leave=True,
     )
     lines = []
     while len(index) > 0:
