@@ -308,7 +308,7 @@ class DrawingMetrics:
     path_count: int
 
     def __str__(self) -> str:
-        return f"{self.path_count} paths, pen down: {self.pen_down_dist:.2f}, pen up: {self.pen_up_dist:.2f}"
+        return f"{self.path_count} paths, pen down: {self.pen_down_dist:,.2f}, pen up: {self.pen_up_dist:,.2f}"
 
 
 def metrics(drawing: shapely.Geometry) -> DrawingMetrics:
