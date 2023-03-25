@@ -1,6 +1,5 @@
 from __future__ import division
 
-from colorsys import hsv_to_rgb, hls_to_rgb
 from itertools import chain
 
 import numpy as np
@@ -9,7 +8,7 @@ import shapely
 from pyglet import window, gl, app
 from pyglet.graphics import Batch, Group
 
-from elkplot import UNITS
+from elkplot.sizes import UNITS
 
 COLORS = [
     (0, 0, 255, 255),  # blue
