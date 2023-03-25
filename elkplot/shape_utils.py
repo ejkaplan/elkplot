@@ -80,11 +80,12 @@ def sort_paths(
     if isinstance(geometry, shapely.MultiLineString):
         return _sort_paths_single(geometry, pbar=pbar)
     elif isinstance(geometry, shapely.GeometryCollection):
+        layers = shapely.get_parts(geometry)
         return shapely.GeometryCollection(
             [
                 _sort_paths_single(layer, pbar)
                 for i, layer in
-                tqdm(enumerate(shapely.get_parts(geometry)), desc="Sorting Layers", disable=not pbar)
+                tqdm(enumerate(layers), desc="Sorting Layers", disable=not pbar)
             ]
         )
     else:
