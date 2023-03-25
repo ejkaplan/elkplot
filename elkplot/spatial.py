@@ -80,7 +80,7 @@ class PathGraph:
 
     def get_route_from_solution(self, solution: list[int]) -> shapely.MultiLineString:
         assert self.check_valid_solution(solution)
-        return shapely.multilinestrings([self.get_path(i) for i in solution])
+        return shapely.union_all([self.get_path(i) for i in solution])
 
     def check_valid_solution(self, solution: list[int]):
         """Check that the solution is valid: every path is visited exactly once."""
