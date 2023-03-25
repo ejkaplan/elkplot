@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import TypeVar, Optional
+from typing import TypeVar
 
 import numpy as np
 import pint
@@ -85,7 +85,7 @@ def sort_paths(
             [
                 _sort_paths_single(layer, pbar)
                 for i, layer in
-                tqdm(enumerate(layers), desc="Sorting Layers", disable=not pbar)
+                tqdm(enumerate(layers), desc="Sorting Layers", disable=not pbar, total=len(layers))
             ]
         )
     else:
@@ -260,7 +260,7 @@ def join_paths(
             [
                 _join_paths_single(layer, tolerance, pbar=pbar)
                 for i, layer in
-                tqdm(enumerate(layers), desc="Joining Layers", disable=not pbar)
+                tqdm(enumerate(layers), desc="Joining Layers", disable=not pbar, total=len(layers))
             ]
         )
     else:
