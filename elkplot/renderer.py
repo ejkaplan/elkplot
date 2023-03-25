@@ -9,6 +9,8 @@ import shapely
 from pyglet import window, gl, app
 from pyglet.graphics import Batch, Group
 
+from elkplot import UNITS
+
 COLORS = [
     (0, 0, 255, 255),  # blue
     (255, 0, 0, 255),  # red
@@ -50,6 +52,7 @@ def _batch_drawings(
     return batch
 
 
+@UNITS.wraps(None, (None, "inch", "inch", None))
 def render(
     drawings: list[shapely.MultiLineString],
     width: float | pint.Quantity,
