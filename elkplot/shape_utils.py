@@ -248,7 +248,7 @@ def _join_paths_single(
             if not changed:
                 break
         lines.append(path)
-    return shapely.MultiLineString(lines)
+    return shapely.union_all(lines)
 
 
 @UNITS.wraps(None, (None, "inch", None), False)
