@@ -80,7 +80,7 @@ def sort_paths(
     if isinstance(geometry, shapely.MultiLineString):
         return _sort_paths_single(geometry, pbar=pbar)
     elif isinstance(geometry, shapely.GeometryCollection):
-        layers = shapely.get_parts(geometry)
+        layers = shapely.get_parts(geometry).tolist()
         return shapely.GeometryCollection(
             [
                 _sort_paths_single(layer, pbar)
@@ -255,11 +255,12 @@ def join_paths(
     if isinstance(geometry, shapely.MultiLineString):
         return _join_paths_single(geometry, tolerance, pbar=pbar)
     elif isinstance(geometry, shapely.GeometryCollection):
+        layers = shapely.get_parts(geometry).tolist()
         return shapely.GeometryCollection(
             [
                 _join_paths_single(layer, tolerance, pbar=pbar)
                 for i, layer in
-                tqdm(enumerate(shapely.get_parts(geometry)), desc="Joining Layers", disable=not pbar)
+                tqdm(enumerate(layers), desc="Joining Layers", disable=not pbar)
             ]
         )
     else:
