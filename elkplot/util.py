@@ -2,7 +2,6 @@ from typing import Optional
 
 import shapely
 
-import elkplot
 from elkplot import render, _geom_to_multilinestring, sizes, UNITS
 from elkplot.device import Device, _axidraw_available
 

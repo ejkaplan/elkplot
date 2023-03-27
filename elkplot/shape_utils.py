@@ -227,7 +227,7 @@ def _join_paths_single(
                 break
             dist = graph.cost(nearest_start_idx, idx)
             if dist <= tolerance:
-                near = reverse_path(graph.get_path(nearest_start_idx))
+                near = graph.get_path(nearest_start_idx)
                 path = weld(near, path)
                 start = graph.get_coordinates(nearest_start_idx, end=True)
                 index.delete_pair(nearest_start_idx)
