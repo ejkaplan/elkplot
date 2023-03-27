@@ -200,12 +200,6 @@ def _join_paths_single(
         one longer LineString
     :return: The merged geometry
     """
-    try:
-        lines = shapely.ops.linemerge(lines)
-    except ValueError:
-        pass
-    if tolerance <= 0:
-        return lines
     graph = PathGraph(lines)
     index = PathIndex(graph)
     bar = tqdm(
