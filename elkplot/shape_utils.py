@@ -180,7 +180,10 @@ def center(
 
 
 def weld(a: shapely.LineString, b: shapely.LineString) -> shapely.LineString:
-    return shapely.LineString(list(a.coords) + list(b.coords))
+    a_coords, b_coords = list(a.coords), list(b.coords)
+    if a_coords[-1] == b_coords[0]:
+        a_coords = a_coords[:-1]
+    return shapely.LineString(a_coords + b_coords)
 
 
 @UNITS.wraps(None, (None, "inch", None), False)
@@ -227,9 +230,9 @@ def _join_paths_single(
                 break
             dist = graph.cost(nearest_start_idx, idx)
             if dist <= tolerance:
-                near = graph.get_path(nearest_start_idx)
+                near = reverse_path(graph.get_path(nearest_start_idx))
                 path = weld(near, path)
-                start = graph.get_coordinates(nearest_start_idx, end=True)
+                start = near.coords[0]
                 index.delete_pair(nearest_start_idx)
                 bar.update(1)
                 changed = True
@@ -241,7 +244,7 @@ def _join_paths_single(
             if dist <= tolerance:
                 near = graph.get_path(nearest_end_idx)
                 path = weld(path, near)
-                end = graph.get_coordinates(nearest_end_idx, end=False)
+                end = near.coords[-1]
                 index.delete_pair(nearest_end_idx)
                 bar.update(1)
                 changed = True
