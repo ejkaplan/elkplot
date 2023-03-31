@@ -198,6 +198,7 @@ class LineIndex:
         self.lines: list[shapely.LineString] = [
             line for line in shapely.get_parts(lines) if shapely.length(line) > 0
         ]
+        self.length = len(self.lines)
         self.index = Index()
         self.r_index = Index()
         for i, line in enumerate(self.lines):
@@ -222,10 +223,11 @@ class LineIndex:
     def pop(self, idx: int) -> shapely.LineString:
         self.index.delete(idx, self.lines[idx].coords[0] * 2)
         self.r_index.delete(idx, self.lines[idx].coords[-1] * 2)
+        self.length -= 1
         return self.lines[idx]
 
     def __len__(self):
-        return len(self.index)
+        return self.length
 
 
 def _join_paths_single(
