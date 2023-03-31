@@ -241,7 +241,7 @@ def _join_paths_single(
         return paths
     line_index = LineIndex(paths)
     out = []
-    bar = tqdm(total=len(line_index), desc="Joining Paths", disable=not pbar)
+    bar = tqdm(total=len(line_index), desc="Joining Paths", disable=not pbar, leave=False)
     while len(line_index) > 1:
         path = line_index.pop(line_index.next_available_id())
         bar.update(1)
