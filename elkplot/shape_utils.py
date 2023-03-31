@@ -226,6 +226,9 @@ class LineIndex:
         self.length -= 1
         return self.lines[idx]
 
+    def next_available_id(self) -> int:
+        return next(self.index.nearest((0, 0)))
+
     def __len__(self):
         return self.length
 
@@ -240,7 +243,7 @@ def _join_paths_single(
     out = []
     bar = tqdm(total=len(line_index), desc="Joining Paths", disable=not pbar)
     while len(line_index) > 1:
-        path = line_index.pop(0)
+        path = line_index.pop(line_index.next_available_id())
         bar.update(1)
         while True:
             idx, reverse = line_index.find_nearest_within(path.coords[-1], tolerance)
