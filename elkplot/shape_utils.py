@@ -214,6 +214,7 @@ class LineIndex:
         dist = p.distance(point)
         if dist <= tolerance:
             return idx, False
+        idx = next(self.r_index.nearest(p))
         point = shapely.Point(self.lines[idx].coords[-1])
         dist = p.distance(point)
         if dist <= tolerance:
