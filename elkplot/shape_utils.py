@@ -214,10 +214,8 @@ def _join_paths_single(
         idx = index.get_nearest(graph.get_coordinates(graph.ORIGIN))
         index.delete_pair(idx)
         bar.update(1)
-        start, end = graph.get_coordinates(idx, end=False), graph.get_coordinates(
-            idx, end=True
-        )
         path = graph.get_path(idx)
+        start, end = path.coords[0], path.coords[-1]
         while True:
             changed = False
             try:
