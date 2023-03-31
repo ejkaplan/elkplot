@@ -225,7 +225,7 @@ class LineIndex:
         return self.lines[idx]
 
     def __len__(self):
-        return len(self.lines)
+        return len(self.index)
 
 
 def _join_paths_single(
