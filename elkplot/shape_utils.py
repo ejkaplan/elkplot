@@ -7,7 +7,6 @@ import shapely
 import shapely.affinity as affinity
 import shapely.ops
 from rtree import Index
-from scipy.spatial import KDTree
 from tqdm import tqdm
 
 import elkplot
@@ -208,7 +207,7 @@ class LineIndex:
     def find_nearest_within(
         self, p: shapely.Point, tolerance: float
     ) -> tuple[Optional[int], bool]:
-        idx = next(self.index.nearest(p.coords))
+        idx = next(self.index.nearest((p.x, p.y)))
         point = self.lines[idx].coords[0]
         dist = p.distance(point)
         if dist <= tolerance:
@@ -256,7 +255,6 @@ def _join_paths_single(
     while len(line_index) > 0:
         out.append(line_index.pop(0))
     return shapely.MultiLineString(out)
-
 
 
 @UNITS.wraps(None, (None, "inch", None), False)
