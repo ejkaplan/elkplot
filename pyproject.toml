@@ -6,7 +6,7 @@ authors = ["El Kaplan <kaplan.el.j@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = ">=3.11,<3.12"
 pyserial = "^3.5"
 tqdm = "^4.64.1"
 shapely = "^2.0.1"
@@ -18,6 +18,7 @@ pytest = "^7.2.1"
 click = "^8.1.3"
 pint = "^0.20.1"
 ortools = "^9.5.2237"
+scipy = "^1.10.1"
 
 
 [build-system]

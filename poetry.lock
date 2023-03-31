@@ -142,45 +142,42 @@ files = [
 
 [[package]]
 name = "ortools"
-version = "9.5.2237"
+version = "9.6.2534"
 description = "Google OR-Tools python libraries and modules"
 category = "main"
 optional = false
 python-versions = ">= 3.6"
 files = [
-    {file = "ortools-9.5.2237-cp310-cp310-macosx_10_15_x86_64.whl", hash = "sha256:b86f45e66bf1335bf3f7e43b8611dcb849a0cf64f6a66a558d26947dacffc64b"},
-    {file = "ortools-9.5.2237-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:79b491d0eb092f4f3fe06ffc35a4921a2b7055523d164a381517bfb5c20be8ea"},
-    {file = "ortools-9.5.2237-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:68908bc2b82381349fec89b3092a01d959e7e5f1a1769a5afc67493e146395fb"},
-    {file = "ortools-9.5.2237-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:b439a4735456c689556007c96fcacf0290b5881517b7a2d25266ab1cdd3d9235"},
-    {file = "ortools-9.5.2237-cp310-cp310-win_amd64.whl", hash = "sha256:a4ea77b0c6ae3cd339f1eff969619510c8a98c9dc4ee9291a50cda298084b35b"},
-    {file = "ortools-9.5.2237-cp311-cp311-macosx_10_15_x86_64.whl", hash = "sha256:e6cc55e60c466b5859e0a414f221b4c707e2a68f51c85c1379c4e35305c2d797"},
-    {file = "ortools-9.5.2237-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:6507811a80d315cf20f69408ca41df017278f6e0d7ed9f42271a75f9d50b3842"},
-    {file = "ortools-9.5.2237-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:344f45ce5709bf82c889e442a7bcd5cd86e9086750efd68e1f9562583a76a6a8"},
-    {file = "ortools-9.5.2237-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:3148eae10f7c9071eea138c6c12cf0da14428f1a401ad7b50d3999ed09ed15e0"},
-    {file = "ortools-9.5.2237-cp311-cp311-win_amd64.whl", hash = "sha256:db4471316b7f949d0a0d46bf0c44691d870d7ab66ef34c88b7c24fc7ec22d0ae"},
-    {file = "ortools-9.5.2237-cp36-cp36m-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:1d32883d1ba3e25e0039312ad4e5da22a6e457557960c27e11816a204cd7014c"},
-    {file = "ortools-9.5.2237-cp36-cp36m-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:2d8293d10065955abe8a428eae35a49c338a183d647f7be91e132b79c48038c9"},
-    {file = "ortools-9.5.2237-cp36-cp36m-win_amd64.whl", hash = "sha256:6ae39f1cb649958cd7cd3ac5608df0114054ee17069389bf299ed713ea562ba5"},
-    {file = "ortools-9.5.2237-cp37-cp37m-macosx_10_15_x86_64.whl", hash = "sha256:efbaa7281032412c22409c85bcf2b2478fcd283060457566997ef223b4502bfe"},
-    {file = "ortools-9.5.2237-cp37-cp37m-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:622ef383febfdd50f240b90982e34fd396250e5501296bdc6dde70a9038ef915"},
-    {file = "ortools-9.5.2237-cp37-cp37m-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:e4caaf2cda3749d101ffb9a28f0e5e0aff3b22571b5ed68e8829a01dbf10d628"},
-    {file = "ortools-9.5.2237-cp37-cp37m-win_amd64.whl", hash = "sha256:387910618bbb003f9ce0c706291f88ba03f0cc3fbda998616639f02ae69f8459"},
-    {file = "ortools-9.5.2237-cp38-cp38-macosx_10_15_x86_64.whl", hash = "sha256:9fcd383f4ced260343602f8a2f1c65f6bc24fd0a1c684f8f040fa906d08a86d0"},
-    {file = "ortools-9.5.2237-cp38-cp38-macosx_11_0_arm64.whl", hash = "sha256:0e8bb341e2949b393b68315cd841c8a79893e97defd0b7666847bc104b1713e9"},
-    {file = "ortools-9.5.2237-cp38-cp38-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:313bc41c192f645433c7559e10dea74074d4f2523759aa0c6cbad966b58aa853"},
-    {file = "ortools-9.5.2237-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:26b401a5644b493418f3ec434f95d6f1e7662ec1341dba8cf9c59ec33702d9e1"},
-    {file = "ortools-9.5.2237-cp38-cp38-win_amd64.whl", hash = "sha256:637f782bfb9bdea2e216e3515c303e61198d504821ea3a359e3c6e616d26153a"},
-    {file = "ortools-9.5.2237-cp39-cp39-macosx_10_15_x86_64.whl", hash = "sha256:11e33108dbbee2d045fbd8a099a3ffbf77eae58d7d6a237073833ba0571e6bbd"},
-    {file = "ortools-9.5.2237-cp39-cp39-macosx_11_0_arm64.whl", hash = "sha256:f95f19a9d3d2e31286da5c0fc799d474ab8568240760c1555c4006cd4bf93ab9"},
-    {file = "ortools-9.5.2237-cp39-cp39-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:7aaa37f7e984f454ad33e81a22337b1a1a2f4269d5112853585dd391c77affc6"},
-    {file = "ortools-9.5.2237-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:9479343f0b83619d275cfdda694764db0899e23b6c500e837e0e3710c891d1a5"},
-    {file = "ortools-9.5.2237-cp39-cp39-win_amd64.whl", hash = "sha256:b0acc463af9ea4413ab4833041fb3e8055e24bd4535f913fffb6bc0eb89e0a94"},
+    {file = "ortools-9.6.2534-cp310-cp310-macosx_10_15_x86_64.whl", hash = "sha256:b2ed0a0d8691351905dbcef0246342a67c47f3b5d0401de12093fbd1b7554568"},
+    {file = "ortools-9.6.2534-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:05f0fab30582d183f5df86da8aa714327b488a1c51095aa8e58f1f57be58ecfe"},
+    {file = "ortools-9.6.2534-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:ac7b95238571048e564502327a4c81300fa1225a7343d39ebd177502a3060ae4"},
+    {file = "ortools-9.6.2534-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:43e24847a089adf5e79b4dd26845f84d08b66013121123b2f9f5f90e452163bc"},
+    {file = "ortools-9.6.2534-cp310-cp310-win_amd64.whl", hash = "sha256:25b4ad1e7c8fe58da27e14e0fc4a16b5c835cb00870a298f2e41d7d0eb13ab10"},
+    {file = "ortools-9.6.2534-cp311-cp311-macosx_10_15_x86_64.whl", hash = "sha256:f4cdafb26f8ce9fc3149cb28c25bf84fa22bba807f91d938e0e68efe549a53c3"},
+    {file = "ortools-9.6.2534-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:03b97413617fb7b288fa08f248c0e6d77e569da4f3a5f0a09e399d57faa6fbe6"},
+    {file = "ortools-9.6.2534-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:886c2b7bfac12468f24486525acfc6e78a8a374d61916f50b15598bcf82daa0a"},
+    {file = "ortools-9.6.2534-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:7d421138d4e4761324b3e2a7f4575969879e7c01d777fe554b616144eb743967"},
+    {file = "ortools-9.6.2534-cp311-cp311-win_amd64.whl", hash = "sha256:fa65adff97e356acbf20a5c068595cfa247182621bb83671daa98359265f9927"},
+    {file = "ortools-9.6.2534-cp37-cp37m-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:cdb44dcd6fa66dad0fe4f2915700abb0f3ebb101983ad17e45098370f5d095ab"},
+    {file = "ortools-9.6.2534-cp37-cp37m-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:eab4e658543d976936fbe4f79b87d6e1d66598ba6f6e2bca3e1a1471f897b072"},
+    {file = "ortools-9.6.2534-cp37-cp37m-win_amd64.whl", hash = "sha256:0fe800f9823b342bf32917f9c7d770943eeac90641c24eeedd15eff600ae7aa8"},
+    {file = "ortools-9.6.2534-cp38-cp38-macosx_10_15_x86_64.whl", hash = "sha256:f961272381015c4d804c3077c19b5d80e64d7f69d8646e525fb27ed61afbacc9"},
+    {file = "ortools-9.6.2534-cp38-cp38-macosx_11_0_arm64.whl", hash = "sha256:19e43ff44331f4c2a4a5a886632ebe735c906acf6938aaac2813b37de806c948"},
+    {file = "ortools-9.6.2534-cp38-cp38-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:79479aec12c434af9cbe3f792e50fff6e84c1974bd7ee89c8148eea9459df064"},
+    {file = "ortools-9.6.2534-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:9661d68d3097f20ee7e789bbc0f7112d4afbd676a8a5dd94bbeda7002e22089a"},
+    {file = "ortools-9.6.2534-cp38-cp38-win_amd64.whl", hash = "sha256:36ccc3e31af37ba767bdd0e08c5361f679e2cd2e61e25eab103dca8490a9dd54"},
+    {file = "ortools-9.6.2534-cp39-cp39-macosx_10_15_x86_64.whl", hash = "sha256:76a27a0eb56e63a6981783e1e366725e8df684f126943c22960c86cfabc94697"},
+    {file = "ortools-9.6.2534-cp39-cp39-macosx_11_0_arm64.whl", hash = "sha256:6bd17ea2c3bd58387a1fbc6bfa726e78dc6967ab8c798f56a12d9b6ebb37a1f9"},
+    {file = "ortools-9.6.2534-cp39-cp39-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:f62ece1909940a096e98544b552825335e34e8356b67fae972bc74609dd19c3d"},
+    {file = "ortools-9.6.2534-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:67159c5523c78900479979d9629f867d1f4fbe293b339aa84c6965019ae52210"},
+    {file = "ortools-9.6.2534-cp39-cp39-win_amd64.whl", hash = "sha256:eb2c83163abf72cf74f17117dcc53a93004d3d35636c2511278349f7920d8c8d"},
 ]
 
 [package.dependencies]
 absl-py = ">=0.13"
 numpy = ">=1.13.3"
-protobuf = ">=4.21.5"
+protobuf = ">=4.21.12"
+scipy = ">=1.10.0"
 
 [[package]]
 name = "packaging"
@@ -359,6 +356,45 @@ files = [
 ]
 
 [[package]]
+name = "scipy"
+version = "1.10.1"
+description = "Fundamental algorithms for scientific computing in Python"
+category = "main"
+optional = false
+python-versions = "<3.12,>=3.8"
+files = [
+    {file = "scipy-1.10.1-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:e7354fd7527a4b0377ce55f286805b34e8c54b91be865bac273f527e1b839019"},
+    {file = "scipy-1.10.1-cp310-cp310-macosx_12_0_arm64.whl", hash = "sha256:4b3f429188c66603a1a5c549fb414e4d3bdc2a24792e061ffbd607d3d75fd84e"},
+    {file = "scipy-1.10.1-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:1553b5dcddd64ba9a0d95355e63fe6c3fc303a8fd77c7bc91e77d61363f7433f"},
+    {file = "scipy-1.10.1-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:4c0ff64b06b10e35215abce517252b375e580a6125fd5fdf6421b98efbefb2d2"},
+    {file = "scipy-1.10.1-cp310-cp310-win_amd64.whl", hash = "sha256:fae8a7b898c42dffe3f7361c40d5952b6bf32d10c4569098d276b4c547905ee1"},
+    {file = "scipy-1.10.1-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:0f1564ea217e82c1bbe75ddf7285ba0709ecd503f048cb1236ae9995f64217bd"},
+    {file = "scipy-1.10.1-cp311-cp311-macosx_12_0_arm64.whl", hash = "sha256:d925fa1c81b772882aa55bcc10bf88324dadb66ff85d548c71515f6689c6dac5"},
+    {file = "scipy-1.10.1-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:aaea0a6be54462ec027de54fca511540980d1e9eea68b2d5c1dbfe084797be35"},
+    {file = "scipy-1.10.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:15a35c4242ec5f292c3dd364a7c71a61be87a3d4ddcc693372813c0b73c9af1d"},
+    {file = "scipy-1.10.1-cp311-cp311-win_amd64.whl", hash = "sha256:43b8e0bcb877faf0abfb613d51026cd5cc78918e9530e375727bf0625c82788f"},
+    {file = "scipy-1.10.1-cp38-cp38-macosx_10_9_x86_64.whl", hash = "sha256:5678f88c68ea866ed9ebe3a989091088553ba12c6090244fdae3e467b1139c35"},
+    {file = "scipy-1.10.1-cp38-cp38-macosx_12_0_arm64.whl", hash = "sha256:39becb03541f9e58243f4197584286e339029e8908c46f7221abeea4b749fa88"},
+    {file = "scipy-1.10.1-cp38-cp38-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:bce5869c8d68cf383ce240e44c1d9ae7c06078a9396df68ce88a1230f93a30c1"},
+    {file = "scipy-1.10.1-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:07c3457ce0b3ad5124f98a86533106b643dd811dd61b548e78cf4c8786652f6f"},
+    {file = "scipy-1.10.1-cp38-cp38-win_amd64.whl", hash = "sha256:049a8bbf0ad95277ffba9b3b7d23e5369cc39e66406d60422c8cfef40ccc8415"},
+    {file = "scipy-1.10.1-cp39-cp39-macosx_10_9_x86_64.whl", hash = "sha256:cd9f1027ff30d90618914a64ca9b1a77a431159df0e2a195d8a9e8a04c78abf9"},
+    {file = "scipy-1.10.1-cp39-cp39-macosx_12_0_arm64.whl", hash = "sha256:79c8e5a6c6ffaf3a2262ef1be1e108a035cf4f05c14df56057b64acc5bebffb6"},
+    {file = "scipy-1.10.1-cp39-cp39-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:51af417a000d2dbe1ec6c372dfe688e041a7084da4fdd350aeb139bd3fb55353"},
+    {file = "scipy-1.10.1-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:1b4735d6c28aad3cdcf52117e0e91d6b39acd4272f3f5cd9907c24ee931ad601"},
+    {file = "scipy-1.10.1-cp39-cp39-win_amd64.whl", hash = "sha256:7ff7f37b1bf4417baca958d254e8e2875d0cc23aaadbe65b3d5b3077b0eb23ea"},
+    {file = "scipy-1.10.1.tar.gz", hash = "sha256:2cf9dfb80a7b4589ba4c40ce7588986d6d5cebc5457cad2c2880f6bc2d42f3a5"},
+]
+
+[package.dependencies]
+numpy = ">=1.19.5,<1.27.0"
+
+[package.extras]
+dev = ["click", "doit (>=0.36.0)", "flake8", "mypy", "pycodestyle", "pydevtool", "rich-click", "typing_extensions"]
+doc = ["matplotlib (>2)", "numpydoc", "pydata-sphinx-theme (==0.9.0)", "sphinx (!=4.1.0)", "sphinx-design (>=0.2.0)"]
+test = ["asv", "gmpy2", "mpmath", "pooch", "pytest", "pytest-cov", "pytest-timeout", "pytest-xdist", "scikit-umfpack", "threadpoolctl"]
+
+[[package]]
 name = "shapely"
 version = "2.0.1"
 description = "Manipulation and analysis of geometric objects"
@@ -463,5 +499,5 @@ telegram = ["requests"]
 
 [metadata]
 lock-version = "2.0"
-python-versions = "^3.11"
-content-hash = "12b683dcae4c4e5c8ad640fb942ecfdb864d4aaf860e722319241499867b19ac"
+python-versions = ">=3.11,<3.12"
+content-hash = "025803fee4dbe819f821d230788158238d1aecec3532b03c9e3b39fccdfc9e4a"

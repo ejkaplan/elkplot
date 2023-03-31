@@ -1,16 +1,17 @@
 from dataclasses import dataclass
-from typing import TypeVar
+from typing import TypeVar, Optional
 
 import numpy as np
 import pint
 import shapely
 import shapely.affinity as affinity
 import shapely.ops
+from scipy.spatial import KDTree
 from tqdm import tqdm
 
 import elkplot
 from elkplot.sizes import UNITS
-from elkplot.spatial import PathGraph, greedy_walk, PathIndex, reverse_path
+from elkplot.spatial import PathGraph, greedy_walk
 
 GeometryT = TypeVar("GeometryT", bound=shapely.Geometry)
 
@@ -61,7 +62,7 @@ def up_length(lines: shapely.MultiLineString) -> pint.Quantity:
 
 
 def _sort_paths_single(
-        lines: shapely.MultiLineString, pbar: bool = True
+    lines: shapely.MultiLineString, pbar: bool = True
 ) -> shapely.MultiLineString:
     """
     Re-order the LineStrings in a MultiLineString to reduce the pen-up travel distance.
@@ -77,7 +78,7 @@ def _sort_paths_single(
 
 
 def sort_paths(
-        geometry: shapely.Geometry, pbar: bool = True
+    geometry: shapely.Geometry, pbar: bool = True
 ) -> shapely.MultiLineString | shapely.GeometryCollection:
     if isinstance(geometry, shapely.MultiLineString):
         return _sort_paths_single(geometry, pbar=pbar)
@@ -86,8 +87,12 @@ def sort_paths(
         return shapely.GeometryCollection(
             [
                 _sort_paths_single(layer, pbar)
-                for i, layer in
-                tqdm(enumerate(layers), desc="Sorting Layers", disable=not pbar, total=len(layers))
+                for i, layer in tqdm(
+                    enumerate(layers),
+                    desc="Sorting Layers",
+                    disable=not pbar,
+                    total=len(layers),
+                )
             ]
         )
     else:
@@ -96,10 +101,10 @@ def sort_paths(
 
 @UNITS.wraps(None, (None, "inch", "inch", "inch"), False)
 def scale_to_fit(
-        drawing: GeometryT,
-        width: float,
-        height: float,
-        padding: float = 0,
+    drawing: GeometryT,
+    width: float,
+    height: float,
+    padding: float = 0,
 ) -> GeometryT:
     """
     Scale up or down a shapely geometry until it barely fits inside a given bounding area.
@@ -124,11 +129,11 @@ def scale_to_fit(
 
 @UNITS.wraps(None, (None, "inch", "inch", "inch", "rad"), False)
 def rotate_and_scale_to_fit(
-        drawing: GeometryT,
-        width: float,
-        height: float,
-        padding: float = 0,
-        increment: float = 0.02,
+    drawing: GeometryT,
+    width: float,
+    height: float,
+    padding: float = 0,
+    increment: float = 0.02,
 ) -> GeometryT:
     """
     Scale up or down a shapely geometry until it barely fits inside a given bounding area.
@@ -158,10 +163,10 @@ def rotate_and_scale_to_fit(
 
 @UNITS.wraps(None, (None, "inch", "inch", None), False)
 def center(
-        drawing: GeometryT,
-        width: float,
-        height: float,
-        use_centroid=False,
+    drawing: GeometryT,
+    width: float,
+    height: float,
+    use_centroid=False,
 ) -> GeometryT:
     """
     Moves a shapely geometry so that its center aligns with the center of a given bounding area
@@ -188,69 +193,76 @@ def weld(a: shapely.LineString, b: shapely.LineString) -> shapely.LineString:
     return shapely.LineString(a_coords + b_coords)
 
 
-@UNITS.wraps(None, (None, "inch", None), False)
+class LineIndex:
+    def __init__(self, lines: shapely.MultiLineString):
+        self.lines: list[shapely.LineString] = [
+            line for line in shapely.get_parts(lines) if shapely.length(line) > 0
+        ]
+        self.index = None
+        self.r_index = None
+        self.reindex()
+
+    def reindex(self):
+        self.index = KDTree(np.array([line.coords[0] for line in self.lines]))
+        self.r_index = KDTree(np.array([line.coords[-1] for line in self.lines]))
+
+    def find_nearest_within(
+        self, p: shapely.Point, tolerance: float
+    ) -> tuple[Optional[int], bool]:
+        dist, idx = self.index.query(p, distance_upper_bound=tolerance)
+        if idx < len(self.lines):
+            return idx, False
+        dist, idx = self.r_index.query(p, distance_upper_bound=tolerance)
+        if idx < len(self.lines):
+            return idx, True
+        return None, False
+
+    def pop(self, idx: int) -> shapely.LineString:
+        out = self.lines.pop(idx)
+        return out
+
+    def __len__(self):
+        return len(self.lines)
+
+
 def _join_paths_single(
-        lines: shapely.MultiLineString,
-        tolerance: float,
-        pbar: bool = True,
+    paths: shapely.MultiLineString, tolerance: float, pbar: bool = True
 ) -> shapely.MultiLineString:
-    """
-    Merges lines in a multilinestring whose endpoints fall within a certain tolerance distance of each other.
-    Sorts the lines to minimize penup distance in the process. (So don't call both functions)
-    :param lines: The MultiLineString to merge
-    :param tolerance: The maximum distance that the endpoints of two LineStrings can be and still get merged into
-        one longer LineString
-    :return: The merged geometry
-    """
-    graph = PathGraph(lines)
-    index = PathIndex(graph)
-    bar = tqdm(
-        total=len(index) // 2,
-        disable=not pbar,
-        leave=False,
-    )
-    lines = []
-    while len(index) > 0:
-        idx = index.get_nearest(graph.get_coordinates(graph.ORIGIN))
-        index.delete_pair(idx)
+    paths = [path for path in shapely.get_parts(paths) if shapely.length(path) > 0]
+    if len(paths) < 2:
+        return paths
+    line_index = LineIndex(paths)
+    out = []
+    bar = tqdm(total=len(line_index), desc="Joining Paths", disable=not pbar)
+    while len(line_index) > 1:
+        path = line_index.pop(0)
         bar.update(1)
-        path = graph.get_path(idx)
-        start, end = path.coords[0], path.coords[-1]
+        line_index.reindex()
         while True:
-            changed = False
-            try:
-                nearest_start_idx = index.get_nearest(start)
-            except StopIteration:
+            idx, reverse = line_index.find_nearest_within(path.coords[-1], tolerance)
+            if idx is None:
+                idx, reverse = line_index.find_nearest_within(path.coords[0], tolerance)
+                if idx is None:
+                    break
+                path = shapely.ops.substring(path, 1, 0, normalized=True)
+            extension = line_index.pop(idx)
+            bar.update(1)
+            if reverse:
+                extension = shapely.ops.substring(extension, 1, 0, normalized=True)
+            path = weld(path, extension)
+            if len(line_index) >= 1:
+                line_index.reindex()
+            else:
                 break
-            dist = graph.cost(nearest_start_idx, idx)
-            if dist <= tolerance:
-                near = reverse_path(graph.get_path(nearest_start_idx))
-                path = weld(near, path)
-                start = near.coords[0]
-                index.delete_pair(nearest_start_idx)
-                bar.update(1)
-                changed = True
-            try:
-                nearest_end_idx = index.get_nearest(end)
-            except StopIteration:
-                break
-            dist = graph.cost(idx, nearest_end_idx)
-            if dist <= tolerance:
-                near = graph.get_path(nearest_end_idx)
-                path = weld(path, near)
-                end = near.coords[-1]
-                index.delete_pair(nearest_end_idx)
-                bar.update(1)
-                changed = True
-            if not changed:
-                break
-        lines.append(path)
-    return shapely.union_all(lines)
+        out.append(path)
+    while len(line_index) > 0:
+        out.append(line_index.pop(0))
+    return shapely.MultiLineString(out)
 
 
 @UNITS.wraps(None, (None, "inch", None), False)
 def join_paths(
-        geometry: shapely.Geometry, tolerance: float, pbar: bool = True
+    geometry: shapely.Geometry, tolerance: float, pbar: bool = True
 ) -> shapely.MultiLineString | shapely.GeometryCollection:
     if isinstance(geometry, shapely.MultiLineString):
         return _join_paths_single(geometry, tolerance, pbar=pbar)
@@ -259,8 +271,12 @@ def join_paths(
         return shapely.GeometryCollection(
             [
                 _join_paths_single(layer, tolerance, pbar=pbar)
-                for i, layer in
-                tqdm(enumerate(layers), desc="Joining Layers", disable=not pbar, total=len(layers))
+                for i, layer in tqdm(
+                    enumerate(layers),
+                    desc="Joining Layers",
+                    disable=not pbar,
+                    total=len(layers),
+                )
             ]
         )
     else:
@@ -269,10 +285,10 @@ def join_paths(
 
 @UNITS.wraps(None, (None, "inch", None, None), False)
 def optimize(
-        geometry: shapely.Geometry,
-        join_tolerance: float = 0,
-        sort: bool = True,
-        pbar: bool = True,
+    geometry: shapely.Geometry,
+    join_tolerance: float = 0,
+    sort: bool = True,
+    pbar: bool = True,
 ) -> shapely.Geometry:
     geometry = join_paths(geometry, join_tolerance, pbar)
     if sort:
@@ -282,7 +298,7 @@ def optimize(
 
 @UNITS.wraps(None, (None, "rad", "inch", None), False)
 def shade(
-        polygon: shapely.Polygon, angle: float, spacing: float, offset: float = 0.5
+    polygon: shapely.Polygon, angle: float, spacing: float, offset: float = 0.5
 ) -> shapely.MultiLineString:
     """
     Create parallel lines that fill in the body of a Polygon
