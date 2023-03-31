@@ -205,10 +205,11 @@ class LineIndex:
             self.r_index.insert(i, 2 * line.coords[-1])
 
     def find_nearest_within(
-        self, p: shapely.Point, tolerance: float
+        self, p: tuple[float, float], tolerance: float
     ) -> tuple[Optional[int], bool]:
-        idx = next(self.index.nearest((p.x, p.y)))
+        idx = next(self.index.nearest(p))
         point = self.lines[idx].coords[0]
+        p = shapely.Point(p)
         dist = p.distance(point)
         if dist <= tolerance:
             return idx, False
