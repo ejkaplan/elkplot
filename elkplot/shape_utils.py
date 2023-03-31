@@ -210,13 +210,12 @@ class LineIndex:
     ) -> tuple[Optional[int], bool]:
         idx = next(self.index.nearest(p))
         point = shapely.Point(self.lines[idx].coords[0])
-        p = shapely.Point(p)
-        dist = p.distance(point)
+        dist = shapely.Point(p).distance(point)
         if dist <= tolerance:
             return idx, False
         idx = next(self.r_index.nearest(p))
         point = shapely.Point(self.lines[idx].coords[-1])
-        dist = p.distance(point)
+        dist = shapely.Point(p).distance(point)
         if dist <= tolerance:
             return idx, True
         return None, False
