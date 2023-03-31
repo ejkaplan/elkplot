@@ -8,6 +8,7 @@ import shapely.affinity as affinity
 import shapely.ops
 from tqdm import tqdm
 
+import elkplot
 from elkplot.sizes import UNITS
 from elkplot.spatial import PathGraph, greedy_walk, PathIndex, reverse_path
 
@@ -71,7 +72,8 @@ def _sort_paths_single(
     """
     path_graph = PathGraph(lines)
     path_order = list(greedy_walk(path_graph, pbar))
-    return path_graph.get_route_from_solution(path_order)
+    optimized_path = path_graph.get_route_from_solution(path_order)
+    return min([lines, optimized_path], key=lambda x: elkplot.up_length(x))
 
 
 def sort_paths(
