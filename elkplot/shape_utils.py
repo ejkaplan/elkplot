@@ -6,6 +6,7 @@ import pint
 import shapely
 import shapely.affinity as affinity
 import shapely.ops
+from rtree import Index
 from scipy.spatial import KDTree
 from tqdm import tqdm
 
@@ -198,28 +199,30 @@ class LineIndex:
         self.lines: list[shapely.LineString] = [
             line for line in shapely.get_parts(lines) if shapely.length(line) > 0
         ]
-        self.index = None
-        self.r_index = None
-        self.reindex()
-
-    def reindex(self):
-        self.index = KDTree(np.array([line.coords[0] for line in self.lines]))
-        self.r_index = KDTree(np.array([line.coords[-1] for line in self.lines]))
+        self.index = Index()
+        self.r_index = Index()
+        for i, line in enumerate(self.lines):
+            self.index.insert(i, 2 * line.coords[0])
+            self.r_index.insert(i, 2 * line.coords[-1])
 
     def find_nearest_within(
         self, p: shapely.Point, tolerance: float
     ) -> tuple[Optional[int], bool]:
-        dist, idx = self.index.query(p, distance_upper_bound=tolerance)
-        if idx < len(self.lines):
+        idx = next(self.index.nearest(p.coords))
+        point = self.lines[idx].coords[0]
+        dist = p.distance(point)
+        if dist <= tolerance:
             return idx, False
-        dist, idx = self.r_index.query(p, distance_upper_bound=tolerance)
-        if idx < len(self.lines):
+        point = self.lines[idx].coords[-1]
+        dist = p.distance(point)
+        if dist <= tolerance:
             return idx, True
         return None, False
 
     def pop(self, idx: int) -> shapely.LineString:
-        out = self.lines.pop(idx)
-        return out
+        self.index.delete(idx, self.lines[idx].coords[0] * 2)
+        self.r_index.delete(idx, self.lines[idx].coords[-1] * 2)
+        return self.lines[idx]
 
     def __len__(self):
         return len(self.lines)
@@ -237,7 +240,6 @@ def _join_paths_single(
     while len(line_index) > 1:
         path = line_index.pop(0)
         bar.update(1)
-        line_index.reindex()
         while True:
             idx, reverse = line_index.find_nearest_within(path.coords[-1], tolerance)
             if idx is None:
@@ -250,14 +252,11 @@ def _join_paths_single(
             if reverse:
                 extension = shapely.ops.substring(extension, 1, 0, normalized=True)
             path = weld(path, extension)
-            if len(line_index) >= 1:
-                line_index.reindex()
-            else:
-                break
         out.append(path)
     while len(line_index) > 0:
         out.append(line_index.pop(0))
     return shapely.MultiLineString(out)
+
 
 
 @UNITS.wraps(None, (None, "inch", None), False)
