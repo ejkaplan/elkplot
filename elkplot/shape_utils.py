@@ -247,6 +247,7 @@ def _sort_paths_single(
         if reverse:
             next_line = shapely.ops.substring(next_line, 1, 0, normalized=True)
         out.append(next_line)
+        pos = next_line.coords[-1]
     return shapely.MultiLineString(out)
 
 
