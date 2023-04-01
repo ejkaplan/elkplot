@@ -84,7 +84,7 @@ def scale_to_fit(
         scale = width / w
     else:
         scale = min(width / w, height / h)
-    return affinity.scale(drawing, scale, scale)
+    return center(affinity.scale(drawing, scale, scale), width, height)
 
 
 @UNITS.wraps(None, (None, "inch", "inch", "inch", "rad"), False)
