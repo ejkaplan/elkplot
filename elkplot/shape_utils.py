@@ -311,7 +311,7 @@ def _reloop_paths_single(geometry: shapely.MultiLineString) -> shapely.MultiLine
     return shapely.union_all(lines)
 
 
-def reloop_paths(geometry: shapely.Geometry, pbar: bool) -> shapely.MultiLineString | shapely.GeometryCollection:
+def reloop_paths(geometry: shapely.Geometry) -> shapely.MultiLineString | shapely.GeometryCollection:
     if isinstance(geometry, shapely.MultiPolygon):
         return _reloop_paths_single(geometry.boundary)
     elif isinstance(geometry, shapely.MultiLineString):
