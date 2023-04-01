@@ -80,6 +80,8 @@ def _sort_paths_single(
 def sort_paths(
     geometry: shapely.Geometry, pbar: bool = True
 ) -> shapely.MultiLineString | shapely.GeometryCollection:
+    if isinstance(geometry, shapely.MultiPolygon):
+        return _sort_paths_single(geometry.boundary, pbar=pbar)
     if isinstance(geometry, shapely.MultiLineString):
         return _sort_paths_single(geometry, pbar=pbar)
     elif isinstance(geometry, shapely.GeometryCollection):
@@ -273,7 +275,9 @@ def _join_paths_single(
 def join_paths(
     geometry: shapely.Geometry, tolerance: float, pbar: bool = True
 ) -> shapely.MultiLineString | shapely.GeometryCollection:
-    if isinstance(geometry, shapely.MultiLineString):
+    if isinstance(geometry, shapely.MultiPolygon):
+        return _join_paths_single(geometry.boundary, tolerance, pbar=pbar)
+    elif isinstance(geometry, shapely.MultiLineString):
         return _join_paths_single(geometry, tolerance, pbar=pbar)
     elif isinstance(geometry, shapely.GeometryCollection):
         layers = shapely.get_parts(geometry).tolist()
@@ -288,8 +292,7 @@ def join_paths(
                 )
             ]
         )
-    else:
-        raise TypeError()
+    return geometry
 
 
 @UNITS.wraps(None, (None, "inch", None, None), False)
