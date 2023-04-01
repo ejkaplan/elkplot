@@ -9,9 +9,7 @@ import shapely.ops
 from rtree import Index
 from tqdm import tqdm
 
-import elkplot
 from elkplot.sizes import UNITS
-from elkplot.spatial import PathGraph, greedy_walk
 
 GeometryT = TypeVar("GeometryT", bound=shapely.Geometry)
 
@@ -59,46 +57,6 @@ def up_length(lines: shapely.MultiLineString) -> pint.Quantity:
         distance += shapely.distance(pen_position, path_start)
         pen_position = path_end
     return distance * UNITS.inch
-
-
-def _sort_paths_single(
-    lines: shapely.MultiLineString, pbar: bool = True
-) -> shapely.MultiLineString:
-    """
-    Re-order the LineStrings in a MultiLineString to reduce the pen-up travel distance.
-    Does not guarantee optimality, but usually improves plot times significantly.
-    Does NOT change the actual drawn image.
-    :param lines: The line drawing to optimize
-    :return: The re-ordered MultiLineString
-    """
-    path_graph = PathGraph(lines)
-    path_order = list(greedy_walk(path_graph, pbar))
-    optimized_path = path_graph.get_route_from_solution(path_order)
-    return min([lines, optimized_path], key=lambda x: elkplot.up_length(x))
-
-
-def sort_paths(
-    geometry: shapely.Geometry, pbar: bool = True
-) -> shapely.MultiLineString | shapely.GeometryCollection:
-    if isinstance(geometry, shapely.MultiPolygon):
-        return _sort_paths_single(geometry.boundary, pbar=pbar)
-    if isinstance(geometry, shapely.MultiLineString):
-        return _sort_paths_single(geometry, pbar=pbar)
-    elif isinstance(geometry, shapely.GeometryCollection):
-        layers = shapely.get_parts(geometry).tolist()
-        return shapely.GeometryCollection(
-            [
-                _sort_paths_single(layer, pbar)
-                for i, layer in tqdm(
-                    enumerate(layers),
-                    desc="Sorting Layers",
-                    disable=not pbar,
-                    total=len(layers),
-                )
-            ]
-        )
-    else:
-        raise TypeError()
 
 
 @UNITS.wraps(None, (None, "inch", "inch", "inch"), False)
@@ -228,6 +186,24 @@ class LineIndex:
             return idx, True
         return None, False
 
+    def find_nearest(self, p: tuple[float, float]) -> tuple[int, bool]:
+        try:
+            f_idx = next(self.index.nearest(p))
+        except StopIteration:
+            return None, False
+        point = shapely.Point(self.lines[f_idx].coords[0])
+        fdist = shapely.Point(p).distance(point)
+        try:
+            r_idx = next(self.r_index.nearest(p))
+        except StopIteration:
+            return None, False
+        point = shapely.Point(self.lines[r_idx].coords[-1])
+        rdist = shapely.Point(p).distance(point)
+        if fdist < rdist:
+            return f_idx, False
+        else:
+            return r_idx, True
+
     def pop(self, idx: int) -> shapely.LineString:
         self.index.delete(idx, self.lines[idx].coords[0] * 2)
         self.r_index.delete(idx, self.lines[idx].coords[-1] * 2)
@@ -241,6 +217,63 @@ class LineIndex:
         return self.length
 
 
+def _sort_paths_single(
+    paths: shapely.MultiLineString, pbar: bool = True
+) -> shapely.MultiLineString:
+    """
+    Re-order the LineStrings in a MultiLineString to reduce the pen-up travel distance.
+    Does not guarantee optimality, but usually improves plot times significantly.
+    Does NOT change the actual drawn image.
+    :param lines: The line drawing to optimize
+    :return: The re-ordered MultiLineString
+    """
+    # path_graph = PathGraph(lines)
+    # path_order = list(greedy_walk(path_graph, pbar))
+    # optimized_path = path_graph.get_route_from_solution(path_order)
+    # return min([lines, optimized_path], key=lambda x: elkplot.up_length(x))
+    paths = [path for path in shapely.get_parts(paths) if shapely.length(path) > 0]
+    if len(paths) < 2:
+        return paths
+    line_index = LineIndex(paths)
+    out = []
+    bar = tqdm(
+        total=len(line_index), desc="Sorting Paths", disable=not pbar, leave=False
+    )
+    pos = (0, 0)
+    while len(line_index) > 0:
+        bar.update(1)
+        idx, reverse = line_index.find_nearest(pos)
+        next_line = line_index.pop(idx)
+        if reverse:
+            next_line = shapely.ops.substring(next_line, 1, 0, normalized=True)
+        out.append(next_line)
+    return shapely.MultiLineString(out)
+
+
+def sort_paths(
+    geometry: shapely.Geometry, pbar: bool = True
+) -> shapely.MultiLineString | shapely.GeometryCollection:
+    if isinstance(geometry, shapely.MultiPolygon):
+        return _sort_paths_single(geometry.boundary, pbar=pbar)
+    if isinstance(geometry, shapely.MultiLineString):
+        return _sort_paths_single(geometry, pbar=pbar)
+    elif isinstance(geometry, shapely.GeometryCollection):
+        layers = shapely.get_parts(geometry).tolist()
+        return shapely.GeometryCollection(
+            [
+                _sort_paths_single(layer, pbar)
+                for i, layer in tqdm(
+                    enumerate(layers),
+                    desc="Sorting Layers",
+                    disable=not pbar,
+                    total=len(layers),
+                )
+            ]
+        )
+    else:
+        raise TypeError()
+
+
 def _join_paths_single(
     paths: shapely.MultiLineString, tolerance: float, pbar: bool = True
 ) -> shapely.MultiLineString:
@@ -249,7 +282,9 @@ def _join_paths_single(
         return paths
     line_index = LineIndex(paths)
     out = []
-    bar = tqdm(total=len(line_index), desc="Joining Paths", disable=not pbar, leave=False)
+    bar = tqdm(
+        total=len(line_index), desc="Joining Paths", disable=not pbar, leave=False
+    )
     while len(line_index) > 1:
         path = line_index.pop(line_index.next_available_id())
         bar.update(1)
@@ -304,14 +339,20 @@ def _reloop_paths_single(geometry: shapely.MultiLineString) -> shapely.MultiLine
         if coordinates[0] == coordinates[-1]:
             coordinates = coordinates[:-1]
             reloop_index = rng.integers(len(coordinates), endpoint=False)
-            new_coordinates = coordinates[reloop_index:] + coordinates[:reloop_index] + [coordinates[reloop_index]]
+            new_coordinates = (
+                coordinates[reloop_index:]
+                + coordinates[:reloop_index]
+                + [coordinates[reloop_index]]
+            )
             lines.append(shapely.LineString(new_coordinates))
         else:
             lines.append(linestring)
     return shapely.union_all(lines)
 
 
-def reloop_paths(geometry: shapely.Geometry) -> shapely.MultiLineString | shapely.GeometryCollection:
+def reloop_paths(
+    geometry: shapely.Geometry,
+) -> shapely.MultiLineString | shapely.GeometryCollection:
     if isinstance(geometry, shapely.MultiPolygon):
         return _reloop_paths_single(geometry.boundary)
     elif isinstance(geometry, shapely.MultiLineString):
