@@ -332,7 +332,7 @@ def reloop_paths(geometry: shapely.Geometry, pbar: bool) -> shapely.MultiLineStr
     return geometry
 
 
-@UNITS.wraps(None, (None, "inch", None, None), False)
+@UNITS.wraps(None, (None, "inch", None, None, None), False)
 def optimize(
     geometry: shapely.Geometry,
     join_tolerance: float = 0,
