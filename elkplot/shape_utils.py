@@ -227,10 +227,6 @@ def _sort_paths_single(
     :param lines: The line drawing to optimize
     :return: The re-ordered MultiLineString
     """
-    # path_graph = PathGraph(lines)
-    # path_order = list(greedy_walk(path_graph, pbar))
-    # optimized_path = path_graph.get_route_from_solution(path_order)
-    # return min([lines, optimized_path], key=lambda x: elkplot.up_length(x))
     paths = [path for path in shapely.get_parts(paths) if shapely.length(path) > 0]
     if len(paths) < 2:
         return paths
