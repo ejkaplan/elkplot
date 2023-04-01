@@ -267,7 +267,8 @@ def _join_paths_single(
             path = weld(path, extension)
         out.append(path)
     while len(line_index) > 0:
-        out.append(line_index.pop(0))
+        i = line_index.next_available_id()
+        out.append(line_index.pop(i))
     return shapely.MultiLineString(out)
 
 
