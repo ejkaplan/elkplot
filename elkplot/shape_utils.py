@@ -296,13 +296,52 @@ def join_paths(
     return geometry
 
 
+def _reloop_paths_single(geometry: shapely.MultiLineString) -> shapely.MultiLineString:
+    rng = np.random.default_rng()
+    lines = []
+    for linestring in shapely.get_parts(geometry):
+        coordinates = list(linestring.coords)
+        if coordinates[0] == coordinates[-1]:
+            coordinates = coordinates[:-1]
+            reloop_index = rng.integers(len(coordinates), endpoint=False)
+            new_coordinates = coordinates[reloop_index:] + coordinates[:reloop_index] + [coordinates[reloop_index]]
+            lines.append(shapely.LineString(new_coordinates))
+        else:
+            lines.append(linestring)
+    return shapely.union_all(lines)
+
+
+def reloop_paths(geometry: shapely.Geometry, pbar: bool) -> shapely.MultiLineString | shapely.GeometryCollection:
+    if isinstance(geometry, shapely.MultiPolygon):
+        return _reloop_paths_single(geometry.boundary)
+    elif isinstance(geometry, shapely.MultiLineString):
+        return _reloop_paths_single(geometry)
+    elif isinstance(geometry, shapely.GeometryCollection):
+        layers = shapely.get_parts(geometry).tolist()
+        return shapely.GeometryCollection(
+            [
+                _reloop_paths_single(layer)
+                for i, layer in tqdm(
+                    enumerate(layers),
+                    desc="Joining Layers",
+                    disable=not pbar,
+                    total=len(layers),
+                )
+            ]
+        )
+    return geometry
+
+
 @UNITS.wraps(None, (None, "inch", None, None), False)
 def optimize(
     geometry: shapely.Geometry,
     join_tolerance: float = 0,
     sort: bool = True,
+    reloop: bool = True,
     pbar: bool = True,
 ) -> shapely.Geometry:
+    if reloop:
+        geometry = reloop_paths(geometry)
     geometry = join_paths(geometry, join_tolerance, pbar)
     if sort:
         geometry = sort_paths(geometry, pbar)
