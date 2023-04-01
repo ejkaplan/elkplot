@@ -75,15 +75,13 @@ def scale_to_fit(
     :param padding: The desired margin between the drawing and the bounding area on all sides
     :return: The resized geometry
     """
-    width -= padding * 2
-    height -= padding * 2
     w, h = (dim.magnitude for dim in size(drawing))
     if w == 0:
-        scale = height / h
+        scale = (height - padding * 2) / h
     elif h == 0:
-        scale = width / w
+        scale = (width - padding * 2) / w
     else:
-        scale = min(width / w, height / h)
+        scale = min((width - padding * 2) / w, (height - padding * 2) / h)
     return center(affinity.scale(drawing, scale, scale), width, height)
 
 
