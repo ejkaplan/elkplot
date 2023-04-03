@@ -256,7 +256,7 @@ def sort_paths(
         layers = shapely.get_parts(geometry).tolist()
         return shapely.GeometryCollection(
             [
-                _sort_paths_single(layer, pbar)
+                sort_paths(layer, pbar)
                 for i, layer in tqdm(
                     enumerate(layers),
                     desc="Sorting Layers",
@@ -314,7 +314,7 @@ def join_paths(
         layers = shapely.get_parts(geometry).tolist()
         return shapely.GeometryCollection(
             [
-                _join_paths_single(layer, tolerance, pbar=pbar)
+                join_paths(layer, tolerance, pbar=pbar)
                 for i, layer in tqdm(
                     enumerate(layers),
                     desc="Joining Layers",
@@ -356,7 +356,7 @@ def reloop_paths(
         layers = shapely.get_parts(geometry).tolist()
         return shapely.GeometryCollection(
             [
-                _reloop_paths_single(layer)
+                reloop_paths(layer)
                 for i, layer in enumerate(layers)
             ]
         )
