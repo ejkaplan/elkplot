@@ -357,12 +357,7 @@ def reloop_paths(
         return shapely.GeometryCollection(
             [
                 _reloop_paths_single(layer)
-                for i, layer in tqdm(
-                    enumerate(layers),
-                    desc="Joining Layers",
-                    disable=not pbar,
-                    total=len(layers),
-                )
+                for i, layer in enumerate(layers)
             ]
         )
     return geometry
