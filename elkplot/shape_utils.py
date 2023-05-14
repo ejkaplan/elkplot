@@ -266,7 +266,7 @@ def sort_paths(
             ]
         )
     else:
-        raise TypeError()
+        return geometry
 
 
 def _join_paths_single(
