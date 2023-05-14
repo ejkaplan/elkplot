@@ -199,10 +199,15 @@ class Device(object):
             t += step_s
         # self.wait()
 
-    def run_path(self, path: shapely.LineString, jog: bool = False):
+    def run_path(self, path: shapely.LineString, draw: bool=False, jog: bool = False):
         planner = self.make_planner(jog)
         plan = planner.plan(list(path.coords))
-        self.run_plan(plan)
+        if draw:
+            self.pen_down()
+            self.run_plan(plan)
+            self.pen_up()
+        else:
+            self.run_plan(plan)
 
     def run_layer(self, drawing: shapely.MultiLineString, label: str = None):
         self.pen_up()
@@ -214,9 +219,7 @@ class Device(object):
             jog = shapely.LineString([position, shapely.Point(path.coords[0])])
             self.run_path(jog, jog=True)
             bar.update(jog.length)
-            self.pen_down()
-            self.run_path(path)
-            self.pen_up()
+            self.run_path(path, draw=True)
             position = path.coords[-1]
             bar.update(path.length)
         bar.close()
