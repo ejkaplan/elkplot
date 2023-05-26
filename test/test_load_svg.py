@@ -23,9 +23,9 @@ def svg_text() -> shapely.GeometryCollection:
 
 @pytest.mark.skipif(config.SKIP_RENDER_TESTS, reason="skipping rendering tests")
 def test_draw_loaded_svg(svg_stars: shapely.GeometryCollection):
-    draw(svg_stars)
+    draw(svg_stars, plot=False)
 
 
 @pytest.mark.skipif(config.SKIP_RENDER_TESTS, reason="skipping rendering tests")
 def test_draw_loaded_svg(svg_text: shapely.GeometryCollection):
-    draw(svg_text)
+    draw(svg_text, plot=False)

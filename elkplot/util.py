@@ -2,7 +2,7 @@ from typing import Optional
 
 import shapely
 
-from elkplot import render, _geom_to_multilinestring, sizes, UNITS
+from elkplot import render, flatten_geometry, sizes, UNITS
 from elkplot.device import Device, _axidraw_available
 
 
@@ -40,12 +40,12 @@ def draw(
     """
     if isinstance(drawing, shapely.GeometryCollection):
         layers = [
-            _geom_to_multilinestring(layer) for layer in shapely.get_parts(drawing)
+            flatten_geometry(layer) for layer in shapely.get_parts(drawing)
         ]
     elif isinstance(drawing, list):
-        layers = [_geom_to_multilinestring(layer) for layer in drawing]
+        layers = [flatten_geometry(layer) for layer in drawing]
     else:
-        layers = [_geom_to_multilinestring(drawing)]
+        layers = [flatten_geometry(drawing)]
     if layer_labels is None:
         layer_labels = [f"Layer #{i}" for i in range(len(layers))]
     else:

@@ -1,7 +1,7 @@
 import pytest
 import shapely
 
-from elkplot import draw, scale_to_fit, center, Font, FUTURAL, sizes, join_paths
+from elkplot import draw, scale_to_fit, center, Font, FUTURAL, sizes, optimize
 from test import config
 
 
@@ -14,6 +14,6 @@ def test_draw(squares, triangles):
     layers.append(text)
     drawing = shapely.geometrycollections(layers)
     drawing = scale_to_fit(drawing, *sizes.LETTER, 0.5)
-    drawing = join_paths(drawing, 0.01, 1)
+    drawing = optimize(drawing, 0.01)
     drawing = center(drawing, *sizes.LETTER)
     draw(drawing, *sizes.LETTER, preview_dpi=64, plot=False)

@@ -14,16 +14,17 @@ from elkplot.sizes import UNITS
 GeometryT = TypeVar("GeometryT", bound=shapely.Geometry)
 
 
-def _geom_to_multilinestring(geom: shapely.Geometry) -> shapely.MultiLineString:
+def flatten_geometry(geom: shapely.Geometry) -> shapely.MultiLineString:
     if isinstance(geom, shapely.MultiLineString):
         return geom
     if isinstance(geom, (shapely.LineString, shapely.LinearRing)):
         return shapely.multilinestrings([geom])
     elif isinstance(geom, (shapely.Polygon, shapely.MultiPolygon)):
-        return _geom_to_multilinestring(geom.boundary)
+        shapes = [geom.exterior] + list(geom.interiors)
+        return shapely.union_all([flatten_geometry(shape) for shape in shapes])
     elif isinstance(geom, shapely.GeometryCollection):
         parts = [
-            _geom_to_multilinestring(sub_geom) for sub_geom in shapely.get_parts(geom)
+            flatten_geometry(sub_geom) for sub_geom in shapely.get_parts(geom)
         ]
         return shapely.union_all(parts)
     return shapely.MultiLineString()
@@ -413,7 +414,7 @@ class DrawingMetrics:
 
 
 def metrics(drawing: shapely.Geometry) -> DrawingMetrics:
-    mls = _geom_to_multilinestring(drawing)
+    mls = flatten_geometry(drawing)
     return DrawingMetrics(
         mls.length * UNITS.inch, up_length(mls), shapely.get_num_geometries(mls)
     )

@@ -144,7 +144,7 @@ class Device(object):
     def goto(self, x: float, y: float, jog=True):
         # TODO: jog if pen up
         px, py = self.read_position()
-        self.run_path(shapely.linestrings([(px, py), (x, y)]), jog)
+        self.run_path(shapely.linestrings([(px, py), (x, y)]), jog=jog)
 
     def home(self):
         self.goto(0, 0, True)
@@ -199,7 +199,7 @@ class Device(object):
             t += step_s
         # self.wait()
 
-    def run_path(self, path: shapely.LineString, draw: bool=False, jog: bool = False):
+    def run_path(self, path: shapely.LineString, draw: bool = False, jog: bool = False):
         planner = self.make_planner(jog)
         plan = planner.plan(list(path.coords))
         if draw:
