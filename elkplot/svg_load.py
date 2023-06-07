@@ -64,27 +64,30 @@ def load_svg(path: str) -> shapely.GeometryCollection:
     doc.unlink()
     shapes: list[shapely.LineString | shapely.Polygon] = []
     for path in paths:
-        polygon = False
-        path_points: list[tuple[float, float]] = []
-        edge: list[tuple[float, float]] = []
-        holes: list[list[tuple[float, float]]] = []
-        for elem in path:
-            if isinstance(elem, Line):
-                path_points.extend(svg_line_parse(elem))
-            elif isinstance(elem, CubicBezier):
-                path_points.extend(svg_cubic_bezier_parse(elem))
-            elif isinstance(elem, QuadraticBezier):
-                path_points.extend(svg_quadratic_bezier_parse(elem))
-            elif isinstance(elem, Close):
-                polygon = True
-                path_points.extend(svg_line_parse(elem))
-                if edge:
-                    holes.append(path_points)
-                else:
-                    edge = path_points
-                path_points = []
-        if polygon:
-            shapes.append(shapely.Polygon(edge, holes))
-        else:
-            shapes.append(shapely.LineString(path_points))
+        try:
+            polygon = False
+            path_points: list[tuple[float, float]] = []
+            edge: list[tuple[float, float]] = []
+            holes: list[list[tuple[float, float]]] = []
+            for elem in path:
+                if isinstance(elem, Line):
+                    path_points.extend(svg_line_parse(elem))
+                elif isinstance(elem, CubicBezier):
+                    path_points.extend(svg_cubic_bezier_parse(elem))
+                elif isinstance(elem, QuadraticBezier):
+                    path_points.extend(svg_quadratic_bezier_parse(elem))
+                elif isinstance(elem, Close):
+                    polygon = True
+                    path_points.extend(svg_line_parse(elem))
+                    if edge:
+                        holes.append(path_points)
+                    else:
+                        edge = path_points
+                    path_points = []
+            if polygon:
+                shapes.append(shapely.Polygon(edge, holes))
+            else:
+                shapes.append(shapely.LineString(path_points))
+        except ValueError:
+            ...
     return shapely.geometrycollections(shapes)
