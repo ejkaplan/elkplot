@@ -19,10 +19,10 @@ def flatten_geometry(geom: shapely.Geometry) -> shapely.MultiLineString:
         return geom
     if isinstance(geom, (shapely.LineString, shapely.LinearRing)):
         return shapely.multilinestrings([geom])
-    elif isinstance(geom, (shapely.Polygon, shapely.MultiPolygon)):
+    elif isinstance(geom, shapely.Polygon):
         shapes = [geom.exterior] + list(geom.interiors)
         return shapely.union_all([flatten_geometry(shape) for shape in shapes])
-    elif isinstance(geom, shapely.GeometryCollection):
+    elif isinstance(geom, (shapely.GeometryCollection, shapely.MultiPolygon)):
         parts = [
             flatten_geometry(sub_geom) for sub_geom in shapely.get_parts(geom)
         ]
