@@ -117,7 +117,7 @@ def rotate_and_scale_to_fit(
         error = np.abs(ratio - desired_ratio) / desired_ratio
         if error < best_error:
             best_geom, best_error = rotated, error
-    return scale_to_fit(best_geom, width, height)
+    return scale_to_fit(best_geom, width, height, padding)
 
 
 @UNITS.wraps(None, (None, "inch", "inch", None), False)
