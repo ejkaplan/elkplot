@@ -23,9 +23,7 @@ def flatten_geometry(geom: shapely.Geometry) -> shapely.MultiLineString:
         shapes = [geom.exterior] + list(geom.interiors)
         return shapely.union_all([flatten_geometry(shape) for shape in shapes])
     elif isinstance(geom, (shapely.GeometryCollection, shapely.MultiPolygon)):
-        parts = [
-            flatten_geometry(sub_geom) for sub_geom in shapely.get_parts(geom)
-        ]
+        parts = [flatten_geometry(sub_geom) for sub_geom in shapely.get_parts(geom)]
         return shapely.union_all(parts)
     return shapely.MultiLineString()
 
@@ -106,9 +104,7 @@ def rotate_and_scale_to_fit(
         is more accurate, larger number is faster. (default: 0.02 radians)
     :return: The rotated and resized geometry
     """
-    width -= padding * 2
-    height -= padding * 2
-    desired_ratio = width / height
+    desired_ratio = (width - padding * 2) / (height - padding * 2)
     best_geom, best_error = None, float("inf")
     for angle in np.arange(0, np.pi, increment):
         rotated = affinity.rotate(drawing, angle, use_radians=True)
@@ -356,10 +352,7 @@ def reloop_paths(
     elif isinstance(geometry, shapely.GeometryCollection):
         layers = shapely.get_parts(geometry).tolist()
         return shapely.GeometryCollection(
-            [
-                reloop_paths(layer)
-                for i, layer in enumerate(layers)
-            ]
+            [reloop_paths(layer) for i, layer in enumerate(layers)]
         )
     return geometry
 
