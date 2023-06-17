@@ -370,7 +370,7 @@ def _delete_short_paths_single(
             for line in tqdm(
                 shapely.get_parts(geometry),
                 desc="Deleting Short Paths (Layer)",
-                keep=False,
+                leave=False,
                 disable=not pbar,
             )
             if line.length >= min_length
