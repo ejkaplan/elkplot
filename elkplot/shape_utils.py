@@ -325,7 +325,7 @@ def _reloop_paths_single(geometry: shapely.MultiLineString, pbar: bool=True) -> 
     rng = np.random.default_rng()
     lines = []
     for linestring in tqdm(
-        shapely.get_parts(geometry), desc="Relooping Paths", keep=False, disable=not pbar
+        shapely.get_parts(geometry), desc="Relooping Paths", leave=False, disable=not pbar
     ):
         coordinates = list(linestring.coords)
         if coordinates[0] == coordinates[-1]:
