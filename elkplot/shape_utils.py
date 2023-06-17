@@ -366,7 +366,7 @@ def _delete_short_paths_single(
     geometry: shapely.MultiLineString, min_length: float, pbar: bool = True
 ) -> shapely.MultiLineString:
     parts = shapely.get_parts(geometry).tolist()
-    return shapely.union_all(
+    return shapely.MultiLineString(
         [
             line
             for line in tqdm(
