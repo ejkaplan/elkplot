@@ -324,8 +324,9 @@ def join_paths(
 def _reloop_paths_single(geometry: shapely.MultiLineString, pbar: bool=True) -> shapely.MultiLineString:
     rng = np.random.default_rng()
     lines = []
+    parts = shapely.get_parts(geometry).tolist()
     for linestring in tqdm(
-        shapely.get_parts(geometry), desc="Relooping Paths", leave=False, disable=not pbar
+        parts, desc="Relooping Paths", leave=False, disable=not pbar
     ):
         coordinates = list(linestring.coords)
         if coordinates[0] == coordinates[-1]:
@@ -364,11 +365,12 @@ def reloop_paths(
 def _delete_short_paths_single(
     geometry: shapely.MultiLineString, min_length: float, pbar: bool = True
 ) -> shapely.MultiLineString:
+    parts = shapely.get_parts(geometry).tolist()
     return shapely.union_all(
         [
             line
             for line in tqdm(
-                shapely.get_parts(geometry),
+                parts,
                 desc="Deleting Short Paths (Layer)",
                 leave=False,
                 disable=not pbar,
