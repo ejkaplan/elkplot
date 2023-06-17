@@ -254,11 +254,10 @@ def sort_paths(
         return shapely.GeometryCollection(
             [
                 sort_paths(layer, pbar)
-                for i, layer in tqdm(
-                    enumerate(layers),
+                for layer in tqdm(
+                    layers,
                     desc="Sorting Layers",
                     disable=not pbar,
-                    total=len(layers),
                 )
             ]
         )
@@ -312,21 +311,22 @@ def join_paths(
         return shapely.GeometryCollection(
             [
                 join_paths(layer, tolerance, pbar=pbar)
-                for i, layer in tqdm(
-                    enumerate(layers),
+                for layer in tqdm(
+                    layers,
                     desc="Joining Layers",
                     disable=not pbar,
-                    total=len(layers),
                 )
             ]
         )
     return geometry
 
 
-def _reloop_paths_single(geometry: shapely.MultiLineString) -> shapely.MultiLineString:
+def _reloop_paths_single(geometry: shapely.MultiLineString, pbar: bool=True) -> shapely.MultiLineString:
     rng = np.random.default_rng()
     lines = []
-    for linestring in shapely.get_parts(geometry):
+    for linestring in tqdm(
+        shapely.get_parts(geometry), desc="Relooping Paths", keep=False, disable=not pbar
+    ):
         coordinates = list(linestring.coords)
         if coordinates[0] == coordinates[-1]:
             coordinates = coordinates[:-1]
@@ -343,7 +343,7 @@ def _reloop_paths_single(geometry: shapely.MultiLineString) -> shapely.MultiLine
 
 
 def reloop_paths(
-    geometry: shapely.Geometry,
+    geometry: shapely.Geometry, pbar: bool = True
 ) -> shapely.MultiLineString | shapely.GeometryCollection:
     if isinstance(geometry, shapely.MultiPolygon):
         return _reloop_paths_single(geometry.boundary)
@@ -352,22 +352,65 @@ def reloop_paths(
     elif isinstance(geometry, shapely.GeometryCollection):
         layers = shapely.get_parts(geometry).tolist()
         return shapely.GeometryCollection(
-            [reloop_paths(layer) for i, layer in enumerate(layers)]
+            [
+                reloop_paths(layer, pbar)
+                for layer in tqdm(layers, desc="Relooping Layers", disable=not pbar)
+            ]
         )
     return geometry
 
 
-@UNITS.wraps(None, (None, "inch", None, None, None), False)
+@UNITS.wraps(None, (None, "inch", None), False)
+def _delete_short_paths_single(
+    geometry: shapely.MultiLineString, min_length: float, pbar: bool = True
+) -> shapely.MultiLineString:
+    return shapely.union_all(
+        [
+            line
+            for line in tqdm(
+                shapely.get_parts(geometry),
+                desc="Deleting Short Paths (Layer)",
+                keep=False,
+                disable=not pbar,
+            )
+            if line.length >= min_length
+        ]
+    )
+
+
+@UNITS.wraps(None, (None, "inch", None), False)
+def delete_short_paths(
+    geometry: shapely.Geometry, min_length: float, pbar: bool = True
+) -> shapely.MultiLineString | shapely.GeometryCollection:
+    if isinstance(geometry, shapely.MultiPolygon):
+        return _delete_short_paths_single(geometry.boundary, min_length)
+    elif isinstance(geometry, shapely.MultiLineString):
+        return _delete_short_paths_single(geometry, min_length)
+    elif isinstance(geometry, shapely.GeometryCollection):
+        layers = shapely.get_parts(geometry).tolist()
+        return shapely.GeometryCollection(
+            [
+                delete_short_paths(layer, min_length, pbar)
+                for layer in tqdm(layers, desc="Deleting Short Paths", disable=not pbar)
+            ]
+        )
+    return geometry
+
+
+@UNITS.wraps(None, (None, "inch", None, None, None, None), False)
 def optimize(
     geometry: shapely.Geometry,
-    join_tolerance: float = 0,
+    tolerance: float = 0,
     sort: bool = True,
     reloop: bool = True,
+    delete_small: bool = True,
     pbar: bool = True,
 ) -> shapely.Geometry:
     if reloop:
         geometry = reloop_paths(geometry)
-    geometry = join_paths(geometry, join_tolerance, pbar)
+    geometry = join_paths(geometry, tolerance, pbar)
+    if delete_small:
+        geometry = delete_short_paths(geometry, tolerance, pbar)
     if sort:
         geometry = sort_paths(geometry, pbar)
     return geometry
