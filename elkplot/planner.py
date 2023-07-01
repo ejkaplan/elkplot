@@ -180,7 +180,7 @@ def corner_velocity(s1: float, s2: float, vmax: float, a: float, delta: float):
     return min(v, vmax)
 
 
-class Segment(object):
+class Segment:
     # a segment is a line segment between two points, which will be broken
     # up into blocks by the planner
     def __init__(self, p1: Point, p2: Point):
@@ -193,7 +193,7 @@ class Segment(object):
         self.blocks = []
 
 
-class Throttler(object):
+class Throttler:
     def __init__(self, points: list[Point], vmax: float, dt: float, threshold: float):
         self.points = points
         self.vmax = vmax

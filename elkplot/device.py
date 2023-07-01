@@ -53,7 +53,7 @@ def _load_config() -> ConfigParser:
     return config
 
 
-class Device(object):
+class Device:
     def __init__(self, pen: str = "DEFAULT"):
         config = _load_config()
         self.timeslice_ms = int(config["DEVICE"]["timeslice_ms"])
@@ -62,6 +62,8 @@ class Device(object):
         self.steps_per_unit = 2032 / self.step_divider
         self.steps_per_mm = 80 / self.step_divider
         self.vid_pid = str(config["DEVICE"]["vid_pid"])
+        self.pen_lift_pin = str(config["DEVICE"]["pen_lift_pin"])
+        self.brushless = bool(int(config["DEVICE"]["brushless"]))
         self.pen = pen
 
         if pen not in config:
@@ -106,8 +108,9 @@ class Device(object):
             config.write(configfile)
 
     def configure(self):
-        servo_min = 7500
-        servo_max = 28000
+        servo_max = 27831 if self.brushless else 12600  # Up at "100%" position.
+        servo_min = 9855 if self.brushless else 5400  # Down at "0%" position.
+
         pen_up_position = self.pen_up_position / 100
         pen_up_position = int(servo_min + (servo_max - servo_min) * pen_up_position)
         pen_down_position = self.pen_down_position / 100
@@ -237,10 +240,10 @@ class Device(object):
         delta = abs(self.pen_up_position - self.pen_down_position)
         duration = int(1000 * delta / self.pen_up_speed)
         delay = max(0, duration + self.pen_up_delay)
-        return self.command("SP", 1, delay)
+        return self.command("SP", 1, delay, self.pen_lift_pin)
 
     def pen_down(self):
         delta = abs(self.pen_up_position - self.pen_down_position)
         duration = int(1000 * delta / self.pen_down_speed)
         delay = max(0, duration + self.pen_down_delay)
-        return self.command("SP", 0, delay)
+        return self.command("SP", 0, delay, self.pen_lift_pin)

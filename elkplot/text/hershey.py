@@ -59,7 +59,7 @@ def word_wrap(string: str, width: float, measure_func) -> list[str]:
     return result
 
 
-class Font(object):
+class Font:
     def __init__(self, font: HersheyFont, point_size: float):
         self.font = font
         self.max_height = size(text(printable, font))[1]
