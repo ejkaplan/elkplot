@@ -17,10 +17,6 @@ from .planner import Planner, Plan
 CONFIG_FILEPATH = Path(__file__).parent / "axidraw.ini"
 
 
-class MissingAxidrawException(Exception):
-    ...
-
-
 def _axidraw_available() -> bool:
     config = _load_config()
     vid_pid = config["DEVICE"]["vid_pid"].upper()
@@ -85,7 +81,7 @@ class Device:
 
         port = _find_port()
         if port is None:
-            raise MissingAxidrawException()
+            raise IOError("Could not connect to AxiDraw over USB")
         self.serial = Serial(port, timeout=1)
         self.configure()
 
@@ -124,12 +120,9 @@ class Device:
         self.serial.close()
 
     def make_planner(self, jog: bool = False) -> Planner:
-        a = self.acceleration
-        vmax = self.max_velocity
+        a = self.acceleration if not jog else self.jog_acceleration
+        vmax = self.max_velocity if not jog else self.jog_max_velocity
         cf = self.corner_factor
-        if jog:
-            a = self.jog_acceleration
-            vmax = self.jog_max_velocity
         return Planner(a, vmax, cf)
 
     def readline(self) -> str:
