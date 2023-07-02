@@ -247,6 +247,7 @@ class Device:
                 self.pen_down()
             self.run_plan(jog_plan)
             bar.update(length)
+            idx += 1
         bar.close()
 
     # pen functions
