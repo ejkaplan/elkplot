@@ -55,7 +55,6 @@ def up_length(lines: shapely.MultiLineString) -> pint.Quantity:
         )
         distance += shapely.distance(pen_position, path_start)
         pen_position = path_end
-    distance += shapely.distance(pen_position, origin)
     return distance * UNITS.inch
 
 
