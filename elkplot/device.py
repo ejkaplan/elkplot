@@ -53,13 +53,13 @@ def _load_config() -> ConfigParser:
 def plan_layer_proc(queue: mp.Queue, layer: list[list[tuple[float, float]]],
                     jog_planner: Planner,
                     draw_planner: Planner):
-    origin = shapely.Point(0, 0)
+    origin = (0, 0)
     position = origin
     for coord_list in layer:
         path_linestring = shapely.LineString(coord_list)
         # Move into position (jogging because pen is up)
         jog = shapely.LineString([position, coord_list[0]])
-        plan = jog_planner.plan(jog)
+        plan = jog_planner.plan(list(jog.coords))
         queue.put((plan, jog.length))
         # Run the actual line (no jog, because pen is down)
         plan = draw_planner.plan(coord_list)
