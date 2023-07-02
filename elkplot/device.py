@@ -181,21 +181,21 @@ class Device:
         while "1" in self.motor_status():
             time.sleep(0.01)
 
-    def plan_layer_proc(self, queue: mp.Queue, layer: shapely.MultiLineString):
+    def plan_layer_proc(self, queue: mp.Queue, layer: list[list[tuple[float, float]]]):
         jog_planner = self.make_planner(True)
         draw_planner = self.make_planner(False)
         origin = shapely.Point(0, 0)
         position = origin
-        path: shapely.LineString
-        for path in shapely.get_parts(layer):
+        for coord_list in layer:
+            path_linestring = shapely.LineString(coord_list)
             # Move into position (jogging because pen is up)
-            jog = shapely.LineString([position, shapely.Point(path.coords[0])])
+            jog = shapely.LineString([position, coord_list[0]])
             plan = jog_planner.plan(jog)
             queue.put((plan, jog.length))
             # Run the actual line (no jog, because pen is down)
-            plan = draw_planner.plan(path)
-            queue.put((plan, path.length))
-            position = path.coords[-1]
+            plan = draw_planner.plan(coord_list)
+            queue.put((plan, path_linestring.length))
+            position = coord_list[-1]
         # Return the pen to home position (no jog, because pen is up)
         final_jog = shapely.LineString([position, origin])
         plan = jog_planner.plan(final_jog)
@@ -229,7 +229,8 @@ class Device:
 
     def run_layer(self, layer: shapely.MultiLineString, label: str = None):
         queue = mp.Queue()
-        p = mp.Process(target=self.plan_layer_proc, args=(queue, layer))
+        layer_coord_list = [list(line.coords) for line in shapely.get_parts(layer)]
+        p = mp.Process(target=self.plan_layer_proc, args=(queue, layer_coord_list))
         p.start()
         bar = tqdm(total=layer.length + elkplot.up_length(layer).m, desc=label)
         idx = 0
