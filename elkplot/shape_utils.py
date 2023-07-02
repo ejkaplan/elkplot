@@ -224,7 +224,7 @@ def _sort_paths_single(
     """
     paths = [path for path in shapely.get_parts(paths) if shapely.length(path) > 0]
     if len(paths) < 2:
-        return paths
+        return shapely.MultiLineString(paths)
     line_index = LineIndex(paths)
     out = []
     bar = tqdm(
