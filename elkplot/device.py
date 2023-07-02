@@ -237,13 +237,7 @@ class Device:
 
     # pen functions
     def pen_up(self):
-        delta = abs(self.pen_up_position - self.pen_down_position)
-        duration = int(1000 * delta / self.pen_up_speed)
-        delay = max(0, duration + self.pen_up_delay)
-        return self.command("SP", 1, delay, self.pen_lift_pin)
+        return self.command("SP", 1, self.pen_up_delay, self.pen_lift_pin)
 
     def pen_down(self):
-        delta = abs(self.pen_up_position - self.pen_down_position)
-        duration = int(1000 * delta / self.pen_down_speed)
-        delay = max(0, duration + self.pen_down_delay)
-        return self.command("SP", 0, delay, self.pen_lift_pin)
+        return self.command("SP", 0, self.pen_down_delay, self.pen_lift_pin)
