@@ -108,8 +108,8 @@ class Device:
             config.write(configfile)
 
     def configure(self):
-        servo_max = 27831 if self.brushless else 12600  # Up at "100%" position.
-        servo_min = 9855 if self.brushless else 5400  # Down at "0%" position.
+        servo_max = 12600 if self.brushless else 27831  # Up at "100%" position.
+        servo_min = 5400 if not self.brushless else 9855  # Down at "0%" position
 
         pen_up_position = self.pen_up_position / 100
         pen_up_position = int(servo_min + (servo_max - servo_min) * pen_up_position)
