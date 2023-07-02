@@ -65,10 +65,6 @@ def plan_layer_proc(queue: mp.Queue, layer: list[list[tuple[float, float]]],
         plan = draw_planner.plan(coord_list)
         queue.put((plan, path_linestring.length))
         position = coord_list[-1]
-    # Return the pen to home position (no jog, because pen is up)
-    final_jog = shapely.LineString([position, origin])
-    plan = jog_planner.plan(list(jog.coords))
-    queue.put((plan, final_jog.length))
     queue.put(("DONE", 0))
 
 
@@ -249,6 +245,8 @@ class Device:
             bar.update(length)
             idx += 1
         bar.close()
+        self.pen_up()
+        self.home()
 
     # pen functions
     def pen_up(self):
