@@ -2,61 +2,64 @@ from typing import Optional
 
 import shapely
 
-from elkplot import render, flatten_geometry, sizes, UNITS
-from elkplot.device import Device, _axidraw_available
+import elkplot
 
 
 class AxidrawNotFoundError(IOError):
     ...
 
 
-@UNITS.wraps(None, (None, "inch", "inch", None, None, None, None, None, None), False)
+@elkplot.UNITS.wraps(None, (None, "inch", "inch", None, None, None, None, None, None), False)
 def draw(
     drawing: shapely.Geometry | list[shapely.Geometry],
-    width: float = sizes.A3[0],
-    height: float = sizes.A3[1],
+    width: float = elkplot.sizes.A3[0],
+    height: float = elkplot.sizes.A3[1],
     layer_labels: Optional[list[str]] = None,
-    pen: str = "DEFAULT",
     preview: bool = True,
     preview_dpi: float = 128,
     plot: bool = True,
-    device: Optional[Device] = None,
+    device: Optional[elkplot.Device] = None,
 ) -> None:
     """
-    Sends a shapely geometry to the plotter for plotting. Can also render a preview to the screen ahead of plotting.
-    If given a multi-layered plot, user will be prompted to press enter between layers to give time to change pens.
-    May fail if the computer falls asleep between layers, so set your power settings accordingly.
-    :param drawing: Shapely geometry to draw. If this is a list of geometries, each element will be treated as a
-    separate layer. If this is a GeometryCollection, each part will be treated as a separate layer. All other geometries
-    will be plotted as a single layer.
-    :param width: page width in inches
-    :param height: page height in inches
-    :param layer_labels: Optional labels for each layer, announced while operator is swapping pens
-    :param pen: Which pen configuration to use for drawing. Use the CLI to configure pen lift and speed settings
-    :param preview: Should a preview of the plot be rendered to the screen before plotting begins?
-    :param preview_dpi: Preview render size in DPI (screen-pixels per plot-inch)
-    :param plot: Should the drawing be plotted?
-    :param device: Which connected axidraw to use. If no input provided, it'll figure it out on its own
+    Visualize and/or plot a given drawing. Automatically pauses the plotter between layers to allow for changing pens.
+    Geometry can be given as a GeometryCollection (which will be treated as a multi-pen drawing), a list of geometries
+    (in which case again, each will be treated as a separate pen), or any other shapely Geometry (which will be treated
+    as a single layer.
+
+    Args:
+        drawing: The shapely geometry to plot.
+        width: The width of the page in inches (or any other unit if you pass in a `pint.Quantity`.) Used only for the
+            preview.
+        height: The height of the page in inches (or any other unit if you pass in a `pint.Quantity`.) Used only for the
+            preview.
+        layer_labels: An ordered list of labels for each pen-layer. Used only to remind you what pen you should use when
+            swapping pens between layers. If excluded, layers will just be numbered.
+        preview: Should an on-screen preview of the plot be displayed?
+        preview_dpi: How big should the preview be? (Enter the DPI of your monitor to get an actual-size preview.)
+        plot: Should the AxiDraw actually plot this? (If `preview` is `True`, plotting will only begin after the preview
+            window is closed.)
+        device: The AxiDraw config to which the plot should be sent. Used if you want to change any of the default
+            AxiDraw settings or you are driving multiple AxiDraws from the same computer.
     """
     if isinstance(drawing, shapely.GeometryCollection):
         layers = [
-            flatten_geometry(layer) for layer in shapely.get_parts(drawing)
+            elkplot.flatten_geometry(layer) for layer in shapely.get_parts(drawing)
         ]
     elif isinstance(drawing, list):
-        layers = [flatten_geometry(layer) for layer in drawing]
+        layers = [elkplot.flatten_geometry(layer) for layer in drawing]
     else:
-        layers = [flatten_geometry(drawing)]
+        layers = [elkplot.flatten_geometry(drawing)]
     if layer_labels is None:
         layer_labels = [f"Layer #{i}" for i in range(len(layers))]
     else:
         assert len(layer_labels) == len(layers)
     if preview:
-        render(layers, width, height, preview_dpi)
+        elkplot.render(layers, width, height, preview_dpi)
     if not plot:
         return
-    if not _axidraw_available():
+    if not elkplot.device.axidraw_available():
         raise AxidrawNotFoundError()
-    device = Device(pen) if device is None else device
+    device = elkplot.Device() if device is None else device
     device.zero_position()
     device.enable_motors()
     for layer, label in zip(layers, layer_labels):

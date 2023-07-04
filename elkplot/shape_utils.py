@@ -23,7 +23,7 @@ def flatten_geometry(geom: GeometryT) -> shapely.MultiLineString:
         geom: The geometry to be flattened down. Most often this will be a GeometryCollection or a MultiPolygon.
 
     Returns:
-
+        The flattened geometry
     """
     if isinstance(geom, shapely.MultiLineString):
         return geom
@@ -44,7 +44,9 @@ def size(geom: GeometryT) -> tuple[pint.Quantity, pint.Quantity]:
     Args:
         geom: The shapely Geometry object to be measured
 
-    Returns: (width in inches, height in inches)
+    Returns:
+        width in inches
+        height in inches
 
     """
     x_min, y_min, x_max, y_max = geom.bounds
@@ -58,7 +60,8 @@ def up_length(drawing: shapely.MultiLineString) -> pint.Quantity:
     Args:
         drawing: A single layer of plotter art
 
-    Returns: The total pen-up distance in inches
+    Returns:
+        The total pen-up distance in inches
 
     """
     distance = 0
@@ -75,22 +78,23 @@ def up_length(drawing: shapely.MultiLineString) -> pint.Quantity:
 
 @UNITS.wraps(None, (None, "inch", "inch", "inch"), False)
 def scale_to_fit(
-        drawing: GeometryT,
-        width: float,
-        height: float,
-        padding: float = 0,
+    drawing: GeometryT,
+    width: float,
+    height: float,
+    padding: float = 0,
 ) -> GeometryT:
     """
     Scales a drawing up or down to perfectly fit into a given bounding box.
     Args:
         drawing: The shapely geometry to rescale
-        width: The width of the bounding box in inches (or any other unit using pint `Quantity`)
-        height: The height of the bounding box in inches (or any other unit using pint `Quantity`)
-        padding: How much space to leave empty on all sides in inches (or any other unit using pint `Quantity`)
+        width: The width of the bounding box in inches (or any other unit if you pass in a `pint.Quantity`.)
+        height: The height of the bounding box in inches (or any other unit if you pass in a `pint.Quantity`.)
+        padding: How much space to leave empty on all sides in inches (or any other unit if you pass in a `pint.Quantity`.)
             [default=0]
 
-    Returns: A copy of the drawing having been rescaled and moved such that the new upper-left corner of the bounding
-    box (including the padding) is at the origin
+    Returns:
+        A copy of the drawing having been rescaled and moved such that the new upper-left corner of the bounding
+        box (including the padding) is at the origin
 
     """
     w, h = (dim.magnitude for dim in size(drawing))
@@ -105,26 +109,26 @@ def scale_to_fit(
 
 @UNITS.wraps(None, (None, "inch", "inch", "inch", "rad"), False)
 def rotate_and_scale_to_fit(
-        drawing: GeometryT,
-        width: float,
-        height: float,
-        padding: float = 0,
-        increment: float = 0.02,
+    drawing: GeometryT,
+    width: float,
+    height: float,
+    padding: float = 0,
+    increment: float = 0.02,
 ) -> GeometryT:
     """
     Fits a drawing into a bounding box of a given width and height, but unlike `scale_to_fit` also rotates the shape to
     make it take up as much of that area as possible
     Args:
         drawing: The shapely geometry to rescale
-        width: The width of the bounding box in inches (or any other unit using pint `Quantity`)
-        height: The height of the bounding box in inches (or any other unit using pint `Quantity`)
-        padding: How much space to leave empty on all sides in inches (or any other unit using pint `Quantity`)
-            [default=0]
+        width: The width of the bounding box in inches (or any other unit if you pass in a `pint.Quantity`.)
+        height: The height of the bounding box in inches (or any other unit if you pass in a `pint.Quantity`.)
+        padding: How much space to leave empty on all sides in inches (or any other unit if you pass in a `pint.Quantity`.)
         increment: The gap between different rotation angles attempted in radians. (smaller value gives better results,
-            but larger values run faster.) [default=0.02 radians]
+            but larger values run faster.)
 
-    Returns: A copy of the drawing having been rotated, rescaled, and moved such that the new upper-left corner of the
-    bounding box (including the padding) is at the origin
+    Returns:
+        A copy of the drawing having been rotated, rescaled, and moved such that the new upper-left corner of the
+            bounding box (including the padding) is at the origin
 
     """
     desired_ratio = (width - padding * 2) / (height - padding * 2)
@@ -141,25 +145,23 @@ def rotate_and_scale_to_fit(
 
 @UNITS.wraps(None, (None, "inch", "inch", "inch", "inch", None), False)
 def center(
-        drawing: GeometryT,
-        width: float,
-        height: float,
-        x: float = 0,
-        y: float = 0,
+    drawing: GeometryT,
+    width: float,
+    height: float,
+    x: float = 0,
+    y: float = 0,
 ) -> GeometryT:
     """
     Return a copy of a drawing that has been translated (but not scaled) to the center point of a given rectangle
     Args:
         drawing: The drawing to translate
-        width: The width of the rectangle (in inches or other unit denoted by pint `Quantity`)
-        height: The height of the rectangle (in inches or other unit denoted by pint `Quantity`)
-        x: x-coordinate of the upper-left corner of the rectangle (in inches or other unit denoted by pint `Quantity`)
-            [default=0]
-        y: y-coordinate of the upper-left corner of the rectangle (in inches or other unit denoted by pint `Quantity`)
-            [default=0]
+        width: The width of the rectangle in inches (or any other unit if you pass in a `pint.Quantity`.)
+        height: The height of the rectangle in inches (or any other unit if you pass in a `pint.Quantity`.)
+        x: x-coordinate of the upper-left corner of the rectangle in inches (or any other unit if you pass in a `pint.Quantity`.)
+        y: y-coordinate of the upper-left corner of the rectangle in inches (or any other unit if you pass in a `pint.Quantity`.)
 
-    Returns: A copy of the drawing having been translated to the center of the rectangle
-
+    Returns:
+        A copy of the drawing having been translated to the center of the rectangle
     """
     x_min, y_min, x_max, y_max = drawing.bounds
     center_point = shapely.Point((x_min + x_max) / 2, (y_min + y_max) / 2)
@@ -187,7 +189,7 @@ class LineIndex:
             self.r_index.insert(i, 2 * line.coords[-1])
 
     def find_nearest_within(
-            self, p: tuple[float, float], tolerance: float
+        self, p: tuple[float, float], tolerance: float
     ) -> tuple[Optional[int], bool]:
         try:
             idx = next(self.index.nearest(p))
@@ -239,15 +241,8 @@ class LineIndex:
 
 
 def _sort_paths_single(
-        paths: shapely.MultiLineString, pbar: bool = True
+    paths: shapely.MultiLineString, pbar: bool = True
 ) -> shapely.MultiLineString:
-    """
-    Re-order the LineStrings in a MultiLineString to reduce the pen-up travel distance.
-    Does not guarantee optimality, but usually improves plot times significantly.
-    Does NOT change the actual drawn image.
-    :param drawing: The line drawing to optimize
-    :return: The re-ordered MultiLineString
-    """
     paths = [path for path in shapely.get_parts(paths) if shapely.length(path) > 0]
     n_paths = len(paths)
     paths = shapely.MultiLineString(paths)
@@ -271,7 +266,7 @@ def _sort_paths_single(
 
 
 def _sort_paths(
-        geometry: shapely.Geometry, pbar: bool = True
+    geometry: shapely.Geometry, pbar: bool = True
 ) -> shapely.MultiLineString | shapely.GeometryCollection:
     if isinstance(geometry, shapely.MultiPolygon):
         return _sort_paths_single(geometry.boundary, pbar=pbar)
@@ -283,10 +278,10 @@ def _sort_paths(
             [
                 _sort_paths(layer, pbar)
                 for layer in tqdm(
-                layers,
-                desc="Sorting Layers",
-                disable=not pbar,
-            )
+                    layers,
+                    desc="Sorting Layers",
+                    disable=not pbar,
+                )
             ]
         )
     else:
@@ -294,7 +289,7 @@ def _sort_paths(
 
 
 def _join_paths_single(
-        paths: shapely.MultiLineString, tolerance: float, pbar: bool = True
+    paths: shapely.MultiLineString, tolerance: float, pbar: bool = True
 ) -> shapely.MultiLineString:
     paths = [path for path in shapely.get_parts(paths) if shapely.length(path) > 0]
     if len(paths) < 2:
@@ -328,7 +323,7 @@ def _join_paths_single(
 
 @UNITS.wraps(None, (None, "inch", None), False)
 def _join_paths(
-        geometry: shapely.Geometry, tolerance: float, pbar: bool = True
+    geometry: shapely.Geometry, tolerance: float, pbar: bool = True
 ) -> shapely.MultiLineString | shapely.GeometryCollection:
     if isinstance(geometry, shapely.MultiPolygon):
         return _join_paths_single(geometry.boundary, tolerance, pbar=pbar)
@@ -340,30 +335,32 @@ def _join_paths(
             [
                 _join_paths(layer, tolerance, pbar=pbar)
                 for layer in tqdm(
-                layers,
-                desc="Joining Layers",
-                disable=not pbar,
-            )
+                    layers,
+                    desc="Joining Layers",
+                    disable=not pbar,
+                )
             ]
         )
     return geometry
 
 
-def _reloop_paths_single(geometry: shapely.MultiLineString, pbar: bool = True) -> shapely.MultiLineString:
+def _reloop_paths_single(
+    geometry: shapely.MultiLineString, pbar: bool = True
+) -> shapely.MultiLineString:
     rng = np.random.default_rng()
     lines = []
     parts = shapely.get_parts(geometry).tolist()
     for linestring in tqdm(
-            parts, desc="Relooping Paths", leave=False, disable=not pbar
+        parts, desc="Relooping Paths", leave=False, disable=not pbar
     ):
         coordinates = list(linestring.coords)
         if coordinates[0] == coordinates[-1]:
             coordinates = coordinates[:-1]
             reloop_index = rng.integers(len(coordinates), endpoint=False)
             new_coordinates = (
-                    coordinates[reloop_index:]
-                    + coordinates[:reloop_index]
-                    + [coordinates[reloop_index]]
+                coordinates[reloop_index:]
+                + coordinates[:reloop_index]
+                + [coordinates[reloop_index]]
             )
             lines.append(shapely.LineString(new_coordinates))
         else:
@@ -372,7 +369,7 @@ def _reloop_paths_single(geometry: shapely.MultiLineString, pbar: bool = True) -
 
 
 def _reloop_paths(
-        geometry: shapely.Geometry, pbar: bool = True
+    geometry: shapely.Geometry, pbar: bool = True
 ) -> shapely.MultiLineString | shapely.GeometryCollection:
     if isinstance(geometry, shapely.MultiPolygon):
         return _reloop_paths_single(geometry.boundary)
@@ -391,18 +388,18 @@ def _reloop_paths(
 
 @UNITS.wraps(None, (None, "inch", None), False)
 def _delete_short_paths_single(
-        geometry: shapely.MultiLineString, min_length: float, pbar: bool = True
+    geometry: shapely.MultiLineString, min_length: float, pbar: bool = True
 ) -> shapely.MultiLineString:
     parts = shapely.get_parts(geometry).tolist()
     return shapely.MultiLineString(
         [
             line
             for line in tqdm(
-            parts,
-            desc="Deleting Short Paths (Layer)",
-            leave=False,
-            disable=not pbar,
-        )
+                parts,
+                desc="Deleting Short Paths (Layer)",
+                leave=False,
+                disable=not pbar,
+            )
             if line.length >= min_length
         ]
     )
@@ -410,7 +407,7 @@ def _delete_short_paths_single(
 
 @UNITS.wraps(None, (None, "inch", None), False)
 def _delete_short_paths(
-        geometry: shapely.Geometry, min_length: float, pbar: bool = True
+    geometry: shapely.Geometry, min_length: float, pbar: bool = True
 ) -> shapely.MultiLineString | shapely.GeometryCollection:
     if isinstance(geometry, shapely.MultiPolygon):
         return _delete_short_paths_single(geometry.boundary, min_length)
@@ -429,12 +426,12 @@ def _delete_short_paths(
 
 @UNITS.wraps(None, (None, "inch", None, None, None, None), False)
 def optimize(
-        geometry: shapely.Geometry,
-        tolerance: float = 0,
-        sort: bool = True,
-        reloop: bool = True,
-        delete_small: bool = True,
-        pbar: bool = True,
+    geometry: shapely.Geometry,
+    tolerance: float = 0,
+    sort: bool = True,
+    reloop: bool = True,
+    delete_small: bool = True,
+    pbar: bool = True,
 ) -> shapely.Geometry:
     """
     Optimize a shapely geometry for plotting by combining paths, re-ordering paths, and/or deleting short paths.
@@ -444,13 +441,14 @@ def optimize(
     Args:
         geometry: The shapely geometry to be optimized. Usually this is either a `MultiLineString` or a
             `GeometryCollection` depending on if you are optimizing a single layer or a multi-layer plot.
-        tolerance: The largest gap that should be merged or the longest line that should be deleted.
+        tolerance: The largest gap that should be merged/the longest line that should be deleted in inches (or any other unit if you pass in a `pint.Quantity`.)
         sort: Should the paths be re-ordered to minimize pen-up travel distance?
         reloop: Should closed loop paths have their starting point randomized?
         delete_small: Should paths shorter than `tolerance` be deleted?
         pbar: Should progress bars be displayed to keep the user updated on the progress of the process?
 
-    Returns: The optimized geometry
+    Returns:
+        The optimized geometry
 
     """
     if reloop:
@@ -465,17 +463,21 @@ def optimize(
 
 @UNITS.wraps(None, (None, "rad", "inch", None), False)
 def shade(
-        polygon: shapely.Polygon | shapely.MultiPolygon, angle: float, spacing: float, offset: float = 0.5
+    polygon: shapely.Polygon | shapely.MultiPolygon,
+    angle: float,
+    spacing: float,
+    offset: float = 0.5,
 ) -> shapely.MultiLineString:
     """
     Fill in a shapely Polygon or MultiPolygon with parallel lines so that the plotter will fill in the shape with lines.
     Args:
         polygon: The shape to be filled in
-        angle: The angle at which the parallel lines should travel (default in radians)
-        spacing: The gap between parallel lines (default in inches)
-        offset: How much should the parallel lines be shifted up or down as a percentage of the spacing? [default=0.5]
+        angle: The angle at which the parallel lines should travel in radians (or any other unit if you pass in a `pint.Quantity`.)
+        spacing: The gap between parallel lines in inches (or any other unit if you pass in a `pint.Quantity`.)
+        offset: How much should the parallel lines be shifted up or down as a percentage of the spacing?
 
-    Returns: The MultiLineString of the shaded lines. (NOTE: Does not include the outline.)
+    Returns:
+        The MultiLineString of the shaded lines. (NOTE: Does not include the outline.)
 
     """
     polygon = affinity.rotate(
@@ -500,9 +502,15 @@ class DrawingMetrics:
 
 
 def metrics(drawing: shapely.Geometry) -> DrawingMetrics:
-    """Returns a data object containing the total pen-down distance, the total pen-up distance, and the number of
-    discrete paths in a given drawing. Useful if you print this value before and after optimizing to see what kind
-    of savings you're getting."""
+    """
+    Calculate the pen down distance, pen up distance, and number of discrete paths (requiring penlifts between) in a given drawing.
+    Args:
+        drawing:
+
+    Returns:
+        A `DrawingMetrics` object containing fields for `pen_down_dist`, `pen_up_dist`, and `path_count`
+
+    """
     mls = flatten_geometry(drawing)
     return DrawingMetrics(
         mls.length * UNITS.inch, up_length(mls), shapely.get_num_geometries(mls)

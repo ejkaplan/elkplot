@@ -18,7 +18,7 @@ from .planner import Planner, Plan
 CONFIG_FILEPATH = Path(__file__).parent / "axidraw.ini"
 
 
-def _axidraw_available() -> bool:
+def axidraw_available() -> bool:
     config = _load_config()
     vid_pid = config["DEVICE"]["vid_pid"].upper()
     ports = [port for port in comports() if vid_pid in port[2]]
@@ -69,7 +69,13 @@ def plan_layer_proc(queue: mp.Queue, layer: list[list[tuple[float, float]]],
 
 
 class Device:
-    def __init__(self, pen: str = "DEFAULT"):
+    # TODO: Finish documenting me!
+    """
+    Blah
+    Attributes:
+        pen_up_position (float): To what level should the penlift motor bring the pen when it is lifted?
+    """
+    def __init__(self):
         config = _load_config()
         self.timeslice_ms = int(config["DEVICE"]["timeslice_ms"])
         self.microstepping_mode = int(config["DEVICE"]["microstepping_mode"])
@@ -79,22 +85,19 @@ class Device:
         self.vid_pid = str(config["DEVICE"]["vid_pid"])
         self.pen_lift_pin = str(config["DEVICE"]["pen_lift_pin"])
         self.brushless = bool(int(config["DEVICE"]["brushless"]))
-        self.pen = pen
+        self.pen = "DEFAULT"
 
-        if pen not in config:
-            pen = "DEFAULT"
-
-        self.pen_up_position = float(config[pen]["pen_up_position"])
-        self.pen_up_speed = float(config[pen]["pen_up_speed"])
-        self.pen_up_delay = int(config[pen]["pen_up_delay"])
-        self.pen_down_position = float(config[pen]["pen_down_position"])
-        self.pen_down_speed = float(config[pen]["pen_down_speed"])
-        self.pen_down_delay = int(config[pen]["pen_down_delay"])
-        self.acceleration = float(config[pen]["acceleration"])
-        self.max_velocity = float(config[pen]["max_velocity"])
-        self.corner_factor = float(config[pen]["corner_factor"])
-        self.jog_acceleration = float(config[pen]["jog_acceleration"])
-        self.jog_max_velocity = float(config[pen]["jog_max_velocity"])
+        self.pen_up_position = float(config[self.pen]["pen_up_position"])
+        self.pen_up_speed = float(config[self.pen]["pen_up_speed"])
+        self.pen_up_delay = int(config[self.pen]["pen_up_delay"])
+        self.pen_down_position = float(config[self.pen]["pen_down_position"])
+        self.pen_down_speed = float(config[self.pen]["pen_down_speed"])
+        self.pen_down_delay = int(config[self.pen]["pen_down_delay"])
+        self.acceleration = float(config[self.pen]["acceleration"])
+        self.max_velocity = float(config[self.pen]["max_velocity"])
+        self.corner_factor = float(config[self.pen]["corner_factor"])
+        self.jog_acceleration = float(config[self.pen]["jog_acceleration"])
+        self.jog_max_velocity = float(config[self.pen]["jog_max_velocity"])
 
         self.error = (0, 0)  # accumulated step error
 

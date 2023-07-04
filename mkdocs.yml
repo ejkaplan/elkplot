@@ -1,11 +1,21 @@
 site_name: ElkPlot
 
 theme:
-  "readthedocs"
+  "material"
 
 nav:
-  - Home: index.md
-  - About: about.md
-  - API Reference:
-      - Making Art: api_ref/making_art.md
-      - Controlling the Plotter: api_ref/plotting.md
+- Home: index.md
+- About: about.md
+- API Reference:
+    - Making Art: api_ref/making_art.md
+    - Controlling the Plotter: api_ref/plotting.md
+
+plugins:
+- mkdocstrings:
+    handlers:
+      python:
+        options:
+          show_root_toc_entry: false
+
+watch:
+- elkplot
