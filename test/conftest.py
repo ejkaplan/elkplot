@@ -1,3 +1,5 @@
+from typing import Optional
+
 import numpy as np
 import pytest
 import shapely
@@ -31,9 +33,14 @@ def random_triangles(width: float, height: float, n: int) -> shapely.MultiLineSt
     )
 
 
-def approx_equals(value: UNITS.Quantity, desired: UNITS.Quantity, unit: UNITS.Unit | str) -> bool:
+def approx_equals(
+    value: UNITS.Quantity,
+    desired: UNITS.Quantity,
+    unit: UNITS.Unit | str,
+    margin: Optional[float] = None,
+) -> bool:
     value, desired = value.to(unit), desired.to(unit)
-    return value.magnitude == pytest.approx(desired.magnitude)
+    return value.magnitude == pytest.approx(desired.magnitude, abs=margin)
 
 
 @fixture
