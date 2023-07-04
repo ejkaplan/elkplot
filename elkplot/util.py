@@ -57,6 +57,7 @@ def draw(
     if not _axidraw_available():
         raise AxidrawNotFoundError()
     device = Device(pen) if device is None else device
+    device.zero_position()
     device.enable_motors()
     for layer, label in zip(layers, layer_labels):
         input(f"Press enter when you're ready to draw {label}")
