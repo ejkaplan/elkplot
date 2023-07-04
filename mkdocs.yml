@@ -1,0 +1,11 @@
+site_name: ElkPlot
+
+theme:
+  "readthedocs"
+
+nav:
+  - Home: index.md
+  - About: about.md
+  - API Reference:
+      - Making Art: api_ref/making_art.md
+      - Controlling the Plotter: api_ref/plotting.md

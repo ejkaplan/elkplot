@@ -62,37 +62,37 @@ def goto(x: float, y: float):
     elkplot.Device().goto(x, y)
 
 
-@cli.command()
-def pen_list():
-    """List the names of all pens that have been configured so far."""
-    config = _load_config()
-    names = ["-" + name for name in config.keys() if name not in {"DEFAULT", "DEVICE"}]
-    click.echo("\n".join(names))
-
-
-@cli.group()
-def calibrate():
-    ...
-
-
-@calibrate.command()
-@click.argument("width", type=float)
-@click.argument("height", type=float)
-@click.argument("margin", type=float)
-@click.argument("pen", type=str)
-def penlift(width: float, height: float, margin: float, pen: str):
-    """Set the pen up and pen down heights for the current pen"""
-    _calibrate_penlift(width, height, margin, pen)
-
-
-@calibrate.command()
-@click.argument("width", type=float)
-@click.argument("height", type=float)
-@click.argument("margin", type=float)
-@click.argument("pen", type=str)
-def speed(width: float, height: float, margin: float, pen: str):
-    """Set the maximum movement speed for the current pen. (Some pens need to go slower to get ink on the page)"""
-    _calibrate_speed(width, height, margin, pen)
+# @cli.command()
+# def pen_list():
+#     """List the names of all pens that have been configured so far."""
+#     config = _load_config()
+#     names = ["-" + name for name in config.keys() if name not in {"DEFAULT", "DEVICE"}]
+#     click.echo("\n".join(names))
+#
+#
+# @cli.group()
+# def calibrate():
+#     ...
+#
+#
+# @calibrate.command()
+# @click.argument("width", type=float)
+# @click.argument("height", type=float)
+# @click.argument("margin", type=float)
+# @click.argument("pen", type=str)
+# def penlift(width: float, height: float, margin: float, pen: str):
+#     """Set the pen up and pen down heights for the current pen"""
+#     _calibrate_penlift(width, height, margin, pen)
+#
+#
+# @calibrate.command()
+# @click.argument("width", type=float)
+# @click.argument("height", type=float)
+# @click.argument("margin", type=float)
+# @click.argument("pen", type=str)
+# def speed(width: float, height: float, margin: float, pen: str):
+#     """Set the maximum movement speed for the current pen. (Some pens need to go slower to get ink on the page)"""
+#     _calibrate_speed(width, height, margin, pen)
 
 
 if __name__ == "__main__":
