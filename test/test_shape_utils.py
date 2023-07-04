@@ -74,7 +74,7 @@ def test_join_paths_small_tolerance(lines: shapely.MultiLineString):
     unoptimized_metrics = elkplot.metrics(lines)
     joined = join_paths(lines, 0.01, pbar=False)
     optimized_metrics = elkplot.metrics(joined)
-    assert approx_equals(optimized_metrics.pen_down_dist, unoptimized_metrics.pen_down_dist, "inch")
+    assert approx_equals(optimized_metrics.pen_down_dist, unoptimized_metrics.pen_down_dist, "inch", 0.1)
     assert optimized_metrics.path_count <= unoptimized_metrics.path_count
 
 

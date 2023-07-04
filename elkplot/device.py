@@ -1,3 +1,4 @@
+import multiprocessing as mp
 import time
 from configparser import ConfigParser
 from math import modf
@@ -47,6 +48,24 @@ def _load_config() -> ConfigParser:
     config = ConfigParser()
     config.read(CONFIG_FILEPATH)
     return config
+
+
+def plan_layer_proc(queue: mp.Queue, layer: list[list[tuple[float, float]]],
+                    jog_planner: Planner,
+                    draw_planner: Planner):
+    origin = (0, 0)
+    position = origin
+    for coord_list in layer:
+        path_linestring = shapely.LineString(coord_list)
+        # Move into position (jogging because pen is up)
+        jog = shapely.LineString([position, coord_list[0]])
+        plan = jog_planner.plan(list(jog.coords))
+        queue.put((plan, jog.length))
+        # Run the actual line (no jog, because pen is down)
+        plan = draw_planner.plan(coord_list)
+        queue.put((plan, path_linestring.length))
+        position = coord_list[-1]
+    queue.put(("DONE", 0))
 
 
 class Device:
@@ -205,28 +224,30 @@ class Device:
         else:
             self.run_plan(plan)
 
-    def run_layer(self, drawing: shapely.MultiLineString, label: str = None):
-        self.pen_up()
-        origin = shapely.Point(0, 0)
-        position = origin
-        bar = tqdm(total=drawing.length + elkplot.up_length(drawing).m, desc=label)
-        path: shapely.LineString
-        for path in shapely.get_parts(drawing):
-            jog = shapely.LineString([position, shapely.Point(path.coords[0])])
-            self.run_path(jog, jog=True)
-            bar.update(jog.length)
-            self.run_path(path, draw=True)
-            position = path.coords[-1]
-            bar.update(path.length)
+    def run_layer(self, layer: shapely.MultiLineString, label: str = None):
+        jog_planner = self.make_planner(True)
+        draw_planner = self.make_planner(False)
+        queue = mp.Queue()
+        layer_coord_list = [list(line.coords) for line in shapely.get_parts(layer)]
+        p = mp.Process(target=plan_layer_proc, args=(queue, layer_coord_list, jog_planner, draw_planner))
+        p.start()
+        bar = tqdm(total=layer.length + elkplot.up_length(layer).m, desc=label)
+        idx = 0
+        while True:
+            jog_plan, length = queue.get()
+            if jog_plan == "DONE":
+                break
+            if idx % 2 == 0:
+                self.pen_up()
+            else:
+                self.pen_down()
+            self.run_plan(jog_plan)
+            bar.update(length)
+            idx += 1
         bar.close()
-        self.run_path(shapely.LineString([position, origin]), jog=True)
-
-    def plan_drawing(self, drawing: shapely.MultiLineString):
-        result = []
-        planner = self.make_planner()
-        for path in shapely.get_parts(drawing):
-            result.append(planner.plan(path))
-        return result
+        self.pen_up()
+        self.home()
+        p.join()
 
     # pen functions
     def pen_up(self):

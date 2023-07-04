@@ -223,7 +223,9 @@ def _sort_paths_single(
     :return: The re-ordered MultiLineString
     """
     paths = [path for path in shapely.get_parts(paths) if shapely.length(path) > 0]
-    if len(paths) < 2:
+    n_paths = len(paths)
+    paths = shapely.MultiLineString(paths)
+    if n_paths < 2:
         return paths
     line_index = LineIndex(paths)
     out = []
