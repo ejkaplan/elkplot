@@ -185,7 +185,7 @@ class Device:
         """
         self.run_path(shapely.linestrings([(0, 0), (dx, dy)]))
 
-    def goto(self, x: float, y: float, jog=True):
+    def goto(self, x: float, y: float, jog: bool = True):
         """
         Move the pen directly to a given point on the canvas. Points are measured in inches from the origin
         Args:
