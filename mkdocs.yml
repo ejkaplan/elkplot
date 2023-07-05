@@ -10,6 +10,8 @@ nav:
     - Making Art: api_ref/making_art.md
     - Controlling the Plotter: api_ref/plotting.md
     - Command Line Interface: api_ref/cli.md
+    - Drawing Text: api_ref/text.md
+- Tips and Tricks: tips_and_tricks.md
 - Alternative Libraries: alternatives.md
 
 plugins:

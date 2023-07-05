@@ -2,7 +2,7 @@ import shapely
 from shapely import affinity
 
 import elkplot
-from elkplot.text.hershey import HersheyFont
+from elkplot.text.hershey import HersheyFont, Font
 
 
 def move_to(drawing: shapely.MultiLineString, x: float, y: float):
@@ -12,8 +12,12 @@ def move_to(drawing: shapely.MultiLineString, x: float, y: float):
 
 
 def font_demo(font: HersheyFont, name: str) -> shapely.MultiLineString:
-    name_text = elkplot.text(name, elkplot.FUTURAL)
-    sample_text = elkplot.text("AaBbCc 123", font)
+    name_font = Font(elkplot.FUTURAL, 30)
+    sample_font = Font(font, 15)
+    # name_text = elkplot.text(name, elkplot.FUTURAL)
+    # sample_text = elkplot.text("AaBbCc 123", font)
+    name_text = name_font.text(name)
+    sample_text = sample_font.text("AaBbCc 123")
     name_text = elkplot.scale_to_fit(name_text, height=0.2)
     sample_text = elkplot.scale_to_fit(sample_text, height=0.3)
     return shapely.union_all([move_to(name_text, 0, 0), move_to(sample_text, 0, 0.3)])
@@ -78,4 +82,9 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    size = 4 * elkplot.UNITS.inch, 2 * elkplot.UNITS.inch
+    font = elkplot.Font(elkplot.METEOROLOGY, 25)  # select the meteorology font at size 15
+    text_drawing = font.wrap("The quick brown fox jumps over the lazy dog.", 3)
+    text_drawing = elkplot.center(text_drawing, *size)
+    elkplot.draw(text_drawing, *size, plot=False)
+    # main()
