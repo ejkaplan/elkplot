@@ -84,7 +84,7 @@ def main():
 if __name__ == "__main__":
     size = 4 * elkplot.UNITS.inch, 2 * elkplot.UNITS.inch
     font = elkplot.Font(elkplot.METEOROLOGY, 25)  # select the meteorology font at size 15
-    text_drawing = font.wrap("The quick brown fox jumps over the lazy dog.", 3)
+    text_drawing = font.wrap("The quick brown fox jumps over the lazy dog.", 3, align=2)
     text_drawing = elkplot.center(text_drawing, *size)
     elkplot.draw(text_drawing, *size, plot=False)
     # main()

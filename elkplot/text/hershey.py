@@ -75,7 +75,8 @@ class Font:
         Args:
             string: The text to be rendered
 
-        Returns: The drawing of the text
+        Returns:
+            The drawing of the text
 
         """
         t = text(string, self.font)
@@ -104,7 +105,8 @@ class Font:
                 in half, and setting this to 2 would double the space between lines.
             align: 0=align text left, 1=align text right, 2=align text center
 
-        Returns: The drawing of the text
+        Returns:
+            The drawing of the text
 
         """
         lines = word_wrap(string, width, self.measure)
@@ -118,9 +120,9 @@ class Font:
             if align == 0:
                 x = 0
             elif align == 1:
-                x = max_width - w
+                x = (max_width - w).m
             else:
-                x = max_width / 2 - w / 2
+                x = (max_width / 2 - w / 2).m
             line_shape = affinity.translate(line_shape, x, y)
             result.append(line_shape)
             y += spacing.m

@@ -3,6 +3,8 @@ provided fonts plotted on letter paper:
 
 ![All Fonts Plotted](text_reference.jpg)
 
+The full list of fonts as you'd use them in code are: `elkplot.ASTROLOGY, elkplot.CURSIVE, elkplot.CYRILLIC_1, elkplot.CYRILLIC, elkplot.FUTURAL, elkplot.FUTURAM, elkplot.GOTHGBT, elkplot.GOTHGRT, elkplot.GOTHICENG, elkplot.GOTHICGER, elkplot.GOTHICITA, elkplot.GOTHITT, elkplot.GREEK, elkplot.GREEKC, elkplot.GREEKS, elkplot.JAPANESE, elkplot.MARKERS, elkplot.MATHLOW, elkplot.MATHUPP, elkplot.METEOROLOGY, elkplot.MUSIC, elkplot.ROWMAND, elkplot.ROWMANS, elkplot.ROWMANT, elkplot.SCRIPTC, elkplot.SCRIPTS, elkplot.SYMBOLIC, elkplot.TIMESG, elkplot.TIMESI, elkplot.TIMESIB, elkplot.TIMESR, elkplot.TIMESRB`.
+
 ## Sample Code
 
 ```python
