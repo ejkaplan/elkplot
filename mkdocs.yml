@@ -6,9 +6,11 @@ theme:
 nav:
 - Home: index.md
 - About: about.md
+- Setup: setup.md
 - API Reference:
     - Making Art: api_ref/making_art.md
     - Controlling the Plotter: api_ref/plotting.md
+    - Command Line Interface: api_ref/cli.md
 
 plugins:
 - mkdocstrings:

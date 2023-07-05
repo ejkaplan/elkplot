@@ -143,7 +143,7 @@ def rotate_and_scale_to_fit(
     return scale_to_fit(best_geom, width, height, padding)
 
 
-@UNITS.wraps(None, (None, "inch", "inch", "inch", "inch", None), False)
+@UNITS.wraps(None, (None, "inch", "inch", "inch", "inch"), False)
 def center(
     drawing: GeometryT,
     width: float,

@@ -9,7 +9,7 @@ class AxidrawNotFoundError(IOError):
     ...
 
 
-@elkplot.UNITS.wraps(None, (None, "inch", "inch", None, None, None, None, None, None), False)
+@elkplot.UNITS.wraps(None, (None, "inch", "inch", None, None, None, None, None), False)
 def draw(
     drawing: shapely.Geometry | list[shapely.Geometry],
     width: float = elkplot.sizes.A3[0],
@@ -38,8 +38,8 @@ def draw(
         preview_dpi: How big should the preview be? (Enter the DPI of your monitor to get an actual-size preview.)
         plot: Should the AxiDraw actually plot this? (If `preview` is `True`, plotting will only begin after the preview
             window is closed.)
-        device: The AxiDraw config to which the plot should be sent. Used if you want to change any of the default
-            AxiDraw settings or you are driving multiple AxiDraws from the same computer.
+        device: The AxiDraw config to which the plot should be sent. If excluded, a `Device` with all default settings
+            will be used.
     """
     if isinstance(drawing, shapely.GeometryCollection):
         layers = [
