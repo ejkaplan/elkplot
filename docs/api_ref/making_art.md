@@ -14,7 +14,7 @@ drawing = shapely.GeometryCollection([first_color, second_color])
 
 ## Helpful Functions for Creating Plottable Shapely Geometry
 
-The following functions can be imported directly from `elkplot` and help manipulate Shapely geometry in specific ways that are useful for plotting.
+The following functions can be imported directly from _elkplot_ and help manipulate Shapely geometry in specific ways that are useful for plotting.
 
 ::: elkplot.shape_utils
             

@@ -79,8 +79,8 @@ def up_length(drawing: shapely.MultiLineString) -> pint.Quantity:
 @UNITS.wraps(None, (None, "inch", "inch", "inch"), False)
 def scale_to_fit(
     drawing: GeometryT,
-    width: float,
-    height: float,
+    width: float = 0,
+    height: float = 0,
     padding: float = 0,
 ) -> GeometryT:
     """
@@ -88,9 +88,11 @@ def scale_to_fit(
     Args:
         drawing: The shapely geometry to rescale
         width: The width of the bounding box in inches (or any other unit if you pass in a `pint.Quantity`.)
+            If this is excluded, the drawing will be scaled to fit into a given height with arbitrary width.
         height: The height of the bounding box in inches (or any other unit if you pass in a `pint.Quantity`.)
-        padding: How much space to leave empty on all sides in inches (or any other unit if you pass in a `pint.Quantity`.)
-            [default=0]
+            If this is excluded, the drawing will be scaled to fit into a given height with arbitrary width.
+        padding: How much space to leave empty on all sides in inches (or any other unit if you pass in a
+            `pint.Quantity`.)
 
     Returns:
         A copy of the drawing having been rescaled and moved such that the new upper-left corner of the bounding
@@ -98,9 +100,9 @@ def scale_to_fit(
 
     """
     w, h = (dim.magnitude for dim in size(drawing))
-    if w == 0:
+    if w == 0 or width == 0:
         scale = (height - padding * 2) / h
-    elif h == 0:
+    elif h == 0 or height == 0:
         scale = (width - padding * 2) / w
     else:
         scale = min((width - padding * 2) / w, (height - padding * 2) / h)

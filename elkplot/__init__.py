@@ -17,7 +17,7 @@ from .text.hershey import text, Font
 from .text.hershey_fonts import (
     ASTROLOGY,
     CURSIVE,
-    CYRILC_1,
+    CYRILLIC_1,
     CYRILLIC,
     FUTURAL,
     FUTURAM,
