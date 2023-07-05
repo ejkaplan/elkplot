@@ -20,6 +20,9 @@ pint = "^0.22"
 ortools = "^9.5.2237"
 scipy = "^1.10.1"
 pydantic = "^2.0"
+mkdocs = "^1.4.3"
+mkdocstrings = {extras = ["python"], version = "^0.22.0"}
+mkdocs-material = "^9.1.18"
 
 
 [build-system]

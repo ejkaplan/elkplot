@@ -10,11 +10,11 @@ import elkplot
 from elkplot import UNITS
 from elkplot.shape_utils import (
     up_length,
-    sort_paths,
+    _sort_paths,
     scale_to_fit,
     size,
     rotate_and_scale_to_fit,
-    join_paths,
+    _join_paths,
     center,
 )
 from test.conftest import approx_equals
@@ -26,7 +26,7 @@ from test.strategies import multilinestrings, layers, linestrings, quantities
 )
 def test_sort_paths(drawing: shapely.MultiLineString):
     unoptimized_penup_dist = up_length(drawing)
-    optimized_drawing = sort_paths(drawing, pbar=False)
+    optimized_drawing = _sort_paths(drawing, pbar=False)
     optimized_penup_dist = up_length(optimized_drawing)
     assert optimized_penup_dist <= unoptimized_penup_dist
 
@@ -72,7 +72,7 @@ def test_rotate_and_scale_to_fit(
 @given(lines=multilinestrings)
 def test_join_paths_small_tolerance(lines: shapely.MultiLineString):
     unoptimized_metrics = elkplot.metrics(lines)
-    joined = join_paths(lines, 0.01, pbar=False)
+    joined = _join_paths(lines, 0.01, pbar=False)
     optimized_metrics = elkplot.metrics(joined)
     assert approx_equals(optimized_metrics.pen_down_dist, unoptimized_metrics.pen_down_dist, "inch", 0.1)
     assert optimized_metrics.path_count <= unoptimized_metrics.path_count
@@ -80,13 +80,13 @@ def test_join_paths_small_tolerance(lines: shapely.MultiLineString):
 
 @given(lines=multilinestrings)
 def test_join_paths_big_tolerance(lines: shapely.MultiLineString):
-    joined = join_paths(lines, 100, pbar=False)
+    joined = _join_paths(lines, 100, pbar=False)
     assert len(shapely.get_parts(joined)) == 1
 
 
 def test_join_paths_squares(squares: shapely.MultiLineString):
     unoptimized_metrics = elkplot.metrics(squares)
-    joined = join_paths(squares, 0.01, pbar=False)
+    joined = _join_paths(squares, 0.01, pbar=False)
     optimized_metrics = elkplot.metrics(joined)
     assert optimized_metrics.pen_down_dist.m == approx(
         unoptimized_metrics.pen_down_dist
@@ -108,7 +108,7 @@ def disconnected_chain() -> shapely.MultiLineString:
 
 def test_join_chain(disconnected_chain: shapely.MultiLineString):
     unoptimized_metrics = elkplot.metrics(disconnected_chain)
-    joined_chain = join_paths(disconnected_chain, 0.01, False)
+    joined_chain = _join_paths(disconnected_chain, 0.01, False)
     optimized_metrics = elkplot.metrics(joined_chain)
     assert optimized_metrics.pen_down_dist.m == approx(
         unoptimized_metrics.pen_down_dist

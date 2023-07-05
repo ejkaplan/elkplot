@@ -15,7 +15,7 @@ def _calibrate_penlift(width: float, height: float, margin: float, pen: str):
             if len(new_up) == 0:
                 break
             device.pen_up_position = int(new_up)
-            device.configure()
+            device._configure()
         device.pen_up()
         print("Calibrating Pen Down Position")
         while True:
@@ -26,7 +26,7 @@ def _calibrate_penlift(width: float, height: float, margin: float, pen: str):
             if len(new_down) == 0:
                 break
             device.pen_down_position = int(new_down)
-            device.configure()
+            device._configure()
         device.pen_up()
     device.home()
     device.write_settings()
@@ -49,7 +49,7 @@ def _calibrate_speed(width: float, height: float, margin: float, pen: str):
         if len(new_speed) == 0:
             break
         device.max_velocity = float(new_speed)
-        device.configure()
+        device._configure()
         y += offset
     device.home()
     device.write_settings()
