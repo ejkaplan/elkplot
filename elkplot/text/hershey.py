@@ -71,7 +71,7 @@ class Font:
 
     def text(self, string: str) -> shapely.MultiLineString:
         """
-        Render a string using this font's size and font.
+        Render a string using this font's size and font in a single long line.
         Args:
             string: The text to be rendered
 
@@ -96,11 +96,12 @@ class Font:
         align: float = 0,
     ) -> shapely.MultiLineString:
         """
-        Render a given string such that the text is confined to a column of a given width.
+        Render a given string such that the text is confined to a column of a given width by inserting line breaks.
         Args:
             string: The text to be rendered
             width: The width of the column
-            line_spacing: The gap between lines (in inches)
+            line_spacing: A multiplier on the gap between lines. Setting this to 0.5 would cut the space between lines
+                in half, and setting this to 2 would double the space between lines.
             align: 0=align text left, 1=align text right, 2=align text center
 
         Returns: The drawing of the text
