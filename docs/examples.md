@@ -10,12 +10,12 @@ This is a famous early instance of generative art by the artist Geog Nees, and t
 
 - In works with multiple instances of similar repeated shapes, I'll create a single shape and then in a loop create transformed duplicates using [_shapely_'s affine transformation functions](https://shapely.readthedocs.io/en/stable/manual.html#affine-transformations). For a simple example, below is how I'd create a list of five squares of size 1 next to each other with a gap of 0.2 between them.
 
-```python
-import shapely
-from shapely import affinity
-square = shapely.LinearRing([(0, 0), (0, 1), (1, 1), (1, 0)])
-squares = [affinity.translate(square, i * 1.2, 0) for i in range(5)]
-```
+    ```python
+    import shapely
+    from shapely import affinity
+    square = shapely.LinearRing([(0, 0), (0, 1), (1, 1), (1, 0)])
+    squares = [affinity.translate(square, i * 1.2, 0) for i in range(5)]
+    ```
 
 - When I was first composing the image, having the amount of random offset increase linearly across the page made things look too chaotic too fast - I wanted the left side of the page to stay more orderly for longer. So I used a [sine ease-in](api_ref/easing.md) to have the coefficient of chaos rise slowly on the left and faster towards the right.
 
