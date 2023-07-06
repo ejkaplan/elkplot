@@ -11,8 +11,10 @@ nav:
     - Controlling the Plotter: api_ref/plotting.md
     - Command Line Interface: api_ref/cli.md
     - Drawing Text: api_ref/text.md
+    - Easing: api_ref/easing.md
 - Tips and Tricks: tips_and_tricks.md
 - Alternative Libraries: alternatives.md
+- Examples: examples.md
 
 plugins:
 - mkdocstrings:
