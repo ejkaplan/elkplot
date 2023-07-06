@@ -1,4 +1,4 @@
-_elkplot_ can render text in a number of different fonts using the built in `text` function. Here are all of the
+_elkplot_ can render text in a number of different fonts using the built in `text` function. Here are all the
 provided fonts plotted on letter paper:
 
 ![All Fonts Plotted](text_reference.jpg)
@@ -21,7 +21,7 @@ The above code results in the following plot (as viewed in the preview window). 
 has been wrapped to fit in a column 3 inches wide.
 ![Wrapped Text](text_example.png)
 
-Note that all of the text generating functions return text that is situated at the origin - use functions
+Note that all the text generating functions return text that is situated at the origin - use functions
 like [`elkplot.center()`][elkplot.shape_utils.center] or [`elkplot.scale_to_fit()`][elkplot.shape_utils.scale_to_fit] to move and scale your text-drawing or
 use [`shapely.affinity.translate()`](https://shapely.readthedocs.io/en/stable/manual.html#shapely.affinity.translate) to
 reposition the text-drawing to arbitrary positions.

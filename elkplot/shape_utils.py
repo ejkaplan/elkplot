@@ -84,13 +84,14 @@ def scale_to_fit(
     padding: float = 0,
 ) -> GeometryT:
     """
-    Scales a drawing up or down to perfectly fit into a given bounding box.
+    Scales a drawing up or down to perfectly fit into a given bounding box. Also centers the object in that bounding box
+    with the bounding box's upper-left corner at the origin.
     Args:
         drawing: The shapely geometry to rescale
         width: The width of the bounding box in inches (or any other unit if you pass in a `pint.Quantity`.)
-            If this is excluded, the drawing will be scaled to fit into a given height with arbitrary width.
+            If this is 0, the drawing will be scaled to fit into the given height with arbitrary width.
         height: The height of the bounding box in inches (or any other unit if you pass in a `pint.Quantity`.)
-            If this is excluded, the drawing will be scaled to fit into a given height with arbitrary width.
+            If this is 0, the drawing will be scaled to fit into the given width with arbitrary height.
         padding: How much space to leave empty on all sides in inches (or any other unit if you pass in a
             `pint.Quantity`.)
 
@@ -119,7 +120,8 @@ def rotate_and_scale_to_fit(
 ) -> GeometryT:
     """
     Fits a drawing into a bounding box of a given width and height, but unlike `scale_to_fit` also rotates the shape to
-    make it take up as much of that area as possible
+    make it take up as much of that area as possible. Also centers the object in that bounding box
+    with the bounding box's upper-left corner at the origin.
     Args:
         drawing: The shapely geometry to rescale
         width: The width of the bounding box in inches (or any other unit if you pass in a `pint.Quantity`.)

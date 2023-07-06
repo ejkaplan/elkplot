@@ -78,8 +78,8 @@ class Device:
         pen_down_position: float = -120,
         pen_up_speed: float = 150,
         pen_down_speed: float = 150,
-        pen_up_delay: int = 0,
-        pen_down_delay: int = 0,
+        pen_up_delay: int = 100,
+        pen_down_delay: int = 100,
         acceleration: float = 16,
         max_velocity: float = 4,
         corner_factor: float = 0.001,
@@ -99,17 +99,16 @@ class Device:
             pen_up_speed: How fast should the pen be lifted?
             pen_down_speed: How fast should the pen be lowered?
             pen_up_delay: How long (in ms) should the AxiDraw wait after starting to raise the pen before taking the
-                next action?
+                next action? (Lower is faster, but can lead to unwanted lines being drawn.)
             pen_down_delay: How long (in ms) should the AxiDraw wait after starting to lower the pen before taking the
-                next action?
-            acceleration: How aggressively should the AxiDraw accelerate up to `max_velocity` when drawing in a straight
-                line?
+                next action? (Lower is faster, but can lead to wanted lines not being drawn.)
+            acceleration: How aggressively should the AxiDraw accelerate up to `max_velocity`?
             max_velocity: How fast should the AxiDraw move when traveling at top speed?
-            corner_factor: What is the radius of the imaginary corner when making a sharp turn? Larger values can
+            corner_factor: What is the radius of the corner when making a sharp turn? Larger values can
                 maintain higher speeds around corners, but will round off sharp edges. Smaller values are more accurate
                 to the original drawing but have to slow down more at sharp corners.
-            jog_acceleration: How aggressively should the AxiDraw accelerate up to `max_velocity` when drawing in a
-                straight line while the pen is lifted?
+            jog_acceleration: How aggressively should the AxiDraw accelerate up to `jog_max_velocity` when moving
+                while the pen is lifted?
             jog_max_velocity: How fast should the AxiDraw move when traveling at top speed while the pen is lifted?
             pen_lift_pin: To which pin on the driver board is the penlift motor connected? (Pin 0 is the bottom pin.)
             brushless: Is the connected motor the upgraded brushless motor?
