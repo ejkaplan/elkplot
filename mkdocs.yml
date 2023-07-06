@@ -23,3 +23,6 @@ plugins:
 
 watch:
 - elkplot
+
+extra:
+  version: 0.2.0
