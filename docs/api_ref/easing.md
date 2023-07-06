@@ -1,7 +1,15 @@
 ![Easing Graphs](easing.png)
 
-For convenience, I've included a bunch of [easing functions](https://easings.net) because they are very useful in
-generative art. Check that site out for more details. The included easing functions are:
+For convenience, I've included a bunch of easing functions because they are very useful in
+generative art. Easing functions are mathematical functions that map numbers in the range [0, 1] to numbers in the
+range [0, 1], such that `ease(0)` always returns `0` and `ease(1)` always returns `1`. Different easing functions do
+different things in the middle, but there are three main flavors:
+
+- An ease-in starts slow and speeds up towards the end.
+- An ease-out starts fast and slows down towards the end.
+- An ease-in-out starts slow, gets fast in the middle, and then slows down again at the end.
+
+If you want to understand easing functions in more detail, check out [this cheat sheet](https://easings.net).
 
 `elkplot.easing.ease_in_sine`<br>
 `elkplot.easing.ease_out_sine`<br>
