@@ -51,10 +51,10 @@ def _load_config() -> ConfigParser:
 
 
 def plan_layer_proc(
-    queue: mp.Queue,
-    layer: list[list[tuple[float, float]]],
-    jog_planner: Planner,
-    draw_planner: Planner,
+        queue: mp.Queue,
+        layer: list[list[tuple[float, float]]],
+        jog_planner: Planner,
+        draw_planner: Planner,
 ):
     origin = (0, 0)
     position = origin
@@ -73,20 +73,20 @@ def plan_layer_proc(
 
 class Device:
     def __init__(
-        self,
-        pen_up_position: float = -50,
-        pen_down_position: float = -120,
-        pen_up_speed: float = 150,
-        pen_down_speed: float = 150,
-        pen_up_delay: int = 50,
-        pen_down_delay: int = 50,
-        acceleration: float = 16,
-        max_velocity: float = 4,
-        corner_factor: float = 0.001,
-        jog_acceleration: float = 16,
-        jog_max_velocity: float = 8,
-        pen_lift_pin: int = 2,
-        brushless: bool = True,
+            self,
+            pen_up_position: float = -50,
+            pen_down_position: float = -120,
+            pen_up_speed: float = 150,
+            pen_down_speed: float = 150,
+            pen_up_delay: int = 50,
+            pen_down_delay: int = 50,
+            acceleration: float = 16,
+            max_velocity: float = 4,
+            corner_factor: float = 0.001,
+            jog_acceleration: float = 16,
+            jog_max_velocity: float = 8,
+            pen_lift_pin: int = 2,
+            brushless: bool = True,
     ):
         """
         Construct a Device object that contains all the settings for the AxiDraw itself. The default values are chosen

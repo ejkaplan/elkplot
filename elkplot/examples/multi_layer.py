@@ -6,7 +6,7 @@ import elkplot
 
 @elkplot.UNITS.wraps(None, ("inch", "inch", "inch", None), False)
 def concentric_circles(
-    x: float, y: float, radius: float, n: int
+        x: float, y: float, radius: float, n: int
 ) -> shapely.MultiLineString:
     center = shapely.Point(x, y)
     circles = [center.buffer(r).exterior for r in np.linspace(0, radius, n + 1)[1:]]

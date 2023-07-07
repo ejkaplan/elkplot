@@ -11,14 +11,14 @@ class AxidrawNotFoundError(IOError):
 
 @elkplot.UNITS.wraps(None, (None, "inch", "inch", None, None, None, None, None), False)
 def draw(
-    drawing: shapely.Geometry | list[shapely.Geometry],
-    width: float = elkplot.sizes.A3[0],
-    height: float = elkplot.sizes.A3[1],
-    layer_labels: Optional[list[str]] = None,
-    preview: bool = True,
-    preview_dpi: float = 128,
-    plot: bool = True,
-    device: Optional[elkplot.Device] = None,
+        drawing: shapely.Geometry | list[shapely.Geometry],
+        width: float = elkplot.sizes.A3[0],
+        height: float = elkplot.sizes.A3[1],
+        layer_labels: Optional[list[str]] = None,
+        preview: bool = True,
+        preview_dpi: float = 128,
+        plot: bool = True,
+        device: Optional[elkplot.Device] = None,
 ) -> None:
     """
     Visualize and/or plot a given drawing. Automatically pauses the plotter between layers to allow for changing pens.

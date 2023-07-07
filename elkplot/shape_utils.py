@@ -78,10 +78,10 @@ def up_length(drawing: shapely.MultiLineString) -> pint.Quantity:
 
 @UNITS.wraps(None, (None, "inch", "inch", "inch"), False)
 def scale_to_fit(
-    drawing: GeometryT,
-    width: float = 0,
-    height: float = 0,
-    padding: float = 0,
+        drawing: GeometryT,
+        width: float = 0,
+        height: float = 0,
+        padding: float = 0,
 ) -> GeometryT:
     """
     Scales a drawing up or down to perfectly fit into a given bounding box. Also centers the object in that bounding box
@@ -112,11 +112,11 @@ def scale_to_fit(
 
 @UNITS.wraps(None, (None, "inch", "inch", "inch", "rad"), False)
 def rotate_and_scale_to_fit(
-    drawing: GeometryT,
-    width: float,
-    height: float,
-    padding: float = 0,
-    increment: float = 0.02,
+        drawing: GeometryT,
+        width: float,
+        height: float,
+        padding: float = 0,
+        increment: float = 0.02,
 ) -> GeometryT:
     """
     Fits a drawing into a bounding box of a given width and height, but unlike `scale_to_fit` also rotates the shape to
@@ -149,11 +149,11 @@ def rotate_and_scale_to_fit(
 
 @UNITS.wraps(None, (None, "inch", "inch", "inch", "inch"), False)
 def center(
-    drawing: GeometryT,
-    width: float,
-    height: float,
-    x: float = 0,
-    y: float = 0,
+        drawing: GeometryT,
+        width: float,
+        height: float,
+        x: float = 0,
+        y: float = 0,
 ) -> GeometryT:
     """
     Return a copy of a drawing that has been translated (but not scaled) to the center point of a given rectangle
@@ -193,7 +193,7 @@ class LineIndex:
             self.r_index.insert(i, 2 * line.coords[-1])
 
     def find_nearest_within(
-        self, p: tuple[float, float], tolerance: float
+            self, p: tuple[float, float], tolerance: float
     ) -> tuple[Optional[int], bool]:
         try:
             idx = next(self.index.nearest(p))
@@ -245,7 +245,7 @@ class LineIndex:
 
 
 def _sort_paths_single(
-    paths: shapely.MultiLineString, pbar: bool = True
+        paths: shapely.MultiLineString, pbar: bool = True
 ) -> shapely.MultiLineString:
     paths = [path for path in shapely.get_parts(paths) if shapely.length(path) > 0]
     n_paths = len(paths)
@@ -270,7 +270,7 @@ def _sort_paths_single(
 
 
 def _sort_paths(
-    geometry: shapely.Geometry, pbar: bool = True
+        geometry: shapely.Geometry, pbar: bool = True
 ) -> shapely.MultiLineString | shapely.GeometryCollection:
     if isinstance(geometry, shapely.MultiPolygon):
         return _sort_paths_single(geometry.boundary, pbar=pbar)
@@ -282,10 +282,10 @@ def _sort_paths(
             [
                 _sort_paths(layer, pbar)
                 for layer in tqdm(
-                    layers,
-                    desc="Sorting Layers",
-                    disable=not pbar,
-                )
+                layers,
+                desc="Sorting Layers",
+                disable=not pbar,
+            )
             ]
         )
     else:
@@ -293,7 +293,7 @@ def _sort_paths(
 
 
 def _join_paths_single(
-    paths: shapely.MultiLineString, tolerance: float, pbar: bool = True
+        paths: shapely.MultiLineString, tolerance: float, pbar: bool = True
 ) -> shapely.MultiLineString:
     paths = [path for path in shapely.get_parts(paths) if shapely.length(path) > 0]
     if len(paths) < 2:
@@ -327,7 +327,7 @@ def _join_paths_single(
 
 @UNITS.wraps(None, (None, "inch", None), False)
 def _join_paths(
-    geometry: shapely.Geometry, tolerance: float, pbar: bool = True
+        geometry: shapely.Geometry, tolerance: float, pbar: bool = True
 ) -> shapely.MultiLineString | shapely.GeometryCollection:
     if isinstance(geometry, shapely.MultiPolygon):
         return _join_paths_single(geometry.boundary, tolerance, pbar=pbar)
@@ -339,32 +339,32 @@ def _join_paths(
             [
                 _join_paths(layer, tolerance, pbar=pbar)
                 for layer in tqdm(
-                    layers,
-                    desc="Joining Layers",
-                    disable=not pbar,
-                )
+                layers,
+                desc="Joining Layers",
+                disable=not pbar,
+            )
             ]
         )
     return geometry
 
 
 def _reloop_paths_single(
-    geometry: shapely.MultiLineString, pbar: bool = True
+        geometry: shapely.MultiLineString, pbar: bool = True
 ) -> shapely.MultiLineString:
     rng = np.random.default_rng()
     lines = []
     parts = shapely.get_parts(geometry).tolist()
     for linestring in tqdm(
-        parts, desc="Relooping Paths", leave=False, disable=not pbar
+            parts, desc="Relooping Paths", leave=False, disable=not pbar
     ):
         coordinates = list(linestring.coords)
         if coordinates[0] == coordinates[-1]:
             coordinates = coordinates[:-1]
             reloop_index = rng.integers(len(coordinates), endpoint=False)
             new_coordinates = (
-                coordinates[reloop_index:]
-                + coordinates[:reloop_index]
-                + [coordinates[reloop_index]]
+                    coordinates[reloop_index:]
+                    + coordinates[:reloop_index]
+                    + [coordinates[reloop_index]]
             )
             lines.append(shapely.LineString(new_coordinates))
         else:
@@ -373,7 +373,7 @@ def _reloop_paths_single(
 
 
 def _reloop_paths(
-    geometry: shapely.Geometry, pbar: bool = True
+        geometry: shapely.Geometry, pbar: bool = True
 ) -> shapely.MultiLineString | shapely.GeometryCollection:
     if isinstance(geometry, shapely.MultiPolygon):
         return _reloop_paths_single(geometry.boundary)
@@ -392,18 +392,18 @@ def _reloop_paths(
 
 @UNITS.wraps(None, (None, "inch", None), False)
 def _delete_short_paths_single(
-    geometry: shapely.MultiLineString, min_length: float, pbar: bool = True
+        geometry: shapely.MultiLineString, min_length: float, pbar: bool = True
 ) -> shapely.MultiLineString:
     parts = shapely.get_parts(geometry).tolist()
     return shapely.MultiLineString(
         [
             line
             for line in tqdm(
-                parts,
-                desc="Deleting Short Paths (Layer)",
-                leave=False,
-                disable=not pbar,
-            )
+            parts,
+            desc="Deleting Short Paths (Layer)",
+            leave=False,
+            disable=not pbar,
+        )
             if line.length >= min_length
         ]
     )
@@ -411,7 +411,7 @@ def _delete_short_paths_single(
 
 @UNITS.wraps(None, (None, "inch", None), False)
 def _delete_short_paths(
-    geometry: shapely.Geometry, min_length: float, pbar: bool = True
+        geometry: shapely.Geometry, min_length: float, pbar: bool = True
 ) -> shapely.MultiLineString | shapely.GeometryCollection:
     if isinstance(geometry, shapely.MultiPolygon):
         return _delete_short_paths_single(geometry.boundary, min_length)
@@ -430,12 +430,12 @@ def _delete_short_paths(
 
 @UNITS.wraps(None, (None, "inch", None, None, None, None), False)
 def optimize(
-    geometry: shapely.Geometry,
-    tolerance: float = 0,
-    sort: bool = True,
-    reloop: bool = True,
-    delete_small: bool = True,
-    pbar: bool = True,
+        geometry: shapely.Geometry,
+        tolerance: float = 0,
+        sort: bool = True,
+        reloop: bool = True,
+        delete_small: bool = True,
+        pbar: bool = True,
 ) -> shapely.Geometry:
     """
     Optimize a shapely geometry for plotting by combining paths, re-ordering paths, and/or deleting short paths.
@@ -467,10 +467,10 @@ def optimize(
 
 @UNITS.wraps(None, (None, "rad", "inch", None), False)
 def shade(
-    polygon: shapely.Polygon | shapely.MultiPolygon,
-    angle: float,
-    spacing: float,
-    offset: float = 0.5,
+        polygon: shapely.Polygon | shapely.MultiPolygon,
+        angle: float,
+        spacing: float,
+        offset: float = 0.5,
 ) -> shapely.MultiLineString:
     """
     Fill in a shapely Polygon or MultiPolygon with parallel lines so that the plotter will fill in the shape with lines.
@@ -507,7 +507,8 @@ class DrawingMetrics:
 
 def metrics(drawing: shapely.Geometry) -> DrawingMetrics:
     """
-    Calculate the pen down distance, pen up distance, and number of discrete paths (requiring penlifts between) in a given drawing.
+    Calculate the pen down distance, pen up distance, and number of discrete paths (requiring penlifts between) in a
+    given drawing.
     Args:
         drawing:
 
