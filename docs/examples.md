@@ -120,4 +120,10 @@ def overlapping_star(x: float, y: float, r: float) -> shapely.GeometryCollection
     return shapely.GeometryCollection([top_star_ribbon, bottom_star_ribbon])
 ```
 
-Also worth noting about that function, the [`pint.wraps`](https://pint.readthedocs.io/en/stable/api/base.html?highlight=wraps#pint.UnitRegistry.wraps) decorator allows the function to take as input floating point numbers (which will be assumed to be in inches) or any pint `Quantity` object, which will be converted into inches. This allows us to use whatever units we want when the function is called and not worry about consistency in the body of the function. (`elkplot.UNITS` is a [`UnitRegistry`](https://pint.readthedocs.io/en/stable/api/base.html?highlight=wraps#pint.UnitRegistry) that is instantiated in the library.)
+Also worth noting about that function,
+the [`pint.wraps`](https://pint.readthedocs.io/en/stable/api/base.html?highlight=wraps#pint.UnitRegistry.wraps)
+decorator allows the function to take as input floating point numbers (which will be assumed to be in inches) or any
+pint `Quantity` object, which will be converted into inches. This allows us to use whatever units we want when the
+function is called and not worry about consistency in the body of the function. (`elkplot.UNITS` is
+a [`UnitRegistry`](https://pint.readthedocs.io/en/stable/api/base.html?highlight=wraps#pint.UnitRegistry) that is
+instantiated in the library.)
