@@ -49,3 +49,5 @@ Note that because `shapely.GeometryCollection` is still a shapely geometry, a lo
 circles = shapely.GeometryCollection([left_circles, right_circles, top_circles])
 circles = elkplot.scale_to_fit(circles, *size, margin)
 ```
+
+## [Set Theoretic Construction]()
