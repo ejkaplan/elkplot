@@ -76,7 +76,7 @@ def main():
     output = shapely.union_all(samples)
     output = elkplot.scale_to_fit(output, *size, margin)
     output = elkplot.optimize(output, 0.01)
-    elkplot.draw(output, *size, plot=False, preview_dpi=80)
+    elkplot.draw(output, *size, plot=True, preview_dpi=80)
 
 
 if __name__ == "__main__":
