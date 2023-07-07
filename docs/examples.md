@@ -36,3 +36,5 @@ This is a famous early instance of generative art by the artist Geog Nees, and t
         print(elkplot.metrics(drawing))  # 88 paths, pen down: 486.61 inch, pen up: 82.14 inch
     ```
   This serves no practical purpose, it just demonstrates that the [optimize][elkplot.shape_utils.optimize] function is in fact doing something. You can see that the distance the pen travels while in contact with the page increased slightly, but the pen up distance decreased dramatically, as did the number of distinct paths. When we set the tolerance of `optimize` to 0.01 we were allowing `optimize` to insert extra lines between the ends of paths that are less than a hundredth of an inch apart connecting them and preventing us from having to lift the pen between the two paths, which explains the decrease in the number of paths. The reduction in the pen up distance is mostly due to re-ordering the paths - by drawing paths that are close to each other sequentially we can prevent the pen from criss-crossing all over the page while in the air, dramatically decreasing plot times.
+
+## Multi-Layer Plotting
