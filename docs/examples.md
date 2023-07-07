@@ -37,4 +37,15 @@ This is a famous early instance of generative art by the artist Geog Nees, and t
     ```
   This serves no practical purpose, it just demonstrates that the [optimize][elkplot.shape_utils.optimize] function is in fact doing something. You can see that the distance the pen travels while in contact with the page increased slightly, but the pen up distance decreased dramatically, as did the number of distinct paths. When we set the tolerance of `optimize` to 0.01 we were allowing `optimize` to insert extra lines between the ends of paths that are less than a hundredth of an inch apart connecting them and preventing us from having to lift the pen between the two paths, which explains the decrease in the number of paths. The reduction in the pen up distance is mostly due to re-ordering the paths - by drawing paths that are close to each other sequentially we can prevent the pen from criss-crossing all over the page while in the air, dramatically decreasing plot times.
 
-## Multi-Layer Plotting
+## [Multi-Layer Plotting](https://github.com/ejkaplan/elkplot/blob/main/elkplot/examples/multi_layer.py)
+
+![multilayer](example_images/circle_layers.png)
+
+In this example, three images are combined in a [`shapely.GeometryCollection`](https://shapely.readthedocs.io/en/stable/reference/shapely.GeometryCollection.html#shapely.GeometryCollection). The [`draw`][elkplot.util.draw] function interprets these three elements as different layers. When plotted, _elkplot_ will draw the first layer (the blue circles in the preview) and then return to home position and pause, so you can swap out the pen. It will prompt you to press enter when you're ready and then it'll plot the second layer (red in the preview) and then the same process for the third (green in the preview)
+
+Note that because `shapely.GeometryCollection` is still a shapely geometry, a lot of our functions for manipulating shapes can still be used. For example, [`scale_to_fit`][elkplot.shape_utils.scale_to_fit].
+
+```python
+circles = shapely.GeometryCollection([left_circles, right_circles, top_circles])
+circles = elkplot.scale_to_fit(circles, *size, margin)
+```

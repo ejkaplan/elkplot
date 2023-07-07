@@ -26,6 +26,7 @@ def main():
     top_circles = concentric_circles(
         x=0, y=np.sqrt(3), radius=2, n=20
     )
+
     circles = shapely.GeometryCollection([left_circles, right_circles, top_circles])
     circles = elkplot.scale_to_fit(circles, *size, margin)
     elkplot.draw(circles, *size, plot=False)
