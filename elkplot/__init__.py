@@ -9,7 +9,8 @@ from .shape_utils import (
     shade,
     center,
     metrics,
-    optimize
+    optimize,
+    layer_wise_merge,
 )
 from .sizes import UNITS
 from .svg_load import load_svg
