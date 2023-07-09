@@ -18,7 +18,7 @@ HersheyFont = list[tuple[float, float, list[list[tuple[float, float]]]]]
 
 @elkplot.UNITS.wraps(None, [None, None, "inch", "inch"], False)
 def text(
-    string: str, font: HersheyFont = FUTURAL, spacing: float = 0, extra: float = 0
+        string: str, font: HersheyFont = FUTURAL, spacing: float = 0, extra: float = 0
 ) -> shapely.MultiLineString:
     results = []
     x = 0
@@ -90,11 +90,11 @@ class Font:
 
     @elkplot.UNITS.wraps(None, [None, None, "inch", None, None], False)
     def wrap(
-        self,
-        string: str,
-        width: float,
-        line_spacing: float = 1,
-        align: float = 0,
+            self,
+            string: str,
+            width: float,
+            line_spacing: float = 1,
+            align: float = 0,
     ) -> shapely.MultiLineString:
         """
         Render a given string such that the text is confined to a column of a given width by inserting line breaks.

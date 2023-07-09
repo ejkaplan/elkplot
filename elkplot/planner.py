@@ -135,7 +135,7 @@ Triangle = namedtuple("Triangle", ["s1", "s2", "t1", "t2", "vmax", "p1", "p2", "
 
 
 def triangle(
-    s: float, vi: float, vf: float, a: float, p1: "Point", p3: "Point"
+        s: float, vi: float, vf: float, a: float, p1: "Point", p3: "Point"
 ) -> Triangle:
     # compute a triangular profile: accelerating, decelerating
     s1 = (2 * a * s + vf * vf - vi * vi) / (4 * a)
@@ -153,7 +153,7 @@ Trapezoid = namedtuple(
 
 
 def trapezoid(
-    s: float, vi: float, vmax: float, vf: float, a: float, p1: Point, p4: Point
+        s: float, vi: float, vmax: float, vf: float, a: float, p1: Point, p4: Point
 ) -> Trapezoid:
     # compute a trapezoidal profile: accelerating, cruising, decelerating
     t1 = (vmax - vi) / a
@@ -252,7 +252,7 @@ class Throttler:
 
 
 def constant_acceleration_plan(
-    points: list[Point | tuple[float, float]], a: float, vmax: float, cf: float
+        points: list[Point | tuple[float, float]], a: float, vmax: float, cf: float
 ) -> Plan:
     # make sure points are Point objects
     points = [Point(x, y) for x, y in points]
