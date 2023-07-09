@@ -507,7 +507,8 @@ class DrawingMetrics:
 
 def metrics(drawing: shapely.Geometry) -> DrawingMetrics:
     """
-    Calculate the pen down distance, pen up distance, and number of discrete paths (requiring penlifts between) in a given drawing.
+    Calculate the pen down distance, pen up distance, and number of discrete paths (requiring penlifts between) in a
+    given drawing.
     Args:
         drawing:
 
@@ -519,3 +520,25 @@ def metrics(drawing: shapely.Geometry) -> DrawingMetrics:
     return DrawingMetrics(
         mls.length * UNITS.inch, up_length(mls), shapely.get_num_geometries(mls)
     )
+
+
+def layer_wise_merge(
+    *drawings: shapely.GeometryCollection,
+) -> shapely.GeometryCollection:
+    """
+    Combines two multi-layer drawings while keeping the layers separate. That is, creates a new drawing where the first
+    layer is the union of all the input drawings' first layers, and the second layer is the union of all the input
+    drawings' second layers, and so on.
+    Args:
+        *drawings: All of the drawings to be merged
+
+    Returns:
+        The merged drawing
+    """
+    layers = []
+    for drawing in drawings:
+        for i, layer in enumerate(shapely.get_parts(drawing)):
+            if i < len(layers):
+                layers.append([])
+            layers[i].append(layer)
+    return shapely.GeometryCollection([shapely.union_all(layer) for layer in layers])
