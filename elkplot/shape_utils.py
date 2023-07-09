@@ -538,7 +538,7 @@ def layer_wise_merge(
     layers = []
     for drawing in drawings:
         for i, layer in enumerate(shapely.get_parts(drawing)):
-            if i < len(layers):
+            if i >= len(layers):
                 layers.append([])
             layers[i].append(layer)
     return shapely.GeometryCollection([shapely.union_all(layer) for layer in layers])
