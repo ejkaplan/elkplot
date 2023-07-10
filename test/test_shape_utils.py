@@ -74,7 +74,9 @@ def test_join_paths_small_tolerance(lines: shapely.MultiLineString):
     unoptimized_metrics = elkplot.metrics(lines)
     joined = _join_paths(lines, 0.01, pbar=False)
     optimized_metrics = elkplot.metrics(joined)
-    assert approx_equals(optimized_metrics.pen_down_dist, unoptimized_metrics.pen_down_dist, "inch", 0.1)
+    assert approx_equals(
+        optimized_metrics.pen_down_dist, unoptimized_metrics.pen_down_dist, "inch", 0.1
+    )
     assert optimized_metrics.path_count <= unoptimized_metrics.path_count
 
 
@@ -126,3 +128,9 @@ def test_center(lines: shapely.LineString):
     centered_centroid = center(lines, size, size, True)
     assert centered_centroid.centroid.x == pytest.approx(10)
     assert centered_centroid.centroid.y == pytest.approx(10)
+
+
+@given(drawing=layers)
+def test_repeat(drawing: shapely.GeometryCollection):
+    repeated_drawing = elkplot.repeat_lines(drawing, 2)
+    assert repeated_drawing.length == pytest.approx(2 * drawing.length)
