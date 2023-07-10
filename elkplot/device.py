@@ -292,7 +292,6 @@ class Device:
         bar.close()
         self.pen_up()
         self.home()
-        p.join()
 
     # pen functions
     def pen_up(self):

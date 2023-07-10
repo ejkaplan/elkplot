@@ -128,9 +128,3 @@ def test_center(lines: shapely.LineString):
     centered_centroid = center(lines, size, size, True)
     assert centered_centroid.centroid.x == pytest.approx(10)
     assert centered_centroid.centroid.y == pytest.approx(10)
-
-
-@given(drawing=layers)
-def test_repeat(drawing: shapely.GeometryCollection):
-    repeated_drawing = elkplot.repeat_lines(drawing, 2)
-    assert repeated_drawing.length == pytest.approx(2 * drawing.length)

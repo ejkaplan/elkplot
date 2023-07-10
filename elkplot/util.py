@@ -18,6 +18,7 @@ def draw(
         preview: bool = True,
         preview_dpi: float = 128,
         plot: bool = True,
+        retrace: int = 1,
         device: Optional[elkplot.Device] = None,
 ) -> None:
     """
@@ -38,6 +39,8 @@ def draw(
         preview_dpi: How big should the preview be? (Enter the DPI of your monitor to get an actual-size preview.)
         plot: Should the AxiDraw actually plot this? (If `preview` is `True`, plotting will only begin after the preview
             window is closed.)
+        retrace: How many times should the AxiDraw draw each line? If this is set to 2, it will draw a whole layer, then
+            draw that layer a second time, then either finish or prompt you to change pens.
         device: The AxiDraw config to which the plot should be sent. If excluded, a `Device` with all default settings
             will be used.
     """
@@ -64,5 +67,6 @@ def draw(
     device.enable_motors()
     for layer, label in zip(layers, layer_labels):
         input(f"Press enter when you're ready to draw {label}")
-        device.run_layer(layer, label)
+        for _ in range(retrace):
+            device.run_layer(layer, label)
     device.disable_motors()
