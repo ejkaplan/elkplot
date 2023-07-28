@@ -50,3 +50,4 @@ from .text.hershey_fonts import (
     TIMESRB,
 )
 from .util import draw
+import easing
