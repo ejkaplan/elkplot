@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from dataclasses import dataclass
 from typing import TypeVar, Optional
 
@@ -504,6 +506,13 @@ class DrawingMetrics:
     def __str__(self) -> str:
         return f"{self.path_count} paths, pen down: {self.pen_down_dist:,.2f}, pen up: {self.pen_up_dist:,.2f}"
 
+    def __add__(self, other: DrawingMetrics) -> DrawingMetrics:
+        return DrawingMetrics(
+            self.pen_down_dist + other.pen_down_dist,
+            self.pen_up_dist + other.pen_up_dist,
+            self.path_count + other.path_count,
+        )
+
 
 def metrics(drawing: shapely.Geometry) -> DrawingMetrics:
     """
@@ -516,10 +525,12 @@ def metrics(drawing: shapely.Geometry) -> DrawingMetrics:
         A `DrawingMetrics` object containing fields for `pen_down_dist`, `pen_up_dist`, and `path_count`
 
     """
-    mls = flatten_geometry(drawing)
-    return DrawingMetrics(
-        mls.length * UNITS.inch, up_length(mls), shapely.get_num_geometries(mls)
-    )
+    if isinstance(drawing, shapely.GeometryCollection):
+        return sum(metrics(layer) for layer in shapely.get_parts(drawing))
+    elif isinstance(drawing, (shapely.LineString, shapely.MultiLineString)):
+        return DrawingMetrics(
+            drawing.length * UNITS.inch, up_length(drawing), shapely.get_num_geometries(drawing)
+        )
 
 
 def layer_wise_merge(
