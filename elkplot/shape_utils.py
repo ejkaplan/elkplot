@@ -526,8 +526,8 @@ def metrics(drawing: shapely.Geometry) -> DrawingMetrics:
 
     """
     if isinstance(drawing, shapely.GeometryCollection):
-        return sum(metrics(layer) for layer in shapely.get_parts(drawing))
-    elif isinstance(drawing, (shapely.LineString, shapely.MultiLineString)):
+        return sum(metrics(flatten_geometry(layer)) for layer in shapely.get_parts(drawing))
+    else:
         return DrawingMetrics(
             drawing.length * UNITS.inch, up_length(drawing), shapely.get_num_geometries(drawing)
         )
