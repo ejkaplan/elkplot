@@ -526,7 +526,10 @@ def metrics(drawing: shapely.Geometry) -> DrawingMetrics:
 
     """
     if isinstance(drawing, shapely.GeometryCollection):
-        return sum(metrics(flatten_geometry(layer)) for layer in shapely.get_parts(drawing))
+        out = DrawingMetrics(0 * UNITS.inch, 0 * UNITS.inch, 0)
+        for layer in shapely.get_parts(drawing):
+            out += metrics(flatten_geometry(layer))
+        return out
     else:
         return DrawingMetrics(
             drawing.length * UNITS.inch, up_length(drawing), shapely.get_num_geometries(drawing)
