@@ -556,3 +556,7 @@ def layer_wise_merge(
                 layers.append([])
             layers[i].append(layer)
     return shapely.GeometryCollection([shapely.union_all(layer) for layer in layers])
+
+
+def add_layer(drawing: shapely.GeometryCollection, new_layer: shapely.MultiLineString) -> shapely.GeometryCollection:
+    return shapely.GeometryCollection(list(shapely.get_parts(drawing) + [new_layer]))
