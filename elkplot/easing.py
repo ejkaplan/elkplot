@@ -4,6 +4,7 @@ import numpy.typing as npt
 
 # Implementations adapted from https://easings.net
 
+
 def ease_in_sine(x: npt.ArrayLike) -> npt.ArrayLike:
     return 1 - np.cos((x * np.pi) / 2)
 

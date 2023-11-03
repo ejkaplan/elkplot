@@ -16,23 +16,23 @@ def svg_line_parse(line: Union[Line, Close]) -> list[tuple[float, float]]:
 
 def cubic_bezier_eval(nodes: np.ndarray, t: np.ndarray) -> np.ndarray:
     return (
-            (1 - t) ** 3 * nodes[:, [0]]
-            + 3 * (1 - t) ** 2 * t * nodes[:, [1]]
-            + 3 * (1 - t) * t ** 2 * nodes[:, [2]]
-            + t ** 3 * nodes[:, [3]]
+        (1 - t) ** 3 * nodes[:, [0]]
+        + 3 * (1 - t) ** 2 * t * nodes[:, [1]]
+        + 3 * (1 - t) * t**2 * nodes[:, [2]]
+        + t**3 * nodes[:, [3]]
     )
 
 
 def quadratic_bezier_eval(nodes: np.ndarray, t: np.ndarray) -> np.ndarray:
     return (
-            (1 - t) ** 2 * nodes[:, [0]]
-            + 2 * (1 - t) * t * nodes[:, [1]]
-            + t ** 2 * nodes[:, [2]]
+        (1 - t) ** 2 * nodes[:, [0]]
+        + 2 * (1 - t) * t * nodes[:, [1]]
+        + t**2 * nodes[:, [2]]
     )
 
 
 def svg_cubic_bezier_parse(
-        bezier: CubicBezier, n: int = 128
+    bezier: CubicBezier, n: int = 128
 ) -> list[tuple[float, float]]:
     nodes = [
         complex_tuple(p)
@@ -43,7 +43,7 @@ def svg_cubic_bezier_parse(
 
 
 def svg_quadratic_bezier_parse(
-        bezier: QuadraticBezier, n: int = 128
+    bezier: QuadraticBezier, n: int = 128
 ) -> list[tuple[float, float]]:
     nodes = [complex_tuple(p) for p in (bezier.start, bezier.control, bezier.end)]
     points = quadratic_bezier_eval(np.array(nodes).T, np.linspace(0, 1, n))

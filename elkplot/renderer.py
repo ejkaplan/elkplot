@@ -27,7 +27,7 @@ def _random_color(rng: np.random.Generator) -> tuple[int, int, int, int]:
 
 
 def _batch_drawings(
-        layers: list[shapely.MultiLineString], height: float, dpi: float
+    layers: list[shapely.MultiLineString], height: float, dpi: float
 ) -> Batch:
     rng = np.random.default_rng()
     my_colors = COLORS + [_random_color(rng) for _ in range(len(layers) - len(COLORS))]
@@ -39,7 +39,7 @@ def _batch_drawings(
             grp = Group()
             screen_coords = [(dpi * x, dpi * (height - y)) for x, y in path.coords]
             vertices = (
-                    screen_coords[0] + tuple(chain(*screen_coords)) + screen_coords[-1]
+                screen_coords[0] + tuple(chain(*screen_coords)) + screen_coords[-1]
             )
             batch.add(
                 len(vertices) // 2,
@@ -53,10 +53,10 @@ def _batch_drawings(
 
 @UNITS.wraps(None, (None, "inch", "inch", None), False)
 def render(
-        drawings: list[shapely.MultiLineString],
-        width: float | pint.Quantity,
-        height: float | pint.Quantity,
-        dpi: float = 128,
+    drawings: list[shapely.MultiLineString],
+    width: float | pint.Quantity,
+    height: float | pint.Quantity,
+    dpi: float = 128,
 ) -> None:
     """
     NOTE: You will probably not want to call this directly and instead use elkplot.draw
@@ -70,9 +70,9 @@ def render(
     :return:
     """
     if isinstance(width, pint.Quantity):
-        width = width.to('inch').magnitude
+        width = width.to("inch").magnitude
     if isinstance(height, pint.Quantity):
-        height = height.to('inch').magnitude
+        height = height.to("inch").magnitude
     batch = _batch_drawings(drawings, height, dpi)
     config = gl.Config(sample_buffers=1, samples=8, double_buffer=True)
     win = window.Window(

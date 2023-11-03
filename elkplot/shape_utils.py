@@ -532,7 +532,9 @@ def metrics(drawing: shapely.Geometry) -> DrawingMetrics:
         return out
     else:
         return DrawingMetrics(
-            drawing.length * UNITS.inch, up_length(drawing), shapely.get_num_geometries(drawing)
+            drawing.length * UNITS.inch,
+            up_length(drawing),
+            shapely.get_num_geometries(drawing),
         )
 
 
@@ -558,5 +560,7 @@ def layer_wise_merge(
     return shapely.GeometryCollection([shapely.union_all(layer) for layer in layers])
 
 
-def add_layer(drawing: shapely.GeometryCollection, new_layer: shapely.MultiLineString) -> shapely.GeometryCollection:
+def add_layer(
+    drawing: shapely.GeometryCollection, new_layer: shapely.MultiLineString
+) -> shapely.GeometryCollection:
     return shapely.GeometryCollection(list(shapely.get_parts(drawing)) + [new_layer])
