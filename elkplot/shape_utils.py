@@ -1,22 +1,20 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import TypeVar, Optional
+from typing import Optional
 
 import numpy as np
 import pint
 import shapely
 import shapely.affinity as affinity
 import shapely.ops
-from rtree import Index
+from rtree.index import Index
 from tqdm import tqdm
 
 from elkplot.sizes import UNITS
 
-GeometryT = TypeVar("GeometryT", bound=shapely.Geometry)
 
-
-def flatten_geometry(geom: GeometryT) -> shapely.MultiLineString:
+def flatten_geometry(geom: shapely.Geometry) -> shapely.MultiLineString:
     """
     Given any arbitrary shapely Geometry, flattens it down to a single MultiLineString that will be rendered as a
     single color-pass if sent to the plotter. Also converts Polygons to their outlines - if you want to render a filled
@@ -40,7 +38,7 @@ def flatten_geometry(geom: GeometryT) -> shapely.MultiLineString:
     return shapely.MultiLineString()
 
 
-def size(geom: GeometryT) -> tuple[pint.Quantity, pint.Quantity]:
+def size(geom: shapely.Geometry) -> tuple[pint.Quantity, pint.Quantity]:
     """
     Calculate the width and height of the bounding box of a shapely geometry.
     Args:
@@ -80,11 +78,11 @@ def up_length(drawing: shapely.MultiLineString) -> pint.Quantity:
 
 @UNITS.wraps(None, (None, "inch", "inch", "inch"), False)
 def scale_to_fit(
-    drawing: GeometryT,
+    drawing: shapely.Geometry,
     width: float = 0,
     height: float = 0,
     padding: float = 0,
-) -> GeometryT:
+) -> shapely.Geometry:
     """
     Scales a drawing up or down to perfectly fit into a given bounding box. Also centers the object in that bounding box
     with the bounding box's upper-left corner at the origin.
@@ -114,12 +112,12 @@ def scale_to_fit(
 
 @UNITS.wraps(None, (None, "inch", "inch", "inch", "rad"), False)
 def rotate_and_scale_to_fit(
-    drawing: GeometryT,
+    drawing: shapely.Geometry,
     width: float,
     height: float,
     padding: float = 0,
     increment: float = 0.02,
-) -> GeometryT:
+) -> shapely.Geometry:
     """
     Fits a drawing into a bounding box of a given width and height, but unlike `scale_to_fit` also rotates the shape to
     make it take up as much of that area as possible. Also centers the object in that bounding box
