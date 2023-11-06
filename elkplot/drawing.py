@@ -34,13 +34,13 @@ class Drawing:
     def bounds(
         self,
     ) -> tuple[float, float, float, float]:
-        xmin, xmax, ymin, ymax = self.geometry_collection.bounds
-        return xmin, xmax, ymin, ymax
+        xmin, ymin, xmax, ymax = self.geometry_collection.bounds
+        return xmin, ymin, xmax, ymax
 
     @cached_property
     def size(self) -> tuple[float, float]:
-        x_min, y_min, x_max, y_max = self.bounds
-        return x_max - x_min, y_max - y_min
+        xmin, ymin, xmax, ymax = self.bounds
+        return xmax - xmin, ymax - ymin
 
     @cached_property
     def up_length(self) -> float:
@@ -64,18 +64,19 @@ class Drawing:
         for layer in shapely.get_parts(self.geometry_collection):
             distance += sum([path.length for path in shapely.get_parts(layer)])
         return distance
+    
+    @cached_property
+    def center(self) -> shapely.Point:
+        xmin, ymin, xmax, ymax = self.bounds
+        return shapely.Point((xmin + xmax) / 2, (ymin + ymax) / 2)
 
-    def center(
+    def centered(
         self, width: float, height: float, x: float = 0, y: float = 0
     ) -> Drawing:
-        x_min, y_min, x_max, y_max = self.bounds
-        center_point = shapely.Point((x_min + x_max) / 2, (y_min + y_max) / 2)
-        dx, dy = x + width / 2 - center_point.x, y + height / 2 - center_point.y
-        return Drawing.from_geometry_collection(
-            affinity.translate(self.geometry_collection, dx, dy)
-        )
+        dx, dy = x + width / 2 - self.center.x, y + height / 2 - self.center.y
+        return self.translate(dx, dy)
 
-    def rotate(self, angle: float, origin: str = "center") -> Drawing:
+    def rotate(self, angle: float, origin: str | tuple[float, float] | shapely.Point = "center") -> Drawing:
         return Drawing.from_geometry_collection(
             affinity.rotate(self.geometry_collection, angle, origin, True)
         )
