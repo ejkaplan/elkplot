@@ -48,4 +48,10 @@ def draw():
         .draw(8, 8, plot=False, preview_dpi=80)
     )
 
-draw()
+
+def main():
+    draw()
+
+
+if __name__ == "__main__":
+    main()

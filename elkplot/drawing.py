@@ -75,12 +75,11 @@ class Drawing:
         for layer in shapely.get_parts(self.geometry_collection):
             distance += sum([path.length for path in shapely.get_parts(layer)])
         return distance
-    
+
     def pen_lifts(self, layer: Optional[int] = None) -> int:
         if layer is None:
             return sum(self.pen_lifts(i) for i in range(len(self)))
         return shapely.get_num_geometries(shape_utils.flatten_geometry(self[layer]))
-        
 
     @cached_property
     def center(self) -> shapely.Point:
@@ -153,9 +152,9 @@ class Drawing:
                 self.geometry_collection, tolerance, sort, reloop, delete_small, pbar
             )
         )
-        if (pbar):
+        if pbar:
             print(f"Pen Lifts: {self.pen_lifts()} -> {out.pen_lifts()}")
-            print(f"Pen Up Distance: {self.up_length:.2f}in -> {out.up_length:.2f}in")
+            print(f"Pen Up Distance: {self.up_length:.1f}in -> {out.up_length:.1f}in")
         return out
 
     def add_layer(self, layer: shapely.Geometry) -> Drawing:
