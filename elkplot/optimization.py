@@ -1,4 +1,5 @@
 from typing import Optional
+import numpy as np
 import shapely
 import shapely.ops
 from rtree.index import Index
@@ -79,7 +80,7 @@ def _sort_paths_single(
     paths: shapely.MultiLineString, pbar: bool = True
 ) -> shapely.MultiLineString:
     path_list = [path for path in shapely.get_parts(paths) if shapely.length(path) > 0]
-    n_paths = len(paths)
+    n_paths = len(path_list)
     paths = shapely.MultiLineString(path_list)
     if n_paths < 2:
         return paths

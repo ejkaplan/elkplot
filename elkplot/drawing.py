@@ -2,12 +2,15 @@ from __future__ import annotations
 
 from functools import cached_property
 from typing import Optional
+
 import numpy as np
 import shapely
 import shapely.affinity as affinity
 
 from elkplot import shape_utils
 from elkplot.optimization import optimize
+from elkplot.device import Device
+import elkplot.util as util
 
 
 class Drawing:
@@ -16,6 +19,14 @@ class Drawing:
 
     @staticmethod
     def from_geometry_collection(gc: shapely.GeometryCollection) -> Drawing:
+        """Create a Drawing from a shapely GeometryCollection, interpreting each sub-element as a layer
+
+        Args:
+            gc (shapely.GeometryCollection): A GeometryCollection containing each individual layer
+
+        Returns:
+            Drawing: A corresponding Drawing object
+        """
         return Drawing(list(shapely.get_parts(gc)))
 
     def __getitem__(self, key: int) -> shapely.Geometry:
@@ -65,6 +76,12 @@ class Drawing:
             distance += sum([path.length for path in shapely.get_parts(layer)])
         return distance
     
+    def pen_lifts(self, layer: Optional[int] = None) -> int:
+        if layer is None:
+            return sum(self.pen_lifts(i) for i in range(len(self)))
+        return shapely.get_num_geometries(shape_utils.flatten_geometry(self[layer]))
+        
+
     @cached_property
     def center(self) -> shapely.Point:
         xmin, ymin, xmax, ymax = self.bounds
@@ -76,7 +93,9 @@ class Drawing:
         dx, dy = x + width / 2 - self.center.x, y + height / 2 - self.center.y
         return self.translate(dx, dy)
 
-    def rotate(self, angle: float, origin: str | tuple[float, float] | shapely.Point = "center") -> Drawing:
+    def rotate(
+        self, angle: float, origin: str | tuple[float, float] | shapely.Point = "center"
+    ) -> Drawing:
         return Drawing.from_geometry_collection(
             affinity.rotate(self.geometry_collection, angle, origin, True)
         )
@@ -93,7 +112,7 @@ class Drawing:
             affinity.translate(self.geometry_collection, xoff, yoff)
         )
 
-    def scale_to_fit(self, width: float, height: float, padding: float) -> Drawing:
+    def scale_to_fit(self, width: float, height: float, padding: float = 0) -> Drawing:
         w, h = self.size
         if w == 0 or width == 0:
             scale = (height - padding * 2) / h
@@ -101,9 +120,9 @@ class Drawing:
             scale = (width - padding * 2) / w
         else:
             scale = min((width - padding * 2) / w, (height - padding * 2) / h)
-        return self.scale(scale, scale).center(width, height)
+        return self.scale(scale, scale)
 
-    def rotate_and_sacle_to_fit(
+    def scale_and_rotate_to_fit(
         self,
         width: float,
         height: float,
@@ -129,23 +148,36 @@ class Drawing:
         delete_small: bool = True,
         pbar: bool = True,
     ) -> Drawing:
-        return Drawing.from_geometry_collection(
+        out = Drawing.from_geometry_collection(
             optimize(
                 self.geometry_collection, tolerance, sort, reloop, delete_small, pbar
             )
         )
-    
+        if (pbar):
+            print(f"Pen Lifts: {self.pen_lifts()} -> {out.pen_lifts()}")
+            print(f"Pen Up Distance: {self.up_length:.2f}in -> {out.up_length:.2f}in")
+        return out
+
     def add_layer(self, layer: shapely.Geometry) -> Drawing:
         return Drawing(self._layers + [layer])
-    
+
     def stack(self, *drawings: Drawing) -> Drawing:
         all_drawings = (self,) + drawings
         return Drawing.stack_drawings(*all_drawings)
-    
+
     def merge(self, *drawings: Drawing) -> Drawing:
         all_drawings = (self,) + drawings
         return Drawing.layer_wise_merge(*all_drawings)
-    
+
+    def replace_layers(self, replacements: dict[int, shapely.Geometry]) -> Drawing:
+        new_layers = self._layers.copy()
+        for layer, drawing in replacements.items():
+            new_layers[layer] = drawing
+        return Drawing(new_layers)
+
+    def replace_layer(self, layer: int, replacement: shapely.Geometry) -> Drawing:
+        return self.replace_layers({layer: replacement})
+
     @staticmethod
     def layer_wise_merge(*drawings: Drawing) -> Drawing:
         out_layers = []
@@ -153,11 +185,32 @@ class Drawing:
             actual_layers = [drawing[i] for drawing in drawings if i < len(drawing)]
             out_layers.append(shapely.union_all(actual_layers))
         return Drawing(out_layers)
-    
+
     @staticmethod
     def stack_drawings(*drawings: Drawing) -> Drawing:
         out_layers = []
         for drawing in drawings:
             out_layers += drawing._layers
         return Drawing(out_layers)
-        
+
+    def draw(
+        self,
+        width: float,
+        height: float,
+        preview: bool = True,
+        preview_dpi: float = 128,
+        plot: bool = True,
+        retrace: int = 1,
+        device: Optional[Device] = None,
+    ) -> Drawing:
+        util.draw(
+            self.geometry_collection,
+            width=width,
+            height=height,
+            preview=preview,
+            preview_dpi=preview_dpi,
+            plot=plot,
+            retrace=retrace,
+            device=device,
+        )
+        return self
