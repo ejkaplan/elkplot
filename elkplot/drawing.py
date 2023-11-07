@@ -158,7 +158,8 @@ class Drawing:
         return out
 
     def add_layer(self, layer: shapely.Geometry) -> Drawing:
-        return Drawing(self._layers + [layer])
+        all_layers = self._layers + [layer]
+        return Drawing(*all_layers)
 
     def stack(self, *drawings: Drawing) -> Drawing:
         all_drawings = (self,) + drawings
@@ -172,7 +173,7 @@ class Drawing:
         new_layers = self._layers.copy()
         for layer, drawing in replacements.items():
             new_layers[layer] = drawing
-        return Drawing(new_layers)
+        return Drawing(*new_layers)
 
     def replace_layer(self, layer: int, replacement: shapely.Geometry) -> Drawing:
         return self.replace_layers({layer: replacement})
@@ -183,14 +184,14 @@ class Drawing:
         for i in range(max(len(drawing) for drawing in drawings)):
             actual_layers = [drawing[i] for drawing in drawings if i < len(drawing)]
             out_layers.append(shapely.union_all(actual_layers))
-        return Drawing(out_layers)
+        return Drawing(*out_layers)
 
     @staticmethod
     def stack_drawings(*drawings: Drawing) -> Drawing:
         out_layers = []
         for drawing in drawings:
             out_layers += drawing._layers
-        return Drawing(out_layers)
+        return Drawing(*out_layers)
 
     def draw(
         self,
