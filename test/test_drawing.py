@@ -33,7 +33,7 @@ def test_optimize():
             shapely.union_all(
                 [shapely.Point(*rng.uniform(0, 8, 2)).buffer(rng.uniform(1, 3)).exterior]
             )
-            for _ in range(3)
+            for _ in range(20)
         ]
     )
     old_up_dist = d.up_length
