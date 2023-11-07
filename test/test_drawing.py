@@ -26,32 +26,16 @@ def test_rotate():
     assert rotated.center.y == 0
 
 
-def draw():
+def test_optimize():
     rng = np.random.default_rng()
-    d = (
-        Drawing(
-            [
-                shapely.union_all(
-                    [
-                        shapely.Point(rng.uniform(0, 8), rng.uniform(0, 8))
-                        .buffer(rng.uniform(0.5, 3))
-                        .exterior
-                        for _ in range(10)
-                    ]
-                )
-                for _ in range(3)
-            ]
-        )
-        .scale_and_rotate_to_fit(8, 8, 0.5)
-        .centered(8, 8)
-        .optimize()
-        .draw(8, 8, plot=False, preview_dpi=80)
+    d = Drawing(
+        [
+            shapely.union_all(
+                [shapely.Point(*rng.uniform(0, 8, 2)).buffer(rng.uniform(1, 3)).exterior]
+            )
+            for _ in range(3)
+        ]
     )
-
-
-def main():
-    draw()
-
-
-if __name__ == "__main__":
-    main()
+    old_up_dist = d.up_length
+    d = d.optimize(pbar=False)
+    assert d.up_length < old_up_dist

@@ -7,7 +7,6 @@ import numpy as np
 import shapely
 import shapely.affinity as affinity
 
-from elkplot import shape_utils
 from elkplot.optimization import optimize
 from elkplot.device import Device
 import elkplot.util as util
@@ -38,7 +37,7 @@ class Drawing:
     @cached_property
     def geometry_collection(self) -> shapely.GeometryCollection:
         return shapely.GeometryCollection(
-            [shape_utils.flatten_geometry(layer) for layer in self._layers]
+            [util.flatten_geometry(layer) for layer in self._layers]
         )
 
     @cached_property
@@ -79,7 +78,7 @@ class Drawing:
     def pen_lifts(self, layer: Optional[int] = None) -> int:
         if layer is None:
             return sum(self.pen_lifts(i) for i in range(len(self)))
-        return shapely.get_num_geometries(shape_utils.flatten_geometry(self[layer]))
+        return shapely.get_num_geometries(util.flatten_geometry(self[layer]))
 
     @cached_property
     def center(self) -> shapely.Point:
@@ -210,6 +209,6 @@ class Drawing:
             preview_dpi=preview_dpi,
             plot=plot,
             retrace=retrace,
-            device=device,
+            axidraw=device,
         )
         return self

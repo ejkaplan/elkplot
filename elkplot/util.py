@@ -1,27 +1,25 @@
 from typing import Optional
 
 import shapely
+from elkplot import sizes, device
 
-import elkplot
+from .renderer import render
 
 
 class AxidrawNotFoundError(IOError):
     ...
 
 
-@elkplot.UNITS.wraps(
-    None, (None, "inch", "inch", None, None, None, None, None, None), False
-)
 def draw(
     drawing: shapely.Geometry | list[shapely.Geometry],
-    width: float = elkplot.sizes.A3[0],
-    height: float = elkplot.sizes.A3[1],
+    width: float = sizes.A3[0],
+    height: float = sizes.A3[1],
     layer_labels: Optional[list[str]] = None,
     preview: bool = True,
     preview_dpi: float = 128,
     plot: bool = True,
     retrace: int = 1,
-    device: Optional[elkplot.Device] = None,
+    axidraw: Optional[device.Device] = None,
 ) -> None:
     """
     Visualize and/or plot a given drawing. Automatically pauses the plotter between layers to allow for changing pens.
@@ -47,28 +45,50 @@ def draw(
             will be used.
     """
     if isinstance(drawing, shapely.GeometryCollection):
-        layers = [
-            elkplot.flatten_geometry(layer) for layer in shapely.get_parts(drawing)
-        ]
+        layers = [flatten_geometry(layer) for layer in shapely.get_parts(drawing)]
     elif isinstance(drawing, list):
-        layers = [elkplot.flatten_geometry(layer) for layer in drawing]
+        layers = [flatten_geometry(layer) for layer in drawing]
     else:
-        layers = [elkplot.flatten_geometry(drawing)]
+        layers = [flatten_geometry(drawing)]
     if layer_labels is None:
         layer_labels = [f"Layer #{i}" for i in range(len(layers))]
     else:
         assert len(layer_labels) == len(layers)
     if preview:
-        elkplot.render(layers, width, height, preview_dpi)
+        render(layers, width, height, preview_dpi)
     if not plot:
         return
-    if not elkplot.device.axidraw_available():
+    if not device.axidraw_available():
         raise AxidrawNotFoundError()
-    device = elkplot.Device() if device is None else device
-    device.zero_position()
-    device.enable_motors()
+    axidraw = device.Device() if axidraw is None else axidraw
+    axidraw.zero_position()
+    axidraw.enable_motors()
     for layer, label in zip(layers, layer_labels):
         input(f"Press enter when you're ready to draw {label}")
         for _ in range(retrace):
-            device.run_layer(layer, label)
-    device.disable_motors()
+            axidraw.run_layer(layer, label)
+    axidraw.disable_motors()
+
+
+def flatten_geometry(geom: shapely.Geometry) -> shapely.MultiLineString:
+    """
+    Given any arbitrary shapely Geometry, flattens it down to a single MultiLineString that will be rendered as a
+    single color-pass if sent to the plotter. Also converts Polygons to their outlines - if you want to render a filled
+    in Polygon, use the `shade` function.
+    Args:
+        geom: The geometry to be flattened down. Most often this will be a GeometryCollection or a MultiPolygon.
+
+    Returns:
+        The flattened geometry
+    """
+    if isinstance(geom, shapely.MultiLineString):
+        return geom
+    if isinstance(geom, (shapely.LineString, shapely.LinearRing)):
+        return shapely.multilinestrings([geom])
+    elif isinstance(geom, shapely.Polygon):
+        shapes = [geom.exterior] + list(geom.interiors)
+        return shapely.union_all([flatten_geometry(shape) for shape in shapes])
+    elif isinstance(geom, (shapely.GeometryCollection, shapely.MultiPolygon)):
+        parts = [flatten_geometry(sub_geom) for sub_geom in shapely.get_parts(geom)]
+        return shapely.union_all(parts)
+    return shapely.MultiLineString()

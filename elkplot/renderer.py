@@ -3,12 +3,9 @@ from __future__ import division
 from itertools import chain
 
 import numpy as np
-import pint
 import shapely
 from pyglet import window, gl, app
 from pyglet.graphics import Batch, Group
-
-from elkplot.sizes import UNITS
 
 COLORS = [
     (0, 0, 255, 255),  # blue
@@ -23,7 +20,11 @@ COLORS = [
 
 
 def _random_color(rng: np.random.Generator) -> tuple[int, int, int, int]:
-    return tuple((*rng.integers(0, 256, 3), 255))
+    r: int
+    g: int
+    b: int
+    r, g, b = rng.integers(0, 256, 3)
+    return (r, g, b, 255)
 
 
 def _batch_drawings(
@@ -51,11 +52,10 @@ def _batch_drawings(
     return batch
 
 
-@UNITS.wraps(None, (None, "inch", "inch", None), False)
 def render(
     drawings: list[shapely.MultiLineString],
-    width: float | pint.Quantity,
-    height: float | pint.Quantity,
+    width: float,
+    height: float,
     dpi: float = 128,
 ) -> None:
     """
@@ -69,10 +69,6 @@ def render(
     :param dpi: How large would you like the preview shown in screen pixels per plotter-inch
     :return:
     """
-    if isinstance(width, pint.Quantity):
-        width = width.to("inch").magnitude
-    if isinstance(height, pint.Quantity):
-        height = height.to("inch").magnitude
     batch = _batch_drawings(drawings, height, dpi)
     config = gl.Config(sample_buffers=1, samples=8, double_buffer=True)
     win = window.Window(

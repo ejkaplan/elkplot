@@ -16,7 +16,7 @@ def easing_functions() -> list[tuple[str, Callable[[npt.ArrayLike], npt.ArrayLik
     return [f for f in vars(elkplot.easing).items() if inspect.isfunction(f[1])]
 
 
-# @pytest.mark.skipif(config.SKIP_RENDER_TESTS, reason="skipping rendering tests")
+@pytest.mark.skipif(config.SKIP_RENDER_TESTS, reason="skipping rendering tests")
 def test_easing(
     easing_functions: list[tuple[str, Callable[[npt.ArrayLike], npt.ArrayLike]]]
 ):
