@@ -4,14 +4,14 @@ import shapely
 
 
 def test_scale():
-    d = Drawing([shapely.Point(0, 0).buffer(3)])
+    d = Drawing(shapely.Point(0, 0).buffer(3))
     centered = d.centered(8, 10)
     assert centered.center.x == 4
     assert centered.center.y == 5
 
 
 def test_rotate():
-    d = Drawing([shapely.Point(1, 0).buffer(3)])
+    d = Drawing(shapely.Point(1, 0).buffer(3))
     rotated = d.rotate(np.pi / 2, (0, 0))
     assert rotated.center.x == 0
     assert rotated.center.y == 1
@@ -29,7 +29,7 @@ def test_rotate():
 def test_optimize():
     rng = np.random.default_rng()
     d = Drawing(
-        [
+        *[
             shapely.union_all(
                 [shapely.Point(*rng.uniform(0, 8, 2)).buffer(rng.uniform(1, 3)).exterior]
             )

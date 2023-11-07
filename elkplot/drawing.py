@@ -6,6 +6,7 @@ from typing import Optional
 import numpy as np
 import shapely
 import shapely.affinity as affinity
+from elkplot import sizes
 
 from elkplot.optimization import optimize
 from elkplot.device import Device
@@ -13,8 +14,8 @@ import elkplot.util as util
 
 
 class Drawing:
-    def __init__(self, layers: Optional[list[shapely.Geometry]] = None) -> None:
-        self._layers: list[shapely.Geometry] = [] if layers is None else layers
+    def __init__(self, *contents: shapely.Geometry) -> None:
+        self._layers: list[shapely.Geometry] = list(contents)
 
     @staticmethod
     def from_geometry_collection(gc: shapely.GeometryCollection) -> Drawing:
@@ -26,7 +27,7 @@ class Drawing:
         Returns:
             Drawing: A corresponding Drawing object
         """
-        return Drawing(list(shapely.get_parts(gc)))
+        return Drawing(*list(shapely.get_parts(gc)))
 
     def __getitem__(self, key: int) -> shapely.Geometry:
         return self._layers[key]
@@ -193,10 +194,10 @@ class Drawing:
 
     def draw(
         self,
-        width: float,
-        height: float,
+        width: float = sizes.A3[0],
+        height: float = sizes.A3[1],
         preview: bool = True,
-        preview_dpi: float = 128,
+        preview_dpi: float = 80,
         plot: bool = True,
         retrace: int = 1,
         device: Optional[Device] = None,
