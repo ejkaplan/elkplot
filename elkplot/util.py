@@ -15,13 +15,13 @@ from .renderer import render
 class AxidrawNotFoundError(IOError):
     ...
 
+
 class DrawingOutOfBoundsError(Exception):
     ...
 
+
 def draw(
     drawing: "Drawing",
-    width: float = sizes.A3[0],
-    height: float = sizes.A3[1],
     layer_labels: Optional[list[str]] = None,
     preview: bool = True,
     preview_dpi: float = 128,
@@ -52,18 +52,21 @@ def draw(
         device: The AxiDraw config to which the plot should be sent. If excluded, a `Device` with all default settings
             will be used.
     """
-    xmin, ymin, xmax, ymax = drawing.bounds
-    if xmin < 0 or ymin < 0 or xmax > width or ymax > height:
-        raise DrawingOutOfBoundsError("Drawing extends outside the plottable area!")
     layers = [flatten_geometry(layer) for layer in drawing]
     if layer_labels is None:
         layer_labels = [f"Layer #{i}" for i in range(len(layers))]
     else:
         assert len(layer_labels) == len(layers)
+
     if preview:
-        render(layers, width, height, preview_dpi)
+        render(layers, drawing.width, drawing.height, preview_dpi)
+        
     if not plot:
         return
+    
+    xmin, ymin, xmax, ymax = drawing.bounds
+    if xmin < 0 or ymin < 0 or xmax > drawing.width or ymax > drawing.height:
+        raise DrawingOutOfBoundsError("Drawing extends outside the plottable area!")
     if not device.axidraw_available():
         raise AxidrawNotFoundError()
     axidraw = device.Device() if axidraw is None else axidraw

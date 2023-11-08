@@ -1,13 +1,14 @@
 import numpy as np
+import pytest
 from elkplot.drawing import Drawing
 import shapely
 
 
 def test_scale():
-    d = Drawing(shapely.Point(0, 0).buffer(3))
-    centered = d.centered(8, 10)
-    assert centered.center.x == 4
-    assert centered.center.y == 5
+    d = Drawing(shapely.Point(0, 0).buffer(3), width=8, height=10)
+    centered = d.fit_to_page()
+    assert centered.center.x == pytest.approx(4)
+    assert centered.center.y == pytest.approx(5)
 
 
 def test_rotate():

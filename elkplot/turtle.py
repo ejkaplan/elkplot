@@ -3,6 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass, replace
 import numpy as np
 import shapely
+from elkplot import sizes
 
 from elkplot.drawing import Drawing
 
@@ -76,10 +77,9 @@ class Turtle:
         self.state = self._stack.pop()
         return self
 
-    @property
-    def drawing(self) -> Drawing:
+    def drawing(self, width: float=sizes.A3[0], height: float=sizes.A3[1]) -> Drawing:
         paths = self._paths.copy()
         if self.pen_down and len(self._current_path) > 1:
             paths.append(shapely.LineString(self._current_path))
         lines = shapely.MultiLineString(paths)
-        return Drawing(lines)
+        return Drawing(lines, width=width, height=height)
