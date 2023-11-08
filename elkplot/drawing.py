@@ -140,7 +140,7 @@ class Drawing:
         return self.scale(scale, scale)
 
     def fit_to_page(self, margin: float = 0, rotate: bool = False) -> Drawing:
-        scale_func = self.scale_to_fit if rotate else self.scale_and_rotate_to_fit
+        scale_func = self.scale_and_rotate_to_fit if rotate else self.scale_to_fit
         return scale_func(self.width, self.height, margin).center_in_rect(
             self.width, self.height
         )
