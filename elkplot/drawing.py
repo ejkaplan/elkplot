@@ -145,10 +145,10 @@ class Drawing:
         width: float,
         height: float,
         padding: float = 0,
-        increment: float = 0.01 * np.pi,
+        increment: float = 0.01 * np.pi / 2,
     ):
         best_geom, best_sf = self, float("-inf")
-        for angle in np.arange(0, np.pi, increment):
+        for angle in np.arange(0, np.pi / 2, increment):
             rotated = self.rotate(angle)
             scale_factor = util.scale_factor_to_fit(
                 *rotated.size, width, height, padding
