@@ -2,7 +2,7 @@ from typing import Optional
 
 import shapely
 from tqdm import tqdm
-from elkplot import sizes, device
+from elkplot import device
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -60,10 +60,10 @@ def draw(
 
     if preview:
         render(layers, drawing.width, drawing.height, preview_dpi)
-        
+
     if not plot:
         return
-    
+
     xmin, ymin, xmax, ymax = drawing.bounds
     if xmin < 0 or ymin < 0 or xmax > drawing.width or ymax > drawing.height:
         raise DrawingOutOfBoundsError("Drawing extends outside the plottable area!")
@@ -104,3 +104,11 @@ def flatten_geometry(geom: shapely.Geometry) -> shapely.MultiLineString:
         parts = [flatten_geometry(sub_geom) for sub_geom in shapely.get_parts(geom)]
         return shapely.union_all(parts)
     return shapely.MultiLineString()
+
+def scale_factor_to_fit(width: float, height: float, desired_width: float, desired_height: float, padding: float):
+    if desired_width == 0 or width == 0:
+        return (desired_height - padding * 2) / height
+    elif desired_height == 0 or height == 0:
+        return (desired_width - padding * 2) / width
+    else:
+        return min((desired_width - padding * 2) / width, (desired_height - padding * 2) / height)

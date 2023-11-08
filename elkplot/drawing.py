@@ -131,12 +131,7 @@ class Drawing:
 
     def scale_to_fit(self, width: float, height: float, padding: float = 0) -> Drawing:
         w, h = self.size
-        if w == 0 or width == 0:
-            scale = (height - padding * 2) / h
-        elif h == 0 or height == 0:
-            scale = (width - padding * 2) / w
-        else:
-            scale = min((width - padding * 2) / w, (height - padding * 2) / h)
+        scale = util.scale_factor_to_fit(w, h, width, height, padding)
         return self.scale(scale, scale)
 
     def fit_to_page(self, margin: float = 0, rotate: bool = False) -> Drawing:
@@ -152,16 +147,16 @@ class Drawing:
         padding: float = 0,
         increment: float = 0.01 * np.pi,
     ):
-        desired_ratio = (width - padding * 2) / (height - padding * 2)
-        best_geom, best_error = self, float("inf")
+        best_geom, best_sf = self, float("-inf")
         for angle in np.arange(0, np.pi, increment):
             rotated = self.rotate(angle)
-            w, h = rotated.size
-            ratio = w / h
-            error = np.abs(ratio - desired_ratio) / desired_ratio
-            if error < best_error:
-                best_geom, best_error = rotated, error
-        return best_geom.scale_to_fit(width, height, padding)
+            scale_factor = util.scale_factor_to_fit(
+                *rotated.size, width, height, padding
+            )
+            if scale_factor > best_sf:
+                best_geom = rotated
+                best_sf = scale_factor
+        return best_geom.scale(best_sf, best_sf)
 
     def optimize(
         self,
