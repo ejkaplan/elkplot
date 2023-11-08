@@ -38,6 +38,9 @@ class Drawing:
         """
         return Drawing(*list(shapely.get_parts(gc)), width=width, height=height)
 
+    def set_size(self, width: float, height: float) -> Drawing:
+        return Drawing(*self._layers, width=width, height=height)
+
     def __getitem__(self, key: int) -> shapely.Geometry:
         return self._layers[key]
 
@@ -222,8 +225,6 @@ class Drawing:
 
     def draw(
         self,
-        width: float = sizes.A3[0],
-        height: float = sizes.A3[1],
         preview: bool = True,
         preview_dpi: float = 80,
         plot: bool = True,
@@ -232,8 +233,6 @@ class Drawing:
     ) -> Drawing:
         util.draw(
             self,
-            width=width,
-            height=height,
             preview=preview,
             preview_dpi=preview_dpi,
             plot=plot,
