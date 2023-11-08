@@ -15,6 +15,8 @@ from .renderer import render
 class AxidrawNotFoundError(IOError):
     ...
 
+class DrawingOutOfBoundsError(Exception):
+    ...
 
 def draw(
     drawing: "Drawing",
@@ -50,6 +52,9 @@ def draw(
         device: The AxiDraw config to which the plot should be sent. If excluded, a `Device` with all default settings
             will be used.
     """
+    xmin, ymin, xmax, ymax = drawing.bounds
+    if xmin < 0 or ymin < 0 or xmax > width or ymax > height:
+        raise DrawingOutOfBoundsError("Drawing extends outside the plottable area!")
     layers = [flatten_geometry(layer) for layer in drawing]
     if layer_labels is None:
         layer_labels = [f"Layer #{i}" for i in range(len(layers))]
