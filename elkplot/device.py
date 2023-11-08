@@ -62,7 +62,7 @@ def plan_layer_proc(
         path_linestring = shapely.LineString(coord_list)
         # Move into position (jogging because pen is up)
         jog = shapely.LineString([position, coord_list[0]])
-        plan = jog_planner.plan(list(jog.coords)) # type: ignore
+        plan = jog_planner.plan(list(jog.coords))  # type: ignore
         queue.put((plan, jog.length))
         # Run the actual line (no jog, because pen is down)
         plan = draw_planner.plan(coord_list)
@@ -258,7 +258,7 @@ class Device:
 
     def run_path(self, path: shapely.LineString, draw: bool = False, jog: bool = False):
         planner = self._make_planner(jog)
-        plan = planner.plan(list(path.coords)) # type: ignore
+        plan = planner.plan(list(path.coords))  # type: ignore
         if draw:
             self.pen_down()
             self.run_plan(plan)
@@ -266,7 +266,12 @@ class Device:
         else:
             self.run_plan(plan)
 
-    def run_layer(self, layer: shapely.MultiLineString, label: Optional[str] = None, bar: Optional[tqdm]=None):
+    def run_layer(
+        self,
+        layer: shapely.MultiLineString,
+        label: Optional[str] = None,
+        bar: Optional[tqdm] = None,
+    ):
         jog_planner = self._make_planner(True)
         draw_planner = self._make_planner(False)
         queue = mp.Queue()
@@ -286,7 +291,7 @@ class Device:
             else:
                 self.pen_down()
             self.run_plan(jog_plan)
-            if bar:
+            if bar is not None:
                 bar.update(length)
             idx += 1
         self.pen_up()
