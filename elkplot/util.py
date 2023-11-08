@@ -1,7 +1,13 @@
 from typing import Optional
 
 import shapely
+from tqdm import tqdm
 from elkplot import sizes, device
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    # We only need this for the type hint, and otherwise we get a circular import.
+    from elkplot.drawing import Drawing
 
 from .renderer import render
 
@@ -11,7 +17,7 @@ class AxidrawNotFoundError(IOError):
 
 
 def draw(
-    drawing: shapely.Geometry | list[shapely.Geometry],
+    drawing: "Drawing",
     width: float = sizes.A3[0],
     height: float = sizes.A3[1],
     layer_labels: Optional[list[str]] = None,
@@ -44,12 +50,7 @@ def draw(
         device: The AxiDraw config to which the plot should be sent. If excluded, a `Device` with all default settings
             will be used.
     """
-    if isinstance(drawing, shapely.GeometryCollection):
-        layers = [flatten_geometry(layer) for layer in shapely.get_parts(drawing)]
-    elif isinstance(drawing, list):
-        layers = [flatten_geometry(layer) for layer in drawing]
-    else:
-        layers = [flatten_geometry(drawing)]
+    layers = [flatten_geometry(layer) for layer in drawing]
     if layer_labels is None:
         layer_labels = [f"Layer #{i}" for i in range(len(layers))]
     else:
@@ -63,10 +64,13 @@ def draw(
     axidraw = device.Device() if axidraw is None else axidraw
     axidraw.zero_position()
     axidraw.enable_motors()
+    bar = tqdm(total=drawing.up_length + drawing.down_length)
     for layer, label in zip(layers, layer_labels):
+        bar.set_description(f"Drawing Layer {label}")
         input(f"Press enter when you're ready to draw {label}")
         for _ in range(retrace):
-            axidraw.run_layer(layer, label)
+            axidraw.run_layer(layer, label, bar)
+    bar.close()
     axidraw.disable_motors()
 
 

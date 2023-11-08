@@ -3,13 +3,13 @@ import time
 from configparser import ConfigParser
 from math import modf
 from pathlib import Path
+from typing import Optional
 
 import shapely
 from serial import Serial
 from serial.tools.list_ports import comports
 from tqdm import tqdm
 
-import elkplot
 from .planner import Planner, Plan
 
 # Taken with modifications from https://github.com/fogleman/axi
@@ -62,7 +62,7 @@ def plan_layer_proc(
         path_linestring = shapely.LineString(coord_list)
         # Move into position (jogging because pen is up)
         jog = shapely.LineString([position, coord_list[0]])
-        plan = jog_planner.plan(list(jog.coords))
+        plan = jog_planner.plan(list(jog.coords)) # type: ignore
         queue.put((plan, jog.length))
         # Run the actual line (no jog, because pen is down)
         plan = draw_planner.plan(coord_list)
@@ -258,7 +258,7 @@ class Device:
 
     def run_path(self, path: shapely.LineString, draw: bool = False, jog: bool = False):
         planner = self._make_planner(jog)
-        plan = planner.plan(list(path.coords))
+        plan = planner.plan(list(path.coords)) # type: ignore
         if draw:
             self.pen_down()
             self.run_plan(plan)
@@ -266,7 +266,7 @@ class Device:
         else:
             self.run_plan(plan)
 
-    def run_layer(self, layer: shapely.MultiLineString, label: str = None):
+    def run_layer(self, layer: shapely.MultiLineString, label: Optional[str] = None, bar: Optional[tqdm]=None):
         jog_planner = self._make_planner(True)
         draw_planner = self._make_planner(False)
         queue = mp.Queue()
@@ -276,7 +276,6 @@ class Device:
             args=(queue, layer_coord_list, jog_planner, draw_planner),
         )
         p.start()
-        bar = tqdm(total=layer.length + elkplot.up_length(layer).m, desc=label)
         idx = 0
         while True:
             jog_plan, length = queue.get()
@@ -287,9 +286,9 @@ class Device:
             else:
                 self.pen_down()
             self.run_plan(jog_plan)
-            bar.update(length)
+            if bar:
+                bar.update(length)
             idx += 1
-        bar.close()
         self.pen_up()
         self.home()
 

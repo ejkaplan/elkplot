@@ -204,7 +204,7 @@ class Drawing:
         device: Optional[Device] = None,
     ) -> Drawing:
         util.draw(
-            self.geometry_collection,
+            self,
             width=width,
             height=height,
             preview=preview,
