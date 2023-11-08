@@ -74,7 +74,7 @@ def plan_layer_proc(
 class Device:
     def __init__(
         self,
-        pen_up_position: float = -50,
+        pen_up_position: float = -20,
         pen_down_position: float = -120,
         pen_up_speed: float = 150,
         pen_down_speed: float = 150,
