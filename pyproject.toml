@@ -1,0 +1,34 @@
+[tool.poetry]
+name = "elkplot"
+version = "0.2.0"
+description = "A library for making and executing generative art for the Axidraw line of pen plotters."
+authors = ["El Kaplan <kaplan.el.j@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.11,<3.12"
+pyserial = "^3.5"
+tqdm = "^4.64.1"
+shapely = "^2.0.1"
+pyglet = "1.5.27,<1.6.0"
+svg-path = "^6.2"
+rtree = "^1.0.1"
+hypothesis = "^6.67.1"
+click = "^8.1.3"
+pint = "^0.22"
+scipy = "^1.10.1"
+pytest = "^7.4.3"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.2.1"
+mkdocs = "^1.4.3"
+mkdocstrings = { extras = ["python"], version = "^0.22.0" }
+mkdocs-material = "^9.1.18"
+plotly = "^5.15.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+elk = "elkplot.cli:cli"

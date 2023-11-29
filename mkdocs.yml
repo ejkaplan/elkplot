@@ -1,0 +1,41 @@
+site_name: ElkPlot
+
+theme:
+  "material"
+
+nav:
+- Home: index.md
+- Setup: setup.md
+- API Reference:
+    - Making Art: api_ref/making_art.md
+    - Controlling the Plotter: api_ref/plotting.md
+    - Command Line Interface: api_ref/cli.md
+    - Drawing Text: api_ref/text.md
+    - Easing: api_ref/easing.md
+    - Turtle: api_ref/turtle.md
+- Tips and Tricks: tips_and_tricks.md
+- Alternative Libraries: alternatives.md
+- Examples: examples.md
+
+plugins:
+- mkdocstrings:
+    handlers:
+      python:
+        options:
+          show_root_toc_entry: false
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - attr_list
+
+watch:
+- elkplot
+
+extra:
+  version: 0.2.0

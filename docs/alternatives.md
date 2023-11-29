@@ -1,0 +1,11 @@
+I'd be remiss if I didn't acknowledge the existence of the following generative art/pen plotting libraries, all of which directly influenced the creation of _elkplot_. I have used all of them for creating art, was inspired be design decisions in all of them, and would not blame you for looking at any of them and deciding to use them instead of _elkplot_. There will be absolutely no hard feelings if you do. 😄
+
+## [Processing](https://processing.org)
+I first got started with generative art in _Processing_, and you absolutely can export as .svg and plot using the AxiDraw Inkscape plugin. I ultimately left processing behind because I wanted something that worked better with multi-layer plots, and also I prefer to work in Python.
+
+##[vsketch](https://github.com/abey79/vsketch)
+_vsketch_ is a profoundly cool tool that draws inspiration in its coding style from _Processing_. It was a really natural next step for me, and the interactive plotting window that allows you to live-tweak parameters of your drawing and see the updated results in real-time is a feature that I badly miss and would love to incorporate into _elkplot_ at some point in the future. _vsketch_ also has native support for _shapely_, which introduced me to the amazing capabilities of that library. I ultimately moved away from working in _vsketch_ because I wanted my code to directly control the axidraw rather than having to export an .svg and then plot from Inkscape, but I can't recommend giving it a try highly enough.
+
+##[axi](https://github.com/fogleman/axi)
+_axi_ was written by [Michael Fogleman](https://www.michaelfogleman.com) as an unofficial alternative to the official [AxiDraw Python API](https://axidraw.com/doc/py_api/#introduction), and for a very long time it was my primary tool for creating plotter art. My artistic workflow is different from Fogleman's, and so I forked the project and made my own version that gradually diverged more and more from the original as I patched in little tools for myself until eventually it became a bit of a mess, at which point I decided to start _elkplot_. _elkplot_'s text generation, fonts, and the trapezoidal velocity motion planning code are directly taken (with permission) from _axi_, and for this I am profoundly grateful.
+
