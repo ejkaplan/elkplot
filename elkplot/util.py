@@ -69,7 +69,7 @@ def draw(
     max_x = max([layer.bounds[2] for layer in layers])
     max_y = max([layer.bounds[3] for layer in layers])
     out_of_bounds = min_x < 0 or min_y < 0 or max_x > width or max_y > height
-    if preview and not plot:
+    if out_of_bounds:
         warnings.warn("THIS DRAWING GOES OUT OF BOUNDS!")
     
     if preview:
