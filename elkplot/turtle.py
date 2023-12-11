@@ -16,6 +16,17 @@ class TurtleState:
     pen_down: bool
 
 
+class TurtleCheckpoint:
+    def __init__(self, turtle: Turtle) -> None:
+        self.turtle = turtle
+
+    def __enter__(self) -> None:
+        self.turtle.push()
+
+    def __exit__(self) -> None:
+        self.turtle.pop()
+
+
 class Turtle:
     def __init__(
         self, x: float = 0, y: float = 0, heading: float = 0, use_degrees=False
@@ -213,3 +224,6 @@ class Turtle:
             self.raise_pen()
             self.lower_pen()
         return shapely.MultiLineString(self._lines)
+
+    def checkpoint(self) -> TurtleCheckpoint:
+        return TurtleCheckpoint(self)
