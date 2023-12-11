@@ -23,7 +23,7 @@ class TurtleCheckpoint:
     def __enter__(self) -> None:
         self.turtle.push()
 
-    def __exit__(self) -> None:
+    def __exit__(self, *args) -> None:
         self.turtle.pop()
 
 
