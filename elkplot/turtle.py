@@ -211,6 +211,8 @@ class Turtle:
         """
         self.raise_pen()
         self._state = self._stack.pop()
+        if self.pen_down:
+            self._current_line = [self.position]
         return self
 
     def drawing(self) -> shapely.MultiLineString:
