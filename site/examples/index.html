@@ -1,0 +1,723 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../alternatives/">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.2">
+    
+    
+      
+        <title>Examples - ElkPlot</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.50c56a3b.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#schotter" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="ElkPlot" class="md-header__button md-logo" aria-label="ElkPlot" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ElkPlot
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Examples
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="ElkPlot" class="md-nav__button md-logo" aria-label="ElkPlot" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    ElkPlot
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../setup/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Setup
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    API Reference
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            API Reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api_ref/making_art/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Making Art
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api_ref/plotting/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Controlling the Plotter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api_ref/cli/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Command Line Interface
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api_ref/text/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Drawing Text
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api_ref/easing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Easing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api_ref/turtle/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Turtle
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tips_and_tricks/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Tips and Tricks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../alternatives/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Alternative Libraries
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Examples
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Examples
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#schotter" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schotter
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#multi-layer-plotting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Multi-Layer Plotting
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#set-theoretic-construction" class="md-nav__link">
+    <span class="md-ellipsis">
+      Set Theoretic Construction
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#schotter" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schotter
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#multi-layer-plotting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Multi-Layer Plotting
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#set-theoretic-construction" class="md-nav__link">
+    <span class="md-ellipsis">
+      Set Theoretic Construction
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  <h1>Examples</h1>
+
+<p>All examples can be found in <a href="https://github.com/ejkaplan/elkplot/tree/main/elkplot/examples">the examples module</a>. For
+each example, click the link in the header to see the code on github.</p>
+<h2 id="schotter"><a href="https://github.com/ejkaplan/elkplot/blob/main/elkplot/examples/schotter.py">Schotter</a></h2>
+<p><img alt="schotter" src="../example_images/schotter.png" /></p>
+<p>This is a famous early instance of generative art by the artist Geog Nees, and the code demonstrates a lot of the
+techniques that I use all the time when making art.</p>
+<ul>
+<li>
+<p>In the example as written, the random number generator is given the seed 0. You can change that line
+  to <code>rng = np.random.defaut_rng()</code> if you want distinct outputs every time you run the program.</p>
+</li>
+<li>
+<p>In works with multiple instances of similar repeated shapes, I'll create a single shape and then in a loop create
+  transformed duplicates using <a href="https://shapely.readthedocs.io/en/stable/manual.html#affine-transformations">
+  <em>shapely</em>'s affine transformation functions</a>.
+  For a simple example, below is how I'd create a list of five squares of size 1 next to each other with a gap of 0.2
+  between them.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span> <span class="nn">shapely</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">from</span> <span class="nn">shapely</span> <span class="kn">import</span> <span class="n">affinity</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">square</span> <span class="o">=</span> <span class="n">shapely</span><span class="o">.</span><span class="n">LinearRing</span><span class="p">([(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)])</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">squares</span> <span class="o">=</span> <span class="p">[</span><span class="n">affinity</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">square</span><span class="p">,</span> <span class="n">i</span> <span class="o">*</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)]</span>
+</span></code></pre></div>
+</li>
+<li>
+<p>When I was first composing the image, having the amount of random offset increase linearly across the page made things
+  look too chaotic too fast - I wanted the left side of the page to stay more orderly for longer. So I used
+  a <a href="../api_ref/easing/">sine ease-in</a> to have the coefficient of chaos rise slowly on the left and faster towards the
+  right.</p>
+</li>
+<li>
+<p>Inside the <code>schotter</code> function, I collected a bunch of squares in a list that I called <code>shapes</code>. At the very end of
+  the function, I
+  used <a href="https://shapely.readthedocs.io/en/stable/reference/shapely.union_all.html#shapely.union_all"><code>shapely.union_all</code></a>
+  to merge them together into a single <code>MultiLineString</code>. Because all the contents of the <code>shapes</code> list are 1D lines, I
+  also could alternately have passed the list into the constructor for <code>MultiLineString</code>. In the example
+  below, <code>combined_0</code> and <code>combined_1</code> will look identical when plotted. I like <code>union_all</code> better personally, but I
+  have no reason why I like it better. 🤷‍♀️</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">import</span> <span class="nn">shapely</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">shapes</span> <span class="o">=</span> <span class="p">[</span><span class="o">...</span><span class="p">]</span>  <span class="c1"># A bunch of shapely.LineString and/or shapely.LinearRing objects</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">combined_0</span> <span class="o">=</span> <span class="n">shapely</span><span class="o">.</span><span class="n">MultiLineString</span><span class="p">(</span><span class="n">shapes</span><span class="p">)</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="n">combined_1</span> <span class="o">=</span> <span class="n">shapely</span><span class="o">.</span><span class="n">union_all</span><span class="p">(</span><span class="n">shapes</span><span class="p">)</span>
+</span></code></pre></div>
+</li>
+<li>
+<p>At the very end, I print the metrics before and after optimization
+    <div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">elkplot</span><span class="o">.</span><span class="n">metrics</span><span class="p">(</span><span class="n">drawing</span><span class="p">))</span>  <span class="c1"># 1496 paths, pen down: 486.52 inch, pen up: 237.02 inch</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    <span class="n">drawing</span> <span class="o">=</span> <span class="n">elkplot</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">drawing</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">elkplot</span><span class="o">.</span><span class="n">metrics</span><span class="p">(</span><span class="n">drawing</span><span class="p">))</span>  <span class="c1"># 88 paths, pen down: 486.61 inch, pen up: 82.14 inch</span>
+</span></code></pre></div>
+  This serves no practical purpose, it just demonstrates that the <a class="autorefs autorefs-internal" href="../api_ref/making_art/#elkplot.shape_utils.optimize">optimize</a> function is
+  in fact doing something. You can see that the distance the pen travels while in contact with the page increased
+  slightly, but the pen up distance decreased dramatically, as did the number of distinct paths. When we set the
+  tolerance of <code>optimize</code> to 0.01 we were allowing <code>optimize</code> to insert extra lines between the ends of paths that are
+  less than a hundredth of an inch apart connecting them and preventing us from having to lift the pen between the two
+  paths, which explains the decrease in the number of paths. The reduction in the pen up distance is mostly due to
+  re-ordering the paths - by drawing paths that are close to each other sequentially we can prevent the pen from
+  criss-crossing all over the page while in the air, dramatically decreasing plot times.</p>
+</li>
+</ul>
+<h2 id="multi-layer-plotting"><a href="https://github.com/ejkaplan/elkplot/blob/main/elkplot/examples/multi_layer.py">Multi-Layer Plotting</a></h2>
+<p><img alt="multilayer" src="../example_images/circle_layers.png" /></p>
+<p>In this example, three images are combined in
+a <a href="https://shapely.readthedocs.io/en/stable/reference/shapely.GeometryCollection.html#shapely.GeometryCollection"><code>shapely.GeometryCollection</code></a>.
+The <a class="autorefs autorefs-internal" href="../api_ref/plotting/#elkplot.util.draw"><code>draw</code></a> function interprets these three elements as different layers. When plotted, <em>elkplot</em>
+will draw the first layer (the blue circles in the preview) and then return to home position and pause, so you can swap
+out the pen. It will prompt you to press enter when you're ready and then it'll plot the second layer (red in the
+preview) and then the same process for the third (green in the preview)</p>
+<p>Note that because <code>shapely.GeometryCollection</code> is still a shapely geometry, a lot of our functions for manipulating
+shapes can still be used. For example, <a class="autorefs autorefs-internal" href="../api_ref/making_art/#elkplot.shape_utils.scale_to_fit"><code>scale_to_fit</code></a>.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">circles</span> <span class="o">=</span> <span class="n">shapely</span><span class="o">.</span><span class="n">GeometryCollection</span><span class="p">([</span><span class="n">left_circles</span><span class="p">,</span> <span class="n">right_circles</span><span class="p">,</span> <span class="n">top_circles</span><span class="p">])</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">circles</span> <span class="o">=</span> <span class="n">elkplot</span><span class="o">.</span><span class="n">scale_to_fit</span><span class="p">(</span><span class="n">circles</span><span class="p">,</span> <span class="o">*</span><span class="n">size</span><span class="p">,</span> <span class="n">margin</span><span class="p">)</span>
+</span></code></pre></div>
+<h2 id="set-theoretic-construction"><a href="https://github.com/ejkaplan/elkplot/blob/main/elkplot/examples/set_theoretic_construction.py">Set Theoretic Construction</a></h2>
+<p><img alt="set theoretic star" src="../example_images/set_theoretic_star.png" /></p>
+<p><a href="https://shapely.readthedocs.io/en/stable/manual.html#set-theoretic-methods">Set theoretic construction</a> is building
+shapes out of polygons by merging them with <code>union</code> and using polygons to cut away at other polygons
+with <code>shapely.difference</code> and <code>shapely.intersection</code>. Normally we deal in <code>shapely.LineString</code>s
+and <code>shapely.MultiLineString</code>s when making art for a plotter because it only actually draws one-dimensional lines.
+However, in this context we want to use <code>shapely.Polygon</code> because the interior of the shapes is relevant. (The
+intersection of two polygons is another polygon. The intersection of two linestrings is just the set of points where
+those linestrings cross each other.)</p>
+<p>In this example, a single shape is created, and then the rest of the composition is created by using affine
+transformations and the <code>union</code> and <code>difference</code> functions.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nd">@elkplot</span><span class="o">.</span><span class="n">UNITS</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="p">(</span><span class="s2">&quot;inch&quot;</span><span class="p">,</span> <span class="s2">&quot;inch&quot;</span><span class="p">,</span> <span class="s2">&quot;inch&quot;</span><span class="p">),</span> <span class="kc">False</span><span class="p">)</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="k">def</span> <span class="nf">overlapping_star</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">r</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">shapely</span><span class="o">.</span><span class="n">GeometryCollection</span><span class="p">:</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>    <span class="n">triangle</span> <span class="o">=</span> <span class="n">shapely</span><span class="o">.</span><span class="n">Polygon</span><span class="p">(</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>        <span class="p">[</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>            <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">r</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span> <span class="n">y</span> <span class="o">+</span> <span class="n">r</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">))</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>            <span class="k">for</span> <span class="n">theta</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>        <span class="p">]</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>    <span class="p">)</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>    <span class="c1"># Create a star by merging two triangles that point in opposite directions</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>    <span class="n">star_poly</span> <span class="o">=</span> <span class="n">triangle</span><span class="o">.</span><span class="n">union</span><span class="p">(</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>        <span class="n">affinity</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="n">triangle</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">use_radians</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="s2">&quot;centroid&quot;</span><span class="p">)</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>    <span class="p">)</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>    <span class="c1"># Reduce that star to a ribbon around the edge by cutting away a smaller version of the same</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>    <span class="n">top_star_ribbon</span> <span class="o">=</span> <span class="n">star_poly</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>        <span class="n">affinity</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">star_poly</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="s2">&quot;centroid&quot;</span><span class="p">)</span>
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>    <span class="p">)</span>
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>    <span class="c1"># Make a second star that is a rotated version of the first one</span>
+</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>    <span class="n">bottom_star_ribbon</span> <span class="o">=</span> <span class="n">affinity</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span>
+</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>        <span class="n">top_star_ribbon</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">6</span><span class="p">,</span> <span class="n">use_radians</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="s2">&quot;centroid&quot;</span>
+</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>    <span class="p">)</span>
+</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>    <span class="c1"># Cut away the parts of the second star that are covered up by the first one, plus a little wiggle room</span>
+</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a>    <span class="n">bottom_star_ribbon</span> <span class="o">=</span> <span class="n">bottom_star_ribbon</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">top_star_ribbon</span><span class="o">.</span><span class="n">buffer</span><span class="p">(</span><span class="mf">0.05</span><span class="p">))</span>
+</span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a>    <span class="k">return</span> <span class="n">shapely</span><span class="o">.</span><span class="n">GeometryCollection</span><span class="p">([</span><span class="n">top_star_ribbon</span><span class="p">,</span> <span class="n">bottom_star_ribbon</span><span class="p">])</span>
+</span></code></pre></div>
+<p>Also worth noting about that function,
+the <a href="https://pint.readthedocs.io/en/stable/api/base.html?highlight=wraps#pint.UnitRegistry.wraps"><code>pint.wraps</code></a>
+decorator allows the function to take as input floating point numbers (which will be assumed to be in inches) or any
+pint <code>Quantity</code> object, which will be converted into inches. This allows us to use whatever units we want when the
+function is called and not worry about consistency in the body of the function. (<code>elkplot.UNITS</code> is
+a <a href="https://pint.readthedocs.io/en/stable/api/base.html?highlight=wraps#pint.UnitRegistry"><code>UnitRegistry</code></a> that is
+instantiated in the library.)</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": "0.2.0"}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7c377c4.min.js"></script>
+      
+    
+  </body>
+</html>
