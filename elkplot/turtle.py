@@ -228,4 +228,5 @@ class Turtle:
         return shapely.MultiLineString(self._lines)
 
     def checkpoint(self) -> TurtleCheckpoint:
+        """Allows for pushing and popping as part of a context using the `with` keyword."""
         return TurtleCheckpoint(self)

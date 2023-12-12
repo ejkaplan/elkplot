@@ -18,11 +18,8 @@ nav:
 - Examples: examples.md
 
 plugins:
-- mkdocstrings:
-    handlers:
-      python:
-        options:
-          show_root_toc_entry: false
+- search
+- mkdocstrings
 
 markdown_extensions:
   - pymdownx.highlight:
