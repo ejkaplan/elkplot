@@ -1,0 +1,1856 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../../setup/">
+      
+      
+        <link rel="next" href="../plotting/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.2">
+    
+    
+      
+        <title>Making Art - ElkPlot</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.50c56a3b.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#making-art" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="ElkPlot" class="md-header__button md-logo" aria-label="ElkPlot" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ElkPlot
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Making Art
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="ElkPlot" class="md-nav__button md-logo" aria-label="ElkPlot" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    ElkPlot
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../setup/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Setup
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    API Reference
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            API Reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Making Art
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Making Art
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#helpful-functions-for-creating-plottable-shapely-geometry" class="md-nav__link">
+    <span class="md-ellipsis">
+      Helpful Functions for Creating Plottable Shapely Geometry
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#elkplot.shape_utils.center" class="md-nav__link">
+    <span class="md-ellipsis">
+      center()
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#elkplot.shape_utils.flatten_geometry" class="md-nav__link">
+    <span class="md-ellipsis">
+      flatten_geometry()
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#elkplot.shape_utils.layer_wise_merge" class="md-nav__link">
+    <span class="md-ellipsis">
+      layer_wise_merge()
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#elkplot.shape_utils.metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      metrics()
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#elkplot.shape_utils.optimize" class="md-nav__link">
+    <span class="md-ellipsis">
+      optimize()
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#elkplot.shape_utils.rotate_and_scale_to_fit" class="md-nav__link">
+    <span class="md-ellipsis">
+      rotate_and_scale_to_fit()
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#elkplot.shape_utils.scale_to_fit" class="md-nav__link">
+    <span class="md-ellipsis">
+      scale_to_fit()
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#elkplot.shape_utils.shade" class="md-nav__link">
+    <span class="md-ellipsis">
+      shade()
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#elkplot.shape_utils.size" class="md-nav__link">
+    <span class="md-ellipsis">
+      size()
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#elkplot.shape_utils.up_length" class="md-nav__link">
+    <span class="md-ellipsis">
+      up_length()
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plotting/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Controlling the Plotter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cli/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Command Line Interface
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../text/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Drawing Text
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../easing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Easing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../turtle/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Turtle
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tips_and_tricks/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Tips and Tricks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../alternatives/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Alternative Libraries
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Examples
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#helpful-functions-for-creating-plottable-shapely-geometry" class="md-nav__link">
+    <span class="md-ellipsis">
+      Helpful Functions for Creating Plottable Shapely Geometry
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#elkplot.shape_utils.center" class="md-nav__link">
+    <span class="md-ellipsis">
+      center()
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#elkplot.shape_utils.flatten_geometry" class="md-nav__link">
+    <span class="md-ellipsis">
+      flatten_geometry()
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#elkplot.shape_utils.layer_wise_merge" class="md-nav__link">
+    <span class="md-ellipsis">
+      layer_wise_merge()
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#elkplot.shape_utils.metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      metrics()
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#elkplot.shape_utils.optimize" class="md-nav__link">
+    <span class="md-ellipsis">
+      optimize()
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#elkplot.shape_utils.rotate_and_scale_to_fit" class="md-nav__link">
+    <span class="md-ellipsis">
+      rotate_and_scale_to_fit()
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#elkplot.shape_utils.scale_to_fit" class="md-nav__link">
+    <span class="md-ellipsis">
+      scale_to_fit()
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#elkplot.shape_utils.shade" class="md-nav__link">
+    <span class="md-ellipsis">
+      shade()
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#elkplot.shape_utils.size" class="md-nav__link">
+    <span class="md-ellipsis">
+      size()
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#elkplot.shape_utils.up_length" class="md-nav__link">
+    <span class="md-ellipsis">
+      up_length()
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="making-art">Making Art</h1>
+<p>ElkPlot assumes that you are creating your plotter art using the <a href="https://shapely.readthedocs.io/en/stable/manual.html">Shapely</a> Python library. This documentation assumes that you are already comfortable/familiar with Shapely. ElkPlot primarily deals with <code>LineString</code>, <code>MultiLineString</code>, and <code>GeometryCollection</code>, so you should try to compose your art in terms of these types.</p>
+<ul>
+<li>A <code>LineString</code> will be plotted as a single stroke of the pen - the plotter will go to the first coordinate in the <code>LineString</code>, put the pen down, and then travel to each subsequent coordinate until it reaches the end of the <code>LineString</code> at which point the pen will be lifted again. (A <code>LinearRing</code> will be plotted as though it were a LineString with the first coordinate duplicated at the end.)</li>
+<li>A <code>MultiLineString</code> will be plotted as multiple discrete strokes. The plotter draws each <code>LineString</code> contained within in the order that they are given, lifting the pen between each <code>LineString</code> in order to travel to the next.</li>
+<li>A <code>GeometryCollection</code> will be treated as multiple passes with multiple pens. If you have a drawing that uses two colors, you should compose a <code>MultiLineString</code> containing all the lines to be drawn in the first color, and a second <code>MultiLineString</code> containing all the lines to be drawn in the second color. Then create a <code>GeometryCollection</code> containing both.</li>
+</ul>
+<div class="language-Python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span> <span class="nn">shapely</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">first_color</span> <span class="o">=</span> <span class="n">shapely</span><span class="o">.</span><span class="n">MultiLineString</span><span class="p">([</span><span class="o">...</span><span class="p">])</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">second_color</span> <span class="o">=</span> <span class="n">shapely</span><span class="o">.</span><span class="n">MultiLineString</span><span class="p">([</span><span class="o">...</span><span class="p">])</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">drawing</span> <span class="o">=</span> <span class="n">shapely</span><span class="o">.</span><span class="n">GeometryCollection</span><span class="p">([</span><span class="n">first_color</span><span class="p">,</span> <span class="n">second_color</span><span class="p">])</span>
+</span></code></pre></div>
+<h2 id="helpful-functions-for-creating-plottable-shapely-geometry">Helpful Functions for Creating Plottable Shapely Geometry</h2>
+<p>The following functions can be imported directly from <em>elkplot</em> and help manipulate Shapely geometry in specific ways that are useful for plotting.</p>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+
+  <div class="doc doc-contents first">
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h2 id="elkplot.shape_utils.center" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">center</span><span class="p">(</span><span class="n">drawing</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></code>
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Return a copy of a drawing that has been translated (but not scaled) to the center point of a given rectangle
+Args:
+    drawing: The drawing to translate
+    width: The width of the rectangle in inches (or any other unit if you pass in a <code>pint.Quantity</code>.)
+    height: The height of the rectangle in inches (or any other unit if you pass in a <code>pint.Quantity</code>.)
+    x: x-coordinate of the upper-left corner of the rectangle in inches (or any other unit if you pass in a <code>pint.Quantity</code>.)
+    y: y-coordinate of the upper-left corner of the rectangle in inches (or any other unit if you pass in a <code>pint.Quantity</code>.)</p>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><span title="shapely.Geometry">Geometry</span></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>A copy of the drawing having been translated to the center of the rectangle</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+          <details class="quote">
+            <summary>Source code in <code>elkplot/shape_utils.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-151">151</a></span>
+<span class="normal"><a href="#__codelineno-0-152">152</a></span>
+<span class="normal"><a href="#__codelineno-0-153">153</a></span>
+<span class="normal"><a href="#__codelineno-0-154">154</a></span>
+<span class="normal"><a href="#__codelineno-0-155">155</a></span>
+<span class="normal"><a href="#__codelineno-0-156">156</a></span>
+<span class="normal"><a href="#__codelineno-0-157">157</a></span>
+<span class="normal"><a href="#__codelineno-0-158">158</a></span>
+<span class="normal"><a href="#__codelineno-0-159">159</a></span>
+<span class="normal"><a href="#__codelineno-0-160">160</a></span>
+<span class="normal"><a href="#__codelineno-0-161">161</a></span>
+<span class="normal"><a href="#__codelineno-0-162">162</a></span>
+<span class="normal"><a href="#__codelineno-0-163">163</a></span>
+<span class="normal"><a href="#__codelineno-0-164">164</a></span>
+<span class="normal"><a href="#__codelineno-0-165">165</a></span>
+<span class="normal"><a href="#__codelineno-0-166">166</a></span>
+<span class="normal"><a href="#__codelineno-0-167">167</a></span>
+<span class="normal"><a href="#__codelineno-0-168">168</a></span>
+<span class="normal"><a href="#__codelineno-0-169">169</a></span>
+<span class="normal"><a href="#__codelineno-0-170">170</a></span>
+<span class="normal"><a href="#__codelineno-0-171">171</a></span>
+<span class="normal"><a href="#__codelineno-0-172">172</a></span>
+<span class="normal"><a href="#__codelineno-0-173">173</a></span>
+<span class="normal"><a href="#__codelineno-0-174">174</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-151"><a id="__codelineno-0-151" name="__codelineno-0-151"></a><span class="nd">@UNITS</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;inch&quot;</span><span class="p">,</span> <span class="s2">&quot;inch&quot;</span><span class="p">,</span> <span class="s2">&quot;inch&quot;</span><span class="p">,</span> <span class="s2">&quot;inch&quot;</span><span class="p">),</span> <span class="kc">False</span><span class="p">)</span>
+</span><span id="__span-0-152"><a id="__codelineno-0-152" name="__codelineno-0-152"></a><span class="k">def</span> <span class="nf">center</span><span class="p">(</span>
+</span><span id="__span-0-153"><a id="__codelineno-0-153" name="__codelineno-0-153"></a>    <span class="n">drawing</span><span class="p">:</span> <span class="n">shapely</span><span class="o">.</span><span class="n">Geometry</span><span class="p">,</span>
+</span><span id="__span-0-154"><a id="__codelineno-0-154" name="__codelineno-0-154"></a>    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+</span><span id="__span-0-155"><a id="__codelineno-0-155" name="__codelineno-0-155"></a>    <span class="n">height</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+</span><span id="__span-0-156"><a id="__codelineno-0-156" name="__codelineno-0-156"></a>    <span class="n">x</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+</span><span id="__span-0-157"><a id="__codelineno-0-157" name="__codelineno-0-157"></a>    <span class="n">y</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+</span><span id="__span-0-158"><a id="__codelineno-0-158" name="__codelineno-0-158"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">shapely</span><span class="o">.</span><span class="n">Geometry</span><span class="p">:</span>
+</span><span id="__span-0-159"><a id="__codelineno-0-159" name="__codelineno-0-159"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="__span-0-160"><a id="__codelineno-0-160" name="__codelineno-0-160"></a><span class="sd">    Return a copy of a drawing that has been translated (but not scaled) to the center point of a given rectangle</span>
+</span><span id="__span-0-161"><a id="__codelineno-0-161" name="__codelineno-0-161"></a><span class="sd">    Args:</span>
+</span><span id="__span-0-162"><a id="__codelineno-0-162" name="__codelineno-0-162"></a><span class="sd">        drawing: The drawing to translate</span>
+</span><span id="__span-0-163"><a id="__codelineno-0-163" name="__codelineno-0-163"></a><span class="sd">        width: The width of the rectangle in inches (or any other unit if you pass in a `pint.Quantity`.)</span>
+</span><span id="__span-0-164"><a id="__codelineno-0-164" name="__codelineno-0-164"></a><span class="sd">        height: The height of the rectangle in inches (or any other unit if you pass in a `pint.Quantity`.)</span>
+</span><span id="__span-0-165"><a id="__codelineno-0-165" name="__codelineno-0-165"></a><span class="sd">        x: x-coordinate of the upper-left corner of the rectangle in inches (or any other unit if you pass in a `pint.Quantity`.)</span>
+</span><span id="__span-0-166"><a id="__codelineno-0-166" name="__codelineno-0-166"></a><span class="sd">        y: y-coordinate of the upper-left corner of the rectangle in inches (or any other unit if you pass in a `pint.Quantity`.)</span>
+</span><span id="__span-0-167"><a id="__codelineno-0-167" name="__codelineno-0-167"></a>
+</span><span id="__span-0-168"><a id="__codelineno-0-168" name="__codelineno-0-168"></a><span class="sd">    Returns:</span>
+</span><span id="__span-0-169"><a id="__codelineno-0-169" name="__codelineno-0-169"></a><span class="sd">        A copy of the drawing having been translated to the center of the rectangle</span>
+</span><span id="__span-0-170"><a id="__codelineno-0-170" name="__codelineno-0-170"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-0-171"><a id="__codelineno-0-171" name="__codelineno-0-171"></a>    <span class="n">x_min</span><span class="p">,</span> <span class="n">y_min</span><span class="p">,</span> <span class="n">x_max</span><span class="p">,</span> <span class="n">y_max</span> <span class="o">=</span> <span class="n">drawing</span><span class="o">.</span><span class="n">bounds</span>
+</span><span id="__span-0-172"><a id="__codelineno-0-172" name="__codelineno-0-172"></a>    <span class="n">center_point</span> <span class="o">=</span> <span class="n">shapely</span><span class="o">.</span><span class="n">Point</span><span class="p">((</span><span class="n">x_min</span> <span class="o">+</span> <span class="n">x_max</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="n">y_min</span> <span class="o">+</span> <span class="n">y_max</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+</span><span id="__span-0-173"><a id="__codelineno-0-173" name="__codelineno-0-173"></a>    <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">width</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">center_point</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">height</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">center_point</span><span class="o">.</span><span class="n">y</span>
+</span><span id="__span-0-174"><a id="__codelineno-0-174" name="__codelineno-0-174"></a>    <span class="k">return</span> <span class="n">affinity</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">drawing</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">)</span>
+</span></code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h2 id="elkplot.shape_utils.flatten_geometry" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">flatten_geometry</span><span class="p">(</span><span class="n">geom</span><span class="p">)</span></code>
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Given any arbitrary shapely Geometry, flattens it down to a single MultiLineString that will be rendered as a
+single color-pass if sent to the plotter. Also converts Polygons to their outlines - if you want to render a filled
+in Polygon, use the <code>shade</code> function.
+Args:
+    geom: The geometry to be flattened down. Most often this will be a GeometryCollection or a MultiPolygon.</p>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><span title="shapely.MultiLineString">MultiLineString</span></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>The flattened geometry</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+          <details class="quote">
+            <summary>Source code in <code>elkplot/shape_utils.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-17">17</a></span>
+<span class="normal"><a href="#__codelineno-0-18">18</a></span>
+<span class="normal"><a href="#__codelineno-0-19">19</a></span>
+<span class="normal"><a href="#__codelineno-0-20">20</a></span>
+<span class="normal"><a href="#__codelineno-0-21">21</a></span>
+<span class="normal"><a href="#__codelineno-0-22">22</a></span>
+<span class="normal"><a href="#__codelineno-0-23">23</a></span>
+<span class="normal"><a href="#__codelineno-0-24">24</a></span>
+<span class="normal"><a href="#__codelineno-0-25">25</a></span>
+<span class="normal"><a href="#__codelineno-0-26">26</a></span>
+<span class="normal"><a href="#__codelineno-0-27">27</a></span>
+<span class="normal"><a href="#__codelineno-0-28">28</a></span>
+<span class="normal"><a href="#__codelineno-0-29">29</a></span>
+<span class="normal"><a href="#__codelineno-0-30">30</a></span>
+<span class="normal"><a href="#__codelineno-0-31">31</a></span>
+<span class="normal"><a href="#__codelineno-0-32">32</a></span>
+<span class="normal"><a href="#__codelineno-0-33">33</a></span>
+<span class="normal"><a href="#__codelineno-0-34">34</a></span>
+<span class="normal"><a href="#__codelineno-0-35">35</a></span>
+<span class="normal"><a href="#__codelineno-0-36">36</a></span>
+<span class="normal"><a href="#__codelineno-0-37">37</a></span>
+<span class="normal"><a href="#__codelineno-0-38">38</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17"></a><span class="k">def</span> <span class="nf">flatten_geometry</span><span class="p">(</span><span class="n">geom</span><span class="p">:</span> <span class="n">shapely</span><span class="o">.</span><span class="n">Geometry</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">shapely</span><span class="o">.</span><span class="n">MultiLineString</span><span class="p">:</span>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19"></a><span class="sd">    Given any arbitrary shapely Geometry, flattens it down to a single MultiLineString that will be rendered as a</span>
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20"></a><span class="sd">    single color-pass if sent to the plotter. Also converts Polygons to their outlines - if you want to render a filled</span>
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="sd">    in Polygon, use the `shade` function.</span>
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22"></a><span class="sd">    Args:</span>
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23"></a><span class="sd">        geom: The geometry to be flattened down. Most often this will be a GeometryCollection or a MultiPolygon.</span>
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a>
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a><span class="sd">    Returns:</span>
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a><span class="sd">        The flattened geometry</span>
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a>    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">geom</span><span class="p">,</span> <span class="n">shapely</span><span class="o">.</span><span class="n">MultiLineString</span><span class="p">):</span>
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a>        <span class="k">return</span> <span class="n">geom</span>
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30"></a>    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">geom</span><span class="p">,</span> <span class="p">(</span><span class="n">shapely</span><span class="o">.</span><span class="n">LineString</span><span class="p">,</span> <span class="n">shapely</span><span class="o">.</span><span class="n">LinearRing</span><span class="p">)):</span>
+</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31"></a>        <span class="k">return</span> <span class="n">shapely</span><span class="o">.</span><span class="n">multilinestrings</span><span class="p">([</span><span class="n">geom</span><span class="p">])</span>
+</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a>    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">geom</span><span class="p">,</span> <span class="n">shapely</span><span class="o">.</span><span class="n">Polygon</span><span class="p">):</span>
+</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33"></a>        <span class="n">shapes</span> <span class="o">=</span> <span class="p">[</span><span class="n">geom</span><span class="o">.</span><span class="n">exterior</span><span class="p">]</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">geom</span><span class="o">.</span><span class="n">interiors</span><span class="p">)</span>
+</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34"></a>        <span class="k">return</span> <span class="n">shapely</span><span class="o">.</span><span class="n">union_all</span><span class="p">([</span><span class="n">flatten_geometry</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span> <span class="k">for</span> <span class="n">shape</span> <span class="ow">in</span> <span class="n">shapes</span><span class="p">])</span>
+</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a>    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">geom</span><span class="p">,</span> <span class="p">(</span><span class="n">shapely</span><span class="o">.</span><span class="n">GeometryCollection</span><span class="p">,</span> <span class="n">shapely</span><span class="o">.</span><span class="n">MultiPolygon</span><span class="p">)):</span>
+</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a>        <span class="n">parts</span> <span class="o">=</span> <span class="p">[</span><span class="n">flatten_geometry</span><span class="p">(</span><span class="n">sub_geom</span><span class="p">)</span> <span class="k">for</span> <span class="n">sub_geom</span> <span class="ow">in</span> <span class="n">shapely</span><span class="o">.</span><span class="n">get_parts</span><span class="p">(</span><span class="n">geom</span><span class="p">)]</span>
+</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a>        <span class="k">return</span> <span class="n">shapely</span><span class="o">.</span><span class="n">union_all</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span>
+</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a>    <span class="k">return</span> <span class="n">shapely</span><span class="o">.</span><span class="n">MultiLineString</span><span class="p">()</span>
+</span></code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h2 id="elkplot.shape_utils.layer_wise_merge" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">layer_wise_merge</span><span class="p">(</span><span class="o">*</span><span class="n">drawings</span><span class="p">)</span></code>
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Combines two or more multi-layer drawings while keeping the layers separate. That is, creates a new drawing where
+the first layer is the union of all the input drawings' first layers, and the second layer is the union of all the
+input drawings' second layers, and so on.
+Args:
+    *drawings: All the drawings to be merged</p>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><span title="shapely.GeometryCollection">GeometryCollection</span></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>The merged drawing</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+          <details class="quote">
+            <summary>Source code in <code>elkplot/shape_utils.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-540">540</a></span>
+<span class="normal"><a href="#__codelineno-0-541">541</a></span>
+<span class="normal"><a href="#__codelineno-0-542">542</a></span>
+<span class="normal"><a href="#__codelineno-0-543">543</a></span>
+<span class="normal"><a href="#__codelineno-0-544">544</a></span>
+<span class="normal"><a href="#__codelineno-0-545">545</a></span>
+<span class="normal"><a href="#__codelineno-0-546">546</a></span>
+<span class="normal"><a href="#__codelineno-0-547">547</a></span>
+<span class="normal"><a href="#__codelineno-0-548">548</a></span>
+<span class="normal"><a href="#__codelineno-0-549">549</a></span>
+<span class="normal"><a href="#__codelineno-0-550">550</a></span>
+<span class="normal"><a href="#__codelineno-0-551">551</a></span>
+<span class="normal"><a href="#__codelineno-0-552">552</a></span>
+<span class="normal"><a href="#__codelineno-0-553">553</a></span>
+<span class="normal"><a href="#__codelineno-0-554">554</a></span>
+<span class="normal"><a href="#__codelineno-0-555">555</a></span>
+<span class="normal"><a href="#__codelineno-0-556">556</a></span>
+<span class="normal"><a href="#__codelineno-0-557">557</a></span>
+<span class="normal"><a href="#__codelineno-0-558">558</a></span>
+<span class="normal"><a href="#__codelineno-0-559">559</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-540"><a id="__codelineno-0-540" name="__codelineno-0-540"></a><span class="k">def</span> <span class="nf">layer_wise_merge</span><span class="p">(</span>
+</span><span id="__span-0-541"><a id="__codelineno-0-541" name="__codelineno-0-541"></a>    <span class="o">*</span><span class="n">drawings</span><span class="p">:</span> <span class="n">shapely</span><span class="o">.</span><span class="n">GeometryCollection</span><span class="p">,</span>
+</span><span id="__span-0-542"><a id="__codelineno-0-542" name="__codelineno-0-542"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">shapely</span><span class="o">.</span><span class="n">GeometryCollection</span><span class="p">:</span>
+</span><span id="__span-0-543"><a id="__codelineno-0-543" name="__codelineno-0-543"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="__span-0-544"><a id="__codelineno-0-544" name="__codelineno-0-544"></a><span class="sd">    Combines two or more multi-layer drawings while keeping the layers separate. That is, creates a new drawing where</span>
+</span><span id="__span-0-545"><a id="__codelineno-0-545" name="__codelineno-0-545"></a><span class="sd">    the first layer is the union of all the input drawings&#39; first layers, and the second layer is the union of all the</span>
+</span><span id="__span-0-546"><a id="__codelineno-0-546" name="__codelineno-0-546"></a><span class="sd">    input drawings&#39; second layers, and so on.</span>
+</span><span id="__span-0-547"><a id="__codelineno-0-547" name="__codelineno-0-547"></a><span class="sd">    Args:</span>
+</span><span id="__span-0-548"><a id="__codelineno-0-548" name="__codelineno-0-548"></a><span class="sd">        *drawings: All the drawings to be merged</span>
+</span><span id="__span-0-549"><a id="__codelineno-0-549" name="__codelineno-0-549"></a>
+</span><span id="__span-0-550"><a id="__codelineno-0-550" name="__codelineno-0-550"></a><span class="sd">    Returns:</span>
+</span><span id="__span-0-551"><a id="__codelineno-0-551" name="__codelineno-0-551"></a><span class="sd">        The merged drawing</span>
+</span><span id="__span-0-552"><a id="__codelineno-0-552" name="__codelineno-0-552"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-0-553"><a id="__codelineno-0-553" name="__codelineno-0-553"></a>    <span class="n">layers</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="__span-0-554"><a id="__codelineno-0-554" name="__codelineno-0-554"></a>    <span class="k">for</span> <span class="n">drawing</span> <span class="ow">in</span> <span class="n">drawings</span><span class="p">:</span>
+</span><span id="__span-0-555"><a id="__codelineno-0-555" name="__codelineno-0-555"></a>        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">layer</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">shapely</span><span class="o">.</span><span class="n">get_parts</span><span class="p">(</span><span class="n">drawing</span><span class="p">)):</span>
+</span><span id="__span-0-556"><a id="__codelineno-0-556" name="__codelineno-0-556"></a>            <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">layers</span><span class="p">):</span>
+</span><span id="__span-0-557"><a id="__codelineno-0-557" name="__codelineno-0-557"></a>                <span class="n">layers</span><span class="o">.</span><span class="n">append</span><span class="p">([])</span>
+</span><span id="__span-0-558"><a id="__codelineno-0-558" name="__codelineno-0-558"></a>            <span class="n">layers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">layer</span><span class="p">)</span>
+</span><span id="__span-0-559"><a id="__codelineno-0-559" name="__codelineno-0-559"></a>    <span class="k">return</span> <span class="n">shapely</span><span class="o">.</span><span class="n">GeometryCollection</span><span class="p">([</span><span class="n">shapely</span><span class="o">.</span><span class="n">union_all</span><span class="p">(</span><span class="n">layer</span><span class="p">)</span> <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="n">layers</span><span class="p">])</span>
+</span></code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h2 id="elkplot.shape_utils.metrics" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">metrics</span><span class="p">(</span><span class="n">drawing</span><span class="p">)</span></code>
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Calculate the pen down distance, pen up distance, and number of discrete paths (requiring penlifts between) in a
+given drawing.
+Args:
+    drawing:</p>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><span title="elkplot.shape_utils.DrawingMetrics">DrawingMetrics</span></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>A <code>DrawingMetrics</code> object containing fields for <code>pen_down_dist</code>, <code>pen_up_dist</code>, and <code>path_count</code></p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+          <details class="quote">
+            <summary>Source code in <code>elkplot/shape_utils.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-516">516</a></span>
+<span class="normal"><a href="#__codelineno-0-517">517</a></span>
+<span class="normal"><a href="#__codelineno-0-518">518</a></span>
+<span class="normal"><a href="#__codelineno-0-519">519</a></span>
+<span class="normal"><a href="#__codelineno-0-520">520</a></span>
+<span class="normal"><a href="#__codelineno-0-521">521</a></span>
+<span class="normal"><a href="#__codelineno-0-522">522</a></span>
+<span class="normal"><a href="#__codelineno-0-523">523</a></span>
+<span class="normal"><a href="#__codelineno-0-524">524</a></span>
+<span class="normal"><a href="#__codelineno-0-525">525</a></span>
+<span class="normal"><a href="#__codelineno-0-526">526</a></span>
+<span class="normal"><a href="#__codelineno-0-527">527</a></span>
+<span class="normal"><a href="#__codelineno-0-528">528</a></span>
+<span class="normal"><a href="#__codelineno-0-529">529</a></span>
+<span class="normal"><a href="#__codelineno-0-530">530</a></span>
+<span class="normal"><a href="#__codelineno-0-531">531</a></span>
+<span class="normal"><a href="#__codelineno-0-532">532</a></span>
+<span class="normal"><a href="#__codelineno-0-533">533</a></span>
+<span class="normal"><a href="#__codelineno-0-534">534</a></span>
+<span class="normal"><a href="#__codelineno-0-535">535</a></span>
+<span class="normal"><a href="#__codelineno-0-536">536</a></span>
+<span class="normal"><a href="#__codelineno-0-537">537</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-516"><a id="__codelineno-0-516" name="__codelineno-0-516"></a><span class="k">def</span> <span class="nf">metrics</span><span class="p">(</span><span class="n">drawing</span><span class="p">:</span> <span class="n">shapely</span><span class="o">.</span><span class="n">Geometry</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DrawingMetrics</span><span class="p">:</span>
+</span><span id="__span-0-517"><a id="__codelineno-0-517" name="__codelineno-0-517"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="__span-0-518"><a id="__codelineno-0-518" name="__codelineno-0-518"></a><span class="sd">    Calculate the pen down distance, pen up distance, and number of discrete paths (requiring penlifts between) in a</span>
+</span><span id="__span-0-519"><a id="__codelineno-0-519" name="__codelineno-0-519"></a><span class="sd">    given drawing.</span>
+</span><span id="__span-0-520"><a id="__codelineno-0-520" name="__codelineno-0-520"></a><span class="sd">    Args:</span>
+</span><span id="__span-0-521"><a id="__codelineno-0-521" name="__codelineno-0-521"></a><span class="sd">        drawing:</span>
+</span><span id="__span-0-522"><a id="__codelineno-0-522" name="__codelineno-0-522"></a>
+</span><span id="__span-0-523"><a id="__codelineno-0-523" name="__codelineno-0-523"></a><span class="sd">    Returns:</span>
+</span><span id="__span-0-524"><a id="__codelineno-0-524" name="__codelineno-0-524"></a><span class="sd">        A `DrawingMetrics` object containing fields for `pen_down_dist`, `pen_up_dist`, and `path_count`</span>
+</span><span id="__span-0-525"><a id="__codelineno-0-525" name="__codelineno-0-525"></a>
+</span><span id="__span-0-526"><a id="__codelineno-0-526" name="__codelineno-0-526"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-0-527"><a id="__codelineno-0-527" name="__codelineno-0-527"></a>    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">drawing</span><span class="p">,</span> <span class="n">shapely</span><span class="o">.</span><span class="n">GeometryCollection</span><span class="p">):</span>
+</span><span id="__span-0-528"><a id="__codelineno-0-528" name="__codelineno-0-528"></a>        <span class="n">out</span> <span class="o">=</span> <span class="n">DrawingMetrics</span><span class="p">(</span><span class="mi">0</span> <span class="o">*</span> <span class="n">UNITS</span><span class="o">.</span><span class="n">inch</span><span class="p">,</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">UNITS</span><span class="o">.</span><span class="n">inch</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</span><span id="__span-0-529"><a id="__codelineno-0-529" name="__codelineno-0-529"></a>        <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="n">shapely</span><span class="o">.</span><span class="n">get_parts</span><span class="p">(</span><span class="n">drawing</span><span class="p">):</span>
+</span><span id="__span-0-530"><a id="__codelineno-0-530" name="__codelineno-0-530"></a>            <span class="n">out</span> <span class="o">+=</span> <span class="n">metrics</span><span class="p">(</span><span class="n">flatten_geometry</span><span class="p">(</span><span class="n">layer</span><span class="p">))</span>
+</span><span id="__span-0-531"><a id="__codelineno-0-531" name="__codelineno-0-531"></a>        <span class="k">return</span> <span class="n">out</span>
+</span><span id="__span-0-532"><a id="__codelineno-0-532" name="__codelineno-0-532"></a>    <span class="k">else</span><span class="p">:</span>
+</span><span id="__span-0-533"><a id="__codelineno-0-533" name="__codelineno-0-533"></a>        <span class="k">return</span> <span class="n">DrawingMetrics</span><span class="p">(</span>
+</span><span id="__span-0-534"><a id="__codelineno-0-534" name="__codelineno-0-534"></a>            <span class="n">drawing</span><span class="o">.</span><span class="n">length</span> <span class="o">*</span> <span class="n">UNITS</span><span class="o">.</span><span class="n">inch</span><span class="p">,</span>
+</span><span id="__span-0-535"><a id="__codelineno-0-535" name="__codelineno-0-535"></a>            <span class="n">up_length</span><span class="p">(</span><span class="n">drawing</span><span class="p">),</span>
+</span><span id="__span-0-536"><a id="__codelineno-0-536" name="__codelineno-0-536"></a>            <span class="n">shapely</span><span class="o">.</span><span class="n">get_num_geometries</span><span class="p">(</span><span class="n">drawing</span><span class="p">),</span>
+</span><span id="__span-0-537"><a id="__codelineno-0-537" name="__codelineno-0-537"></a>        <span class="p">)</span>
+</span></code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h2 id="elkplot.shape_utils.optimize" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">optimize</span><span class="p">(</span><span class="n">geometry</span><span class="p">,</span> <span class="n">tolerance</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">reloop</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">delete_small</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">pbar</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></code>
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Optimize a shapely geometry for plotting by combining paths, re-ordering paths, and/or deleting short paths.
+Always merges paths whose ends are closer together than a given tolerance.
+Can also randomize the starting point for closed loops to help hide the dots that appear at the moment the pen hits
+the page.
+Args:
+    geometry: The shapely geometry to be optimized. Usually this is either a <code>MultiLineString</code> or a
+        <code>GeometryCollection</code> depending on if you are optimizing a single layer or a multi-layer plot.
+    tolerance: The largest gap that should be merged/the longest line that should be deleted in inches (or any other unit if you pass in a <code>pint.Quantity</code>.)
+    sort: Should the paths be re-ordered to minimize pen-up travel distance?
+    reloop: Should closed loop paths have their starting point randomized?
+    delete_small: Should paths shorter than <code>tolerance</code> be deleted?
+    pbar: Should progress bars be displayed to keep the user updated on the progress of the process?</p>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><span title="shapely.Geometry">Geometry</span></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>The optimized geometry</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+          <details class="quote">
+            <summary>Source code in <code>elkplot/shape_utils.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-432">432</a></span>
+<span class="normal"><a href="#__codelineno-0-433">433</a></span>
+<span class="normal"><a href="#__codelineno-0-434">434</a></span>
+<span class="normal"><a href="#__codelineno-0-435">435</a></span>
+<span class="normal"><a href="#__codelineno-0-436">436</a></span>
+<span class="normal"><a href="#__codelineno-0-437">437</a></span>
+<span class="normal"><a href="#__codelineno-0-438">438</a></span>
+<span class="normal"><a href="#__codelineno-0-439">439</a></span>
+<span class="normal"><a href="#__codelineno-0-440">440</a></span>
+<span class="normal"><a href="#__codelineno-0-441">441</a></span>
+<span class="normal"><a href="#__codelineno-0-442">442</a></span>
+<span class="normal"><a href="#__codelineno-0-443">443</a></span>
+<span class="normal"><a href="#__codelineno-0-444">444</a></span>
+<span class="normal"><a href="#__codelineno-0-445">445</a></span>
+<span class="normal"><a href="#__codelineno-0-446">446</a></span>
+<span class="normal"><a href="#__codelineno-0-447">447</a></span>
+<span class="normal"><a href="#__codelineno-0-448">448</a></span>
+<span class="normal"><a href="#__codelineno-0-449">449</a></span>
+<span class="normal"><a href="#__codelineno-0-450">450</a></span>
+<span class="normal"><a href="#__codelineno-0-451">451</a></span>
+<span class="normal"><a href="#__codelineno-0-452">452</a></span>
+<span class="normal"><a href="#__codelineno-0-453">453</a></span>
+<span class="normal"><a href="#__codelineno-0-454">454</a></span>
+<span class="normal"><a href="#__codelineno-0-455">455</a></span>
+<span class="normal"><a href="#__codelineno-0-456">456</a></span>
+<span class="normal"><a href="#__codelineno-0-457">457</a></span>
+<span class="normal"><a href="#__codelineno-0-458">458</a></span>
+<span class="normal"><a href="#__codelineno-0-459">459</a></span>
+<span class="normal"><a href="#__codelineno-0-460">460</a></span>
+<span class="normal"><a href="#__codelineno-0-461">461</a></span>
+<span class="normal"><a href="#__codelineno-0-462">462</a></span>
+<span class="normal"><a href="#__codelineno-0-463">463</a></span>
+<span class="normal"><a href="#__codelineno-0-464">464</a></span>
+<span class="normal"><a href="#__codelineno-0-465">465</a></span>
+<span class="normal"><a href="#__codelineno-0-466">466</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-432"><a id="__codelineno-0-432" name="__codelineno-0-432"></a><span class="nd">@UNITS</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;inch&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="kc">False</span><span class="p">)</span>
+</span><span id="__span-0-433"><a id="__codelineno-0-433" name="__codelineno-0-433"></a><span class="k">def</span> <span class="nf">optimize</span><span class="p">(</span>
+</span><span id="__span-0-434"><a id="__codelineno-0-434" name="__codelineno-0-434"></a>    <span class="n">geometry</span><span class="p">:</span> <span class="n">shapely</span><span class="o">.</span><span class="n">Geometry</span><span class="p">,</span>
+</span><span id="__span-0-435"><a id="__codelineno-0-435" name="__codelineno-0-435"></a>    <span class="n">tolerance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+</span><span id="__span-0-436"><a id="__codelineno-0-436" name="__codelineno-0-436"></a>    <span class="n">sort</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+</span><span id="__span-0-437"><a id="__codelineno-0-437" name="__codelineno-0-437"></a>    <span class="n">reloop</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+</span><span id="__span-0-438"><a id="__codelineno-0-438" name="__codelineno-0-438"></a>    <span class="n">delete_small</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+</span><span id="__span-0-439"><a id="__codelineno-0-439" name="__codelineno-0-439"></a>    <span class="n">pbar</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+</span><span id="__span-0-440"><a id="__codelineno-0-440" name="__codelineno-0-440"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">shapely</span><span class="o">.</span><span class="n">Geometry</span><span class="p">:</span>
+</span><span id="__span-0-441"><a id="__codelineno-0-441" name="__codelineno-0-441"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="__span-0-442"><a id="__codelineno-0-442" name="__codelineno-0-442"></a><span class="sd">    Optimize a shapely geometry for plotting by combining paths, re-ordering paths, and/or deleting short paths.</span>
+</span><span id="__span-0-443"><a id="__codelineno-0-443" name="__codelineno-0-443"></a><span class="sd">    Always merges paths whose ends are closer together than a given tolerance.</span>
+</span><span id="__span-0-444"><a id="__codelineno-0-444" name="__codelineno-0-444"></a><span class="sd">    Can also randomize the starting point for closed loops to help hide the dots that appear at the moment the pen hits</span>
+</span><span id="__span-0-445"><a id="__codelineno-0-445" name="__codelineno-0-445"></a><span class="sd">    the page.</span>
+</span><span id="__span-0-446"><a id="__codelineno-0-446" name="__codelineno-0-446"></a><span class="sd">    Args:</span>
+</span><span id="__span-0-447"><a id="__codelineno-0-447" name="__codelineno-0-447"></a><span class="sd">        geometry: The shapely geometry to be optimized. Usually this is either a `MultiLineString` or a</span>
+</span><span id="__span-0-448"><a id="__codelineno-0-448" name="__codelineno-0-448"></a><span class="sd">            `GeometryCollection` depending on if you are optimizing a single layer or a multi-layer plot.</span>
+</span><span id="__span-0-449"><a id="__codelineno-0-449" name="__codelineno-0-449"></a><span class="sd">        tolerance: The largest gap that should be merged/the longest line that should be deleted in inches (or any other unit if you pass in a `pint.Quantity`.)</span>
+</span><span id="__span-0-450"><a id="__codelineno-0-450" name="__codelineno-0-450"></a><span class="sd">        sort: Should the paths be re-ordered to minimize pen-up travel distance?</span>
+</span><span id="__span-0-451"><a id="__codelineno-0-451" name="__codelineno-0-451"></a><span class="sd">        reloop: Should closed loop paths have their starting point randomized?</span>
+</span><span id="__span-0-452"><a id="__codelineno-0-452" name="__codelineno-0-452"></a><span class="sd">        delete_small: Should paths shorter than `tolerance` be deleted?</span>
+</span><span id="__span-0-453"><a id="__codelineno-0-453" name="__codelineno-0-453"></a><span class="sd">        pbar: Should progress bars be displayed to keep the user updated on the progress of the process?</span>
+</span><span id="__span-0-454"><a id="__codelineno-0-454" name="__codelineno-0-454"></a>
+</span><span id="__span-0-455"><a id="__codelineno-0-455" name="__codelineno-0-455"></a><span class="sd">    Returns:</span>
+</span><span id="__span-0-456"><a id="__codelineno-0-456" name="__codelineno-0-456"></a><span class="sd">        The optimized geometry</span>
+</span><span id="__span-0-457"><a id="__codelineno-0-457" name="__codelineno-0-457"></a>
+</span><span id="__span-0-458"><a id="__codelineno-0-458" name="__codelineno-0-458"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-0-459"><a id="__codelineno-0-459" name="__codelineno-0-459"></a>    <span class="k">if</span> <span class="n">reloop</span><span class="p">:</span>
+</span><span id="__span-0-460"><a id="__codelineno-0-460" name="__codelineno-0-460"></a>        <span class="n">geometry</span> <span class="o">=</span> <span class="n">_reloop_paths</span><span class="p">(</span><span class="n">geometry</span><span class="p">)</span>
+</span><span id="__span-0-461"><a id="__codelineno-0-461" name="__codelineno-0-461"></a>    <span class="n">geometry</span> <span class="o">=</span> <span class="n">_join_paths</span><span class="p">(</span><span class="n">geometry</span><span class="p">,</span> <span class="n">tolerance</span><span class="p">,</span> <span class="n">pbar</span><span class="p">)</span>
+</span><span id="__span-0-462"><a id="__codelineno-0-462" name="__codelineno-0-462"></a>    <span class="k">if</span> <span class="n">delete_small</span><span class="p">:</span>
+</span><span id="__span-0-463"><a id="__codelineno-0-463" name="__codelineno-0-463"></a>        <span class="n">geometry</span> <span class="o">=</span> <span class="n">_delete_short_paths</span><span class="p">(</span><span class="n">geometry</span><span class="p">,</span> <span class="n">tolerance</span><span class="p">,</span> <span class="n">pbar</span><span class="p">)</span>
+</span><span id="__span-0-464"><a id="__codelineno-0-464" name="__codelineno-0-464"></a>    <span class="k">if</span> <span class="n">sort</span><span class="p">:</span>
+</span><span id="__span-0-465"><a id="__codelineno-0-465" name="__codelineno-0-465"></a>        <span class="n">geometry</span> <span class="o">=</span> <span class="n">_sort_paths</span><span class="p">(</span><span class="n">geometry</span><span class="p">,</span> <span class="n">pbar</span><span class="p">)</span>
+</span><span id="__span-0-466"><a id="__codelineno-0-466" name="__codelineno-0-466"></a>    <span class="k">return</span> <span class="n">geometry</span>
+</span></code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h2 id="elkplot.shape_utils.rotate_and_scale_to_fit" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">rotate_and_scale_to_fit</span><span class="p">(</span><span class="n">drawing</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">increment</span><span class="o">=</span><span class="mf">0.02</span><span class="p">)</span></code>
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Fits a drawing into a bounding box of a given width and height, but unlike <code>scale_to_fit</code> also rotates the shape to
+make it take up as much of that area as possible. Also centers the object in that bounding box
+with the bounding box's upper-left corner at the origin.
+Args:
+    drawing: The shapely geometry to rescale
+    width: The width of the bounding box in inches (or any other unit if you pass in a <code>pint.Quantity</code>.)
+    height: The height of the bounding box in inches (or any other unit if you pass in a <code>pint.Quantity</code>.)
+    padding: How much space to leave empty on all sides in inches (or any other unit if you pass in a <code>pint.Quantity</code>.)
+    increment: The gap between different rotation angles attempted in radians. (smaller value gives better results,
+        but larger values run faster.)</p>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><span title="shapely.Geometry">Geometry</span></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>A copy of the drawing having been rotated, rescaled, and moved such that the new upper-left corner of the
+bounding box (including the padding) is at the origin</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+          <details class="quote">
+            <summary>Source code in <code>elkplot/shape_utils.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-113">113</a></span>
+<span class="normal"><a href="#__codelineno-0-114">114</a></span>
+<span class="normal"><a href="#__codelineno-0-115">115</a></span>
+<span class="normal"><a href="#__codelineno-0-116">116</a></span>
+<span class="normal"><a href="#__codelineno-0-117">117</a></span>
+<span class="normal"><a href="#__codelineno-0-118">118</a></span>
+<span class="normal"><a href="#__codelineno-0-119">119</a></span>
+<span class="normal"><a href="#__codelineno-0-120">120</a></span>
+<span class="normal"><a href="#__codelineno-0-121">121</a></span>
+<span class="normal"><a href="#__codelineno-0-122">122</a></span>
+<span class="normal"><a href="#__codelineno-0-123">123</a></span>
+<span class="normal"><a href="#__codelineno-0-124">124</a></span>
+<span class="normal"><a href="#__codelineno-0-125">125</a></span>
+<span class="normal"><a href="#__codelineno-0-126">126</a></span>
+<span class="normal"><a href="#__codelineno-0-127">127</a></span>
+<span class="normal"><a href="#__codelineno-0-128">128</a></span>
+<span class="normal"><a href="#__codelineno-0-129">129</a></span>
+<span class="normal"><a href="#__codelineno-0-130">130</a></span>
+<span class="normal"><a href="#__codelineno-0-131">131</a></span>
+<span class="normal"><a href="#__codelineno-0-132">132</a></span>
+<span class="normal"><a href="#__codelineno-0-133">133</a></span>
+<span class="normal"><a href="#__codelineno-0-134">134</a></span>
+<span class="normal"><a href="#__codelineno-0-135">135</a></span>
+<span class="normal"><a href="#__codelineno-0-136">136</a></span>
+<span class="normal"><a href="#__codelineno-0-137">137</a></span>
+<span class="normal"><a href="#__codelineno-0-138">138</a></span>
+<span class="normal"><a href="#__codelineno-0-139">139</a></span>
+<span class="normal"><a href="#__codelineno-0-140">140</a></span>
+<span class="normal"><a href="#__codelineno-0-141">141</a></span>
+<span class="normal"><a href="#__codelineno-0-142">142</a></span>
+<span class="normal"><a href="#__codelineno-0-143">143</a></span>
+<span class="normal"><a href="#__codelineno-0-144">144</a></span>
+<span class="normal"><a href="#__codelineno-0-145">145</a></span>
+<span class="normal"><a href="#__codelineno-0-146">146</a></span>
+<span class="normal"><a href="#__codelineno-0-147">147</a></span>
+<span class="normal"><a href="#__codelineno-0-148">148</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-113"><a id="__codelineno-0-113" name="__codelineno-0-113"></a><span class="nd">@UNITS</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;inch&quot;</span><span class="p">,</span> <span class="s2">&quot;inch&quot;</span><span class="p">,</span> <span class="s2">&quot;inch&quot;</span><span class="p">,</span> <span class="s2">&quot;rad&quot;</span><span class="p">),</span> <span class="kc">False</span><span class="p">)</span>
+</span><span id="__span-0-114"><a id="__codelineno-0-114" name="__codelineno-0-114"></a><span class="k">def</span> <span class="nf">rotate_and_scale_to_fit</span><span class="p">(</span>
+</span><span id="__span-0-115"><a id="__codelineno-0-115" name="__codelineno-0-115"></a>    <span class="n">drawing</span><span class="p">:</span> <span class="n">shapely</span><span class="o">.</span><span class="n">Geometry</span><span class="p">,</span>
+</span><span id="__span-0-116"><a id="__codelineno-0-116" name="__codelineno-0-116"></a>    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+</span><span id="__span-0-117"><a id="__codelineno-0-117" name="__codelineno-0-117"></a>    <span class="n">height</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+</span><span id="__span-0-118"><a id="__codelineno-0-118" name="__codelineno-0-118"></a>    <span class="n">padding</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+</span><span id="__span-0-119"><a id="__codelineno-0-119" name="__codelineno-0-119"></a>    <span class="n">increment</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.02</span><span class="p">,</span>
+</span><span id="__span-0-120"><a id="__codelineno-0-120" name="__codelineno-0-120"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">shapely</span><span class="o">.</span><span class="n">Geometry</span><span class="p">:</span>
+</span><span id="__span-0-121"><a id="__codelineno-0-121" name="__codelineno-0-121"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="__span-0-122"><a id="__codelineno-0-122" name="__codelineno-0-122"></a><span class="sd">    Fits a drawing into a bounding box of a given width and height, but unlike `scale_to_fit` also rotates the shape to</span>
+</span><span id="__span-0-123"><a id="__codelineno-0-123" name="__codelineno-0-123"></a><span class="sd">    make it take up as much of that area as possible. Also centers the object in that bounding box</span>
+</span><span id="__span-0-124"><a id="__codelineno-0-124" name="__codelineno-0-124"></a><span class="sd">    with the bounding box&#39;s upper-left corner at the origin.</span>
+</span><span id="__span-0-125"><a id="__codelineno-0-125" name="__codelineno-0-125"></a><span class="sd">    Args:</span>
+</span><span id="__span-0-126"><a id="__codelineno-0-126" name="__codelineno-0-126"></a><span class="sd">        drawing: The shapely geometry to rescale</span>
+</span><span id="__span-0-127"><a id="__codelineno-0-127" name="__codelineno-0-127"></a><span class="sd">        width: The width of the bounding box in inches (or any other unit if you pass in a `pint.Quantity`.)</span>
+</span><span id="__span-0-128"><a id="__codelineno-0-128" name="__codelineno-0-128"></a><span class="sd">        height: The height of the bounding box in inches (or any other unit if you pass in a `pint.Quantity`.)</span>
+</span><span id="__span-0-129"><a id="__codelineno-0-129" name="__codelineno-0-129"></a><span class="sd">        padding: How much space to leave empty on all sides in inches (or any other unit if you pass in a `pint.Quantity`.)</span>
+</span><span id="__span-0-130"><a id="__codelineno-0-130" name="__codelineno-0-130"></a><span class="sd">        increment: The gap between different rotation angles attempted in radians. (smaller value gives better results,</span>
+</span><span id="__span-0-131"><a id="__codelineno-0-131" name="__codelineno-0-131"></a><span class="sd">            but larger values run faster.)</span>
+</span><span id="__span-0-132"><a id="__codelineno-0-132" name="__codelineno-0-132"></a>
+</span><span id="__span-0-133"><a id="__codelineno-0-133" name="__codelineno-0-133"></a><span class="sd">    Returns:</span>
+</span><span id="__span-0-134"><a id="__codelineno-0-134" name="__codelineno-0-134"></a><span class="sd">        A copy of the drawing having been rotated, rescaled, and moved such that the new upper-left corner of the</span>
+</span><span id="__span-0-135"><a id="__codelineno-0-135" name="__codelineno-0-135"></a><span class="sd">            bounding box (including the padding) is at the origin</span>
+</span><span id="__span-0-136"><a id="__codelineno-0-136" name="__codelineno-0-136"></a>
+</span><span id="__span-0-137"><a id="__codelineno-0-137" name="__codelineno-0-137"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-0-138"><a id="__codelineno-0-138" name="__codelineno-0-138"></a>    <span class="n">best_geom</span><span class="p">:</span> <span class="n">shapely</span><span class="o">.</span><span class="n">Geometry</span> <span class="o">=</span> <span class="n">drawing</span>
+</span><span id="__span-0-139"><a id="__codelineno-0-139" name="__codelineno-0-139"></a>    <span class="n">biggest</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="__span-0-140"><a id="__codelineno-0-140" name="__codelineno-0-140"></a>    <span class="k">for</span> <span class="n">angle</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">increment</span><span class="p">):</span>
+</span><span id="__span-0-141"><a id="__codelineno-0-141" name="__codelineno-0-141"></a>        <span class="n">rotated</span> <span class="o">=</span> <span class="n">affinity</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="n">drawing</span><span class="p">,</span> <span class="n">angle</span><span class="p">,</span> <span class="n">use_radians</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-0-142"><a id="__codelineno-0-142" name="__codelineno-0-142"></a>        <span class="n">scaled</span> <span class="o">=</span> <span class="n">scale_to_fit</span><span class="p">(</span><span class="n">rotated</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">padding</span><span class="p">)</span>
+</span><span id="__span-0-143"><a id="__codelineno-0-143" name="__codelineno-0-143"></a>        <span class="n">w</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">size</span><span class="p">(</span><span class="n">scaled</span><span class="p">)</span>
+</span><span id="__span-0-144"><a id="__codelineno-0-144" name="__codelineno-0-144"></a>        <span class="n">area</span> <span class="o">=</span> <span class="n">w</span> <span class="o">*</span> <span class="n">h</span>
+</span><span id="__span-0-145"><a id="__codelineno-0-145" name="__codelineno-0-145"></a>        <span class="k">if</span> <span class="n">area</span> <span class="o">&gt;</span> <span class="n">biggest</span><span class="p">:</span>
+</span><span id="__span-0-146"><a id="__codelineno-0-146" name="__codelineno-0-146"></a>            <span class="n">best_geom</span> <span class="o">=</span> <span class="n">scaled</span>
+</span><span id="__span-0-147"><a id="__codelineno-0-147" name="__codelineno-0-147"></a>            <span class="n">biggest</span> <span class="o">=</span> <span class="n">area</span>
+</span><span id="__span-0-148"><a id="__codelineno-0-148" name="__codelineno-0-148"></a>    <span class="k">return</span> <span class="n">best_geom</span>
+</span></code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h2 id="elkplot.shape_utils.scale_to_fit" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">scale_to_fit</span><span class="p">(</span><span class="n">drawing</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></code>
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Scales a drawing up or down to perfectly fit into a given bounding box. Also centers the object in that bounding box
+with the bounding box's upper-left corner at the origin.
+Args:
+    drawing: The shapely geometry to rescale
+    width: The width of the bounding box in inches (or any other unit if you pass in a <code>pint.Quantity</code>.)
+        If this is 0, the drawing will be scaled to fit into the given height with arbitrary width.
+    height: The height of the bounding box in inches (or any other unit if you pass in a <code>pint.Quantity</code>.)
+        If this is 0, the drawing will be scaled to fit into the given width with arbitrary height.
+    padding: How much space to leave empty on all sides in inches (or any other unit if you pass in a
+        <code>pint.Quantity</code>.)</p>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><span title="shapely.Geometry">Geometry</span></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>A copy of the drawing having been rescaled and moved such that the new upper-left corner of the bounding</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+                <code><span title="shapely.Geometry">Geometry</span></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>box (including the padding) is at the origin</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+          <details class="quote">
+            <summary>Source code in <code>elkplot/shape_utils.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-79"> 79</a></span>
+<span class="normal"><a href="#__codelineno-0-80"> 80</a></span>
+<span class="normal"><a href="#__codelineno-0-81"> 81</a></span>
+<span class="normal"><a href="#__codelineno-0-82"> 82</a></span>
+<span class="normal"><a href="#__codelineno-0-83"> 83</a></span>
+<span class="normal"><a href="#__codelineno-0-84"> 84</a></span>
+<span class="normal"><a href="#__codelineno-0-85"> 85</a></span>
+<span class="normal"><a href="#__codelineno-0-86"> 86</a></span>
+<span class="normal"><a href="#__codelineno-0-87"> 87</a></span>
+<span class="normal"><a href="#__codelineno-0-88"> 88</a></span>
+<span class="normal"><a href="#__codelineno-0-89"> 89</a></span>
+<span class="normal"><a href="#__codelineno-0-90"> 90</a></span>
+<span class="normal"><a href="#__codelineno-0-91"> 91</a></span>
+<span class="normal"><a href="#__codelineno-0-92"> 92</a></span>
+<span class="normal"><a href="#__codelineno-0-93"> 93</a></span>
+<span class="normal"><a href="#__codelineno-0-94"> 94</a></span>
+<span class="normal"><a href="#__codelineno-0-95"> 95</a></span>
+<span class="normal"><a href="#__codelineno-0-96"> 96</a></span>
+<span class="normal"><a href="#__codelineno-0-97"> 97</a></span>
+<span class="normal"><a href="#__codelineno-0-98"> 98</a></span>
+<span class="normal"><a href="#__codelineno-0-99"> 99</a></span>
+<span class="normal"><a href="#__codelineno-0-100">100</a></span>
+<span class="normal"><a href="#__codelineno-0-101">101</a></span>
+<span class="normal"><a href="#__codelineno-0-102">102</a></span>
+<span class="normal"><a href="#__codelineno-0-103">103</a></span>
+<span class="normal"><a href="#__codelineno-0-104">104</a></span>
+<span class="normal"><a href="#__codelineno-0-105">105</a></span>
+<span class="normal"><a href="#__codelineno-0-106">106</a></span>
+<span class="normal"><a href="#__codelineno-0-107">107</a></span>
+<span class="normal"><a href="#__codelineno-0-108">108</a></span>
+<span class="normal"><a href="#__codelineno-0-109">109</a></span>
+<span class="normal"><a href="#__codelineno-0-110">110</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-79"><a id="__codelineno-0-79" name="__codelineno-0-79"></a><span class="nd">@UNITS</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;inch&quot;</span><span class="p">,</span> <span class="s2">&quot;inch&quot;</span><span class="p">,</span> <span class="s2">&quot;inch&quot;</span><span class="p">),</span> <span class="kc">False</span><span class="p">)</span>
+</span><span id="__span-0-80"><a id="__codelineno-0-80" name="__codelineno-0-80"></a><span class="k">def</span> <span class="nf">scale_to_fit</span><span class="p">(</span>
+</span><span id="__span-0-81"><a id="__codelineno-0-81" name="__codelineno-0-81"></a>    <span class="n">drawing</span><span class="p">:</span> <span class="n">shapely</span><span class="o">.</span><span class="n">Geometry</span><span class="p">,</span>
+</span><span id="__span-0-82"><a id="__codelineno-0-82" name="__codelineno-0-82"></a>    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+</span><span id="__span-0-83"><a id="__codelineno-0-83" name="__codelineno-0-83"></a>    <span class="n">height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+</span><span id="__span-0-84"><a id="__codelineno-0-84" name="__codelineno-0-84"></a>    <span class="n">padding</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+</span><span id="__span-0-85"><a id="__codelineno-0-85" name="__codelineno-0-85"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">shapely</span><span class="o">.</span><span class="n">Geometry</span><span class="p">:</span>
+</span><span id="__span-0-86"><a id="__codelineno-0-86" name="__codelineno-0-86"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="__span-0-87"><a id="__codelineno-0-87" name="__codelineno-0-87"></a><span class="sd">    Scales a drawing up or down to perfectly fit into a given bounding box. Also centers the object in that bounding box</span>
+</span><span id="__span-0-88"><a id="__codelineno-0-88" name="__codelineno-0-88"></a><span class="sd">    with the bounding box&#39;s upper-left corner at the origin.</span>
+</span><span id="__span-0-89"><a id="__codelineno-0-89" name="__codelineno-0-89"></a><span class="sd">    Args:</span>
+</span><span id="__span-0-90"><a id="__codelineno-0-90" name="__codelineno-0-90"></a><span class="sd">        drawing: The shapely geometry to rescale</span>
+</span><span id="__span-0-91"><a id="__codelineno-0-91" name="__codelineno-0-91"></a><span class="sd">        width: The width of the bounding box in inches (or any other unit if you pass in a `pint.Quantity`.)</span>
+</span><span id="__span-0-92"><a id="__codelineno-0-92" name="__codelineno-0-92"></a><span class="sd">            If this is 0, the drawing will be scaled to fit into the given height with arbitrary width.</span>
+</span><span id="__span-0-93"><a id="__codelineno-0-93" name="__codelineno-0-93"></a><span class="sd">        height: The height of the bounding box in inches (or any other unit if you pass in a `pint.Quantity`.)</span>
+</span><span id="__span-0-94"><a id="__codelineno-0-94" name="__codelineno-0-94"></a><span class="sd">            If this is 0, the drawing will be scaled to fit into the given width with arbitrary height.</span>
+</span><span id="__span-0-95"><a id="__codelineno-0-95" name="__codelineno-0-95"></a><span class="sd">        padding: How much space to leave empty on all sides in inches (or any other unit if you pass in a</span>
+</span><span id="__span-0-96"><a id="__codelineno-0-96" name="__codelineno-0-96"></a><span class="sd">            `pint.Quantity`.)</span>
+</span><span id="__span-0-97"><a id="__codelineno-0-97" name="__codelineno-0-97"></a>
+</span><span id="__span-0-98"><a id="__codelineno-0-98" name="__codelineno-0-98"></a><span class="sd">    Returns:</span>
+</span><span id="__span-0-99"><a id="__codelineno-0-99" name="__codelineno-0-99"></a><span class="sd">        A copy of the drawing having been rescaled and moved such that the new upper-left corner of the bounding</span>
+</span><span id="__span-0-100"><a id="__codelineno-0-100" name="__codelineno-0-100"></a><span class="sd">        box (including the padding) is at the origin</span>
+</span><span id="__span-0-101"><a id="__codelineno-0-101" name="__codelineno-0-101"></a>
+</span><span id="__span-0-102"><a id="__codelineno-0-102" name="__codelineno-0-102"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-0-103"><a id="__codelineno-0-103" name="__codelineno-0-103"></a>    <span class="n">w</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="p">(</span><span class="n">dim</span><span class="o">.</span><span class="n">magnitude</span> <span class="k">for</span> <span class="n">dim</span> <span class="ow">in</span> <span class="n">size</span><span class="p">(</span><span class="n">drawing</span><span class="p">))</span>
+</span><span id="__span-0-104"><a id="__codelineno-0-104" name="__codelineno-0-104"></a>    <span class="k">if</span> <span class="n">w</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">width</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="__span-0-105"><a id="__codelineno-0-105" name="__codelineno-0-105"></a>        <span class="n">scale</span> <span class="o">=</span> <span class="p">(</span><span class="n">height</span> <span class="o">-</span> <span class="n">padding</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">h</span>
+</span><span id="__span-0-106"><a id="__codelineno-0-106" name="__codelineno-0-106"></a>    <span class="k">elif</span> <span class="n">h</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">height</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="__span-0-107"><a id="__codelineno-0-107" name="__codelineno-0-107"></a>        <span class="n">scale</span> <span class="o">=</span> <span class="p">(</span><span class="n">width</span> <span class="o">-</span> <span class="n">padding</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">w</span>
+</span><span id="__span-0-108"><a id="__codelineno-0-108" name="__codelineno-0-108"></a>    <span class="k">else</span><span class="p">:</span>
+</span><span id="__span-0-109"><a id="__codelineno-0-109" name="__codelineno-0-109"></a>        <span class="n">scale</span> <span class="o">=</span> <span class="nb">min</span><span class="p">((</span><span class="n">width</span> <span class="o">-</span> <span class="n">padding</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">w</span><span class="p">,</span> <span class="p">(</span><span class="n">height</span> <span class="o">-</span> <span class="n">padding</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">h</span><span class="p">)</span>
+</span><span id="__span-0-110"><a id="__codelineno-0-110" name="__codelineno-0-110"></a>    <span class="k">return</span> <span class="n">center</span><span class="p">(</span><span class="n">affinity</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">drawing</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">scale</span><span class="p">),</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span>
+</span></code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h2 id="elkplot.shape_utils.shade" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">shade</span><span class="p">(</span><span class="n">polygon</span><span class="p">,</span> <span class="n">angle</span><span class="p">,</span> <span class="n">spacing</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span></code>
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Fill in a shapely Polygon or MultiPolygon with parallel lines so that the plotter will fill in the shape with lines.
+Args:
+    polygon: The shape to be filled in
+    angle: The angle at which the parallel lines should travel in radians (or any other unit if you pass in a <code>pint.Quantity</code>.)
+    spacing: The gap between parallel lines in inches (or any other unit if you pass in a <code>pint.Quantity</code>.)
+    offset: How much should the parallel lines be shifted up or down as a percentage of the spacing?</p>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><span title="shapely.MultiLineString">MultiLineString</span></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>The MultiLineString of the shaded lines. (NOTE: Does not include the outline.)</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+          <details class="quote">
+            <summary>Source code in <code>elkplot/shape_utils.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-469">469</a></span>
+<span class="normal"><a href="#__codelineno-0-470">470</a></span>
+<span class="normal"><a href="#__codelineno-0-471">471</a></span>
+<span class="normal"><a href="#__codelineno-0-472">472</a></span>
+<span class="normal"><a href="#__codelineno-0-473">473</a></span>
+<span class="normal"><a href="#__codelineno-0-474">474</a></span>
+<span class="normal"><a href="#__codelineno-0-475">475</a></span>
+<span class="normal"><a href="#__codelineno-0-476">476</a></span>
+<span class="normal"><a href="#__codelineno-0-477">477</a></span>
+<span class="normal"><a href="#__codelineno-0-478">478</a></span>
+<span class="normal"><a href="#__codelineno-0-479">479</a></span>
+<span class="normal"><a href="#__codelineno-0-480">480</a></span>
+<span class="normal"><a href="#__codelineno-0-481">481</a></span>
+<span class="normal"><a href="#__codelineno-0-482">482</a></span>
+<span class="normal"><a href="#__codelineno-0-483">483</a></span>
+<span class="normal"><a href="#__codelineno-0-484">484</a></span>
+<span class="normal"><a href="#__codelineno-0-485">485</a></span>
+<span class="normal"><a href="#__codelineno-0-486">486</a></span>
+<span class="normal"><a href="#__codelineno-0-487">487</a></span>
+<span class="normal"><a href="#__codelineno-0-488">488</a></span>
+<span class="normal"><a href="#__codelineno-0-489">489</a></span>
+<span class="normal"><a href="#__codelineno-0-490">490</a></span>
+<span class="normal"><a href="#__codelineno-0-491">491</a></span>
+<span class="normal"><a href="#__codelineno-0-492">492</a></span>
+<span class="normal"><a href="#__codelineno-0-493">493</a></span>
+<span class="normal"><a href="#__codelineno-0-494">494</a></span>
+<span class="normal"><a href="#__codelineno-0-495">495</a></span>
+<span class="normal"><a href="#__codelineno-0-496">496</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-469"><a id="__codelineno-0-469" name="__codelineno-0-469"></a><span class="nd">@UNITS</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;rad&quot;</span><span class="p">,</span> <span class="s2">&quot;inch&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="kc">False</span><span class="p">)</span>
+</span><span id="__span-0-470"><a id="__codelineno-0-470" name="__codelineno-0-470"></a><span class="k">def</span> <span class="nf">shade</span><span class="p">(</span>
+</span><span id="__span-0-471"><a id="__codelineno-0-471" name="__codelineno-0-471"></a>    <span class="n">polygon</span><span class="p">:</span> <span class="n">shapely</span><span class="o">.</span><span class="n">Polygon</span> <span class="o">|</span> <span class="n">shapely</span><span class="o">.</span><span class="n">MultiPolygon</span><span class="p">,</span>
+</span><span id="__span-0-472"><a id="__codelineno-0-472" name="__codelineno-0-472"></a>    <span class="n">angle</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+</span><span id="__span-0-473"><a id="__codelineno-0-473" name="__codelineno-0-473"></a>    <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+</span><span id="__span-0-474"><a id="__codelineno-0-474" name="__codelineno-0-474"></a>    <span class="n">offset</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
+</span><span id="__span-0-475"><a id="__codelineno-0-475" name="__codelineno-0-475"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">shapely</span><span class="o">.</span><span class="n">MultiLineString</span><span class="p">:</span>
+</span><span id="__span-0-476"><a id="__codelineno-0-476" name="__codelineno-0-476"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="__span-0-477"><a id="__codelineno-0-477" name="__codelineno-0-477"></a><span class="sd">    Fill in a shapely Polygon or MultiPolygon with parallel lines so that the plotter will fill in the shape with lines.</span>
+</span><span id="__span-0-478"><a id="__codelineno-0-478" name="__codelineno-0-478"></a><span class="sd">    Args:</span>
+</span><span id="__span-0-479"><a id="__codelineno-0-479" name="__codelineno-0-479"></a><span class="sd">        polygon: The shape to be filled in</span>
+</span><span id="__span-0-480"><a id="__codelineno-0-480" name="__codelineno-0-480"></a><span class="sd">        angle: The angle at which the parallel lines should travel in radians (or any other unit if you pass in a `pint.Quantity`.)</span>
+</span><span id="__span-0-481"><a id="__codelineno-0-481" name="__codelineno-0-481"></a><span class="sd">        spacing: The gap between parallel lines in inches (or any other unit if you pass in a `pint.Quantity`.)</span>
+</span><span id="__span-0-482"><a id="__codelineno-0-482" name="__codelineno-0-482"></a><span class="sd">        offset: How much should the parallel lines be shifted up or down as a percentage of the spacing?</span>
+</span><span id="__span-0-483"><a id="__codelineno-0-483" name="__codelineno-0-483"></a>
+</span><span id="__span-0-484"><a id="__codelineno-0-484" name="__codelineno-0-484"></a><span class="sd">    Returns:</span>
+</span><span id="__span-0-485"><a id="__codelineno-0-485" name="__codelineno-0-485"></a><span class="sd">        The MultiLineString of the shaded lines. (NOTE: Does not include the outline.)</span>
+</span><span id="__span-0-486"><a id="__codelineno-0-486" name="__codelineno-0-486"></a>
+</span><span id="__span-0-487"><a id="__codelineno-0-487" name="__codelineno-0-487"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-0-488"><a id="__codelineno-0-488" name="__codelineno-0-488"></a>    <span class="n">polygon</span> <span class="o">=</span> <span class="n">affinity</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span>
+</span><span id="__span-0-489"><a id="__codelineno-0-489" name="__codelineno-0-489"></a>        <span class="n">polygon</span><span class="p">,</span> <span class="o">-</span><span class="n">angle</span><span class="p">,</span> <span class="n">use_radians</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="n">polygon</span><span class="o">.</span><span class="n">centroid</span>
+</span><span id="__span-0-490"><a id="__codelineno-0-490" name="__codelineno-0-490"></a>    <span class="p">)</span>
+</span><span id="__span-0-491"><a id="__codelineno-0-491" name="__codelineno-0-491"></a>    <span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span> <span class="o">=</span> <span class="n">polygon</span><span class="o">.</span><span class="n">bounds</span>
+</span><span id="__span-0-492"><a id="__codelineno-0-492" name="__codelineno-0-492"></a>    <span class="n">shading</span> <span class="o">=</span> <span class="n">shapely</span><span class="o">.</span><span class="n">MultiLineString</span><span class="p">(</span>
+</span><span id="__span-0-493"><a id="__codelineno-0-493" name="__codelineno-0-493"></a>        <span class="p">[[(</span><span class="n">x0</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y</span><span class="p">)]</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">y0</span> <span class="o">+</span> <span class="n">offset</span> <span class="o">*</span> <span class="n">spacing</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">spacing</span><span class="p">)]</span>
+</span><span id="__span-0-494"><a id="__codelineno-0-494" name="__codelineno-0-494"></a>    <span class="p">)</span>
+</span><span id="__span-0-495"><a id="__codelineno-0-495" name="__codelineno-0-495"></a>    <span class="n">shading</span> <span class="o">=</span> <span class="n">polygon</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">shading</span><span class="p">)</span>
+</span><span id="__span-0-496"><a id="__codelineno-0-496" name="__codelineno-0-496"></a>    <span class="k">return</span> <span class="n">affinity</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="n">shading</span><span class="p">,</span> <span class="n">angle</span><span class="p">,</span> <span class="n">use_radians</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="n">polygon</span><span class="o">.</span><span class="n">centroid</span><span class="p">)</span>
+</span></code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h2 id="elkplot.shape_utils.size" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">size</span><span class="p">(</span><span class="n">geom</span><span class="p">)</span></code>
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Calculate the width and height of the bounding box of a shapely geometry.
+Args:
+    geom: The shapely Geometry object to be measured</p>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><span title="pint.Quantity">Quantity</span></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>width in inches</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+                <code><span title="pint.Quantity">Quantity</span></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>height in inches</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+          <details class="quote">
+            <summary>Source code in <code>elkplot/shape_utils.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-41">41</a></span>
+<span class="normal"><a href="#__codelineno-0-42">42</a></span>
+<span class="normal"><a href="#__codelineno-0-43">43</a></span>
+<span class="normal"><a href="#__codelineno-0-44">44</a></span>
+<span class="normal"><a href="#__codelineno-0-45">45</a></span>
+<span class="normal"><a href="#__codelineno-0-46">46</a></span>
+<span class="normal"><a href="#__codelineno-0-47">47</a></span>
+<span class="normal"><a href="#__codelineno-0-48">48</a></span>
+<span class="normal"><a href="#__codelineno-0-49">49</a></span>
+<span class="normal"><a href="#__codelineno-0-50">50</a></span>
+<span class="normal"><a href="#__codelineno-0-51">51</a></span>
+<span class="normal"><a href="#__codelineno-0-52">52</a></span>
+<span class="normal"><a href="#__codelineno-0-53">53</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41"></a><span class="k">def</span> <span class="nf">size</span><span class="p">(</span><span class="n">geom</span><span class="p">:</span> <span class="n">shapely</span><span class="o">.</span><span class="n">Geometry</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">pint</span><span class="o">.</span><span class="n">Quantity</span><span class="p">,</span> <span class="n">pint</span><span class="o">.</span><span class="n">Quantity</span><span class="p">]:</span>
+</span><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43"></a><span class="sd">    Calculate the width and height of the bounding box of a shapely geometry.</span>
+</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44"></a><span class="sd">    Args:</span>
+</span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45"></a><span class="sd">        geom: The shapely Geometry object to be measured</span>
+</span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46"></a>
+</span><span id="__span-0-47"><a id="__codelineno-0-47" name="__codelineno-0-47"></a><span class="sd">    Returns:</span>
+</span><span id="__span-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48"></a><span class="sd">        width in inches</span>
+</span><span id="__span-0-49"><a id="__codelineno-0-49" name="__codelineno-0-49"></a><span class="sd">        height in inches</span>
+</span><span id="__span-0-50"><a id="__codelineno-0-50" name="__codelineno-0-50"></a>
+</span><span id="__span-0-51"><a id="__codelineno-0-51" name="__codelineno-0-51"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-0-52"><a id="__codelineno-0-52" name="__codelineno-0-52"></a>    <span class="n">x_min</span><span class="p">,</span> <span class="n">y_min</span><span class="p">,</span> <span class="n">x_max</span><span class="p">,</span> <span class="n">y_max</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">bounds</span>
+</span><span id="__span-0-53"><a id="__codelineno-0-53" name="__codelineno-0-53"></a>    <span class="k">return</span> <span class="p">(</span><span class="n">x_max</span> <span class="o">-</span> <span class="n">x_min</span><span class="p">)</span> <span class="o">*</span> <span class="n">UNITS</span><span class="o">.</span><span class="n">inch</span><span class="p">,</span> <span class="p">(</span><span class="n">y_max</span> <span class="o">-</span> <span class="n">y_min</span><span class="p">)</span> <span class="o">*</span> <span class="n">UNITS</span><span class="o">.</span><span class="n">inch</span>
+</span></code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h2 id="elkplot.shape_utils.up_length" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">up_length</span><span class="p">(</span><span class="n">drawing</span><span class="p">)</span></code>
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Calculate the total distance travelled by the pen while not in contact with the page.
+This can be improved by merging and/or reordering the paths using the <code>optimize</code> function.
+Args:
+    drawing: A single layer of plotter art</p>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><span title="pint.Quantity">Quantity</span></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>The total pen-up distance in inches</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+          <details class="quote">
+            <summary>Source code in <code>elkplot/shape_utils.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-56">56</a></span>
+<span class="normal"><a href="#__codelineno-0-57">57</a></span>
+<span class="normal"><a href="#__codelineno-0-58">58</a></span>
+<span class="normal"><a href="#__codelineno-0-59">59</a></span>
+<span class="normal"><a href="#__codelineno-0-60">60</a></span>
+<span class="normal"><a href="#__codelineno-0-61">61</a></span>
+<span class="normal"><a href="#__codelineno-0-62">62</a></span>
+<span class="normal"><a href="#__codelineno-0-63">63</a></span>
+<span class="normal"><a href="#__codelineno-0-64">64</a></span>
+<span class="normal"><a href="#__codelineno-0-65">65</a></span>
+<span class="normal"><a href="#__codelineno-0-66">66</a></span>
+<span class="normal"><a href="#__codelineno-0-67">67</a></span>
+<span class="normal"><a href="#__codelineno-0-68">68</a></span>
+<span class="normal"><a href="#__codelineno-0-69">69</a></span>
+<span class="normal"><a href="#__codelineno-0-70">70</a></span>
+<span class="normal"><a href="#__codelineno-0-71">71</a></span>
+<span class="normal"><a href="#__codelineno-0-72">72</a></span>
+<span class="normal"><a href="#__codelineno-0-73">73</a></span>
+<span class="normal"><a href="#__codelineno-0-74">74</a></span>
+<span class="normal"><a href="#__codelineno-0-75">75</a></span>
+<span class="normal"><a href="#__codelineno-0-76">76</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-56"><a id="__codelineno-0-56" name="__codelineno-0-56"></a><span class="k">def</span> <span class="nf">up_length</span><span class="p">(</span><span class="n">drawing</span><span class="p">:</span> <span class="n">shapely</span><span class="o">.</span><span class="n">MultiLineString</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pint</span><span class="o">.</span><span class="n">Quantity</span><span class="p">:</span>
+</span><span id="__span-0-57"><a id="__codelineno-0-57" name="__codelineno-0-57"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="__span-0-58"><a id="__codelineno-0-58" name="__codelineno-0-58"></a><span class="sd">    Calculate the total distance travelled by the pen while not in contact with the page.</span>
+</span><span id="__span-0-59"><a id="__codelineno-0-59" name="__codelineno-0-59"></a><span class="sd">    This can be improved by merging and/or reordering the paths using the `optimize` function.</span>
+</span><span id="__span-0-60"><a id="__codelineno-0-60" name="__codelineno-0-60"></a><span class="sd">    Args:</span>
+</span><span id="__span-0-61"><a id="__codelineno-0-61" name="__codelineno-0-61"></a><span class="sd">        drawing: A single layer of plotter art</span>
+</span><span id="__span-0-62"><a id="__codelineno-0-62" name="__codelineno-0-62"></a>
+</span><span id="__span-0-63"><a id="__codelineno-0-63" name="__codelineno-0-63"></a><span class="sd">    Returns:</span>
+</span><span id="__span-0-64"><a id="__codelineno-0-64" name="__codelineno-0-64"></a><span class="sd">        The total pen-up distance in inches</span>
+</span><span id="__span-0-65"><a id="__codelineno-0-65" name="__codelineno-0-65"></a>
+</span><span id="__span-0-66"><a id="__codelineno-0-66" name="__codelineno-0-66"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-0-67"><a id="__codelineno-0-67" name="__codelineno-0-67"></a>    <span class="n">distance</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="__span-0-68"><a id="__codelineno-0-68" name="__codelineno-0-68"></a>    <span class="n">origin</span> <span class="o">=</span> <span class="n">shapely</span><span class="o">.</span><span class="n">points</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+</span><span id="__span-0-69"><a id="__codelineno-0-69" name="__codelineno-0-69"></a>    <span class="n">pen_position</span> <span class="o">=</span> <span class="n">origin</span>
+</span><span id="__span-0-70"><a id="__codelineno-0-70" name="__codelineno-0-70"></a>    <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">shapely</span><span class="o">.</span><span class="n">get_parts</span><span class="p">(</span><span class="n">drawing</span><span class="p">):</span>
+</span><span id="__span-0-71"><a id="__codelineno-0-71" name="__codelineno-0-71"></a>        <span class="n">path_start</span><span class="p">,</span> <span class="n">path_end</span> <span class="o">=</span> <span class="n">shapely</span><span class="o">.</span><span class="n">points</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">shapely</span><span class="o">.</span><span class="n">points</span><span class="p">(</span>
+</span><span id="__span-0-72"><a id="__codelineno-0-72" name="__codelineno-0-72"></a>            <span class="n">path</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</span><span id="__span-0-73"><a id="__codelineno-0-73" name="__codelineno-0-73"></a>        <span class="p">)</span>
+</span><span id="__span-0-74"><a id="__codelineno-0-74" name="__codelineno-0-74"></a>        <span class="n">distance</span> <span class="o">+=</span> <span class="n">shapely</span><span class="o">.</span><span class="n">distance</span><span class="p">(</span><span class="n">pen_position</span><span class="p">,</span> <span class="n">path_start</span><span class="p">)</span>
+</span><span id="__span-0-75"><a id="__codelineno-0-75" name="__codelineno-0-75"></a>        <span class="n">pen_position</span> <span class="o">=</span> <span class="n">path_end</span>
+</span><span id="__span-0-76"><a id="__codelineno-0-76" name="__codelineno-0-76"></a>    <span class="k">return</span> <span class="n">distance</span> <span class="o">*</span> <span class="n">UNITS</span><span class="o">.</span><span class="n">inch</span>
+</span></code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": "0.2.0"}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7c377c4.min.js"></script>
+      
+    
+  </body>
+</html>
