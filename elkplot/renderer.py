@@ -1,11 +1,12 @@
 from __future__ import division
 
 from itertools import chain
+from typing import Optional
 
 import numpy as np
 import pint
 import shapely
-from pyglet import window, gl, app
+from pyglet import window, gl, app, canvas
 from pyglet.graphics import Batch, Group
 
 from elkplot.sizes import UNITS
@@ -23,7 +24,8 @@ COLORS = [
 
 
 def _random_color(rng: np.random.Generator) -> tuple[int, int, int, int]:
-    return tuple((*rng.integers(0, 256, 3), 255))
+    r, g, b = rng.integers(0, 256, 3)
+    return (r, g, b, 255)
 
 
 def _batch_drawings(
@@ -56,7 +58,7 @@ def render(
     drawings: list[shapely.MultiLineString],
     width: float | pint.Quantity,
     height: float | pint.Quantity,
-    dpi: float = 128,
+    dpi: float = 64,
 ) -> None:
     """
     NOTE: You will probably not want to call this directly and instead use elkplot.draw

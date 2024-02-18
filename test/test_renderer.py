@@ -4,6 +4,7 @@ import shapely
 from shapely import affinity
 
 from elkplot import sizes, draw, UNITS
+import elkplot
 from test import config
 
 rng = np.random.default_rng(0)
@@ -33,9 +34,10 @@ def random_triangles(width: float, height: float, n: int) -> shapely.MultiLineSt
 
 @pytest.mark.skipif(config.SKIP_RENDER_TESTS, reason="skipping rendering tests")
 def test_draw():
+    drawing = shapely.GeometryCollection([random_squares(*sizes.A3, 20), random_triangles(*sizes.A3, 20)])
+    drawing = elkplot.scale_to_fit(drawing, *sizes.A3)
     draw(
-        [random_squares(*sizes.A3, 20), random_triangles(*sizes.A3, 20)],
+        drawing,
         *sizes.A3,
-        preview_dpi=64,
         plot=False
     )

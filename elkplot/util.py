@@ -23,7 +23,7 @@ def draw(
     height: float = elkplot.sizes.A3[1],
     layer_labels: Optional[list[str]] = None,
     preview: bool = True,
-    preview_dpi: float = 128,
+    preview_dpi: float = 64,
     plot: bool = True,
     retrace: int = 1,
     device: Optional[elkplot.Device] = None,
