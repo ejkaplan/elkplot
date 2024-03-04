@@ -468,7 +468,7 @@ def optimize(
     if sort:
         geometry = _sort_paths(geometry, pbar)
     if pbar:
-        print(f"After: {metrics}")
+        print(f"After: {metrics(geometry)}")
     return geometry
 
 
