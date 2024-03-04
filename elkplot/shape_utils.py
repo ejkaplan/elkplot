@@ -457,6 +457,8 @@ def optimize(
         The optimized geometry
 
     """
+    if pbar:
+        print(f"Before: {metrics(geometry)}")
     if reloop:
         geometry = _reloop_paths(geometry)
     if join:
@@ -465,6 +467,8 @@ def optimize(
         geometry = _delete_short_paths(geometry, tolerance, pbar)
     if sort:
         geometry = _sort_paths(geometry, pbar)
+    if pbar:
+        print(f"After: {metrics}")
     return geometry
 
 
@@ -565,3 +569,14 @@ def add_layer(
     drawing: shapely.GeometryCollection, new_layer: shapely.MultiLineString
 ) -> shapely.GeometryCollection:
     return shapely.GeometryCollection(list(shapely.get_parts(drawing)) + [new_layer])
+
+
+def merge_layers(layers: list[shapely.MultiLineString | shapely.LineString | shapely.LinearRing]) -> shapely.MultiLineString:
+    lines = []
+    for elem in layers:
+        if isinstance(elem, (shapely.LineString, shapely.LinearRing)):
+            lines.append(elem)
+            continue
+        for line in shapely.get_parts(elem):
+            lines.append(line)
+    return shapely.MultiLineString(lines)
