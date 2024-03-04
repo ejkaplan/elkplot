@@ -3,6 +3,7 @@ import time
 from configparser import ConfigParser
 from math import modf
 from pathlib import Path
+from typing import Optional
 
 import shapely
 from serial import Serial
@@ -266,7 +267,7 @@ class Device:
         else:
             self.run_plan(plan)
 
-    def run_layer(self, layer: shapely.MultiLineString, label: str = None):
+    def run_layer(self, layer: shapely.MultiLineString, label: Optional[str] = None):
         jog_planner = self._make_planner(True)
         draw_planner = self._make_planner(False)
         queue = mp.Queue()
