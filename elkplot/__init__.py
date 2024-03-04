@@ -12,6 +12,7 @@ from .shape_utils import (
     optimize,
     layer_wise_merge,
     add_layer,
+    merge_layers,
 )
 from .sizes import UNITS
 from .svg_load import load_svg
