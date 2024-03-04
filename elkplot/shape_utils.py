@@ -436,6 +436,7 @@ def optimize(
     sort: bool = True,
     reloop: bool = True,
     delete_small: bool = True,
+    join: bool = True,
     pbar: bool = True,
 ) -> shapely.Geometry:
     """
@@ -458,7 +459,8 @@ def optimize(
     """
     if reloop:
         geometry = _reloop_paths(geometry)
-    geometry = _join_paths(geometry, tolerance, pbar)
+    if join:
+        geometry = _join_paths(geometry, tolerance, pbar)
     if delete_small:
         geometry = _delete_short_paths(geometry, tolerance, pbar)
     if sort:
