@@ -429,7 +429,7 @@ def _delete_short_paths(
     return geometry
 
 
-@UNITS.wraps(None, (None, "inch", None, None, None, None), False)
+@UNITS.wraps(None, (None, "inch", None, None, None, None, None), False)
 def optimize(
     geometry: shapely.Geometry,
     tolerance: float = 0,
