@@ -302,3 +302,8 @@ class Device:
     def pen_down(self):
         """Lower the pen"""
         return self._command("SP", 0, self.pen_down_delay, self.pen_lift_pin)
+    
+    def powered_on(self):
+        stepper, motor = (int(elem) for elem in self._command("QC").split(","))
+        self._readline()
+        return stepper > 200 and motor > 200

@@ -85,10 +85,13 @@ def draw(
             f"Drawing has bounds ({min_x}, {min_y}) to ({max_x}, {max_y}), which extends outside the plottable bounds (0, 0) to ({width}, {height})"
         )
     if not elkplot.device.axidraw_available():
-        raise AxidrawNotFoundError()
+        raise AxidrawNotFoundError("Unable to communicate with device. Is the USB cable plugged in?")
     device = elkplot.Device() if device is None else device
+    if not device.powered_on():
+        raise AxidrawNotFoundError("Motors do not have power. Is the AxiDraw plugged in and turned on?")
     device.zero_position()
     device.enable_motors()
+    device.pen_up()
     for layer, label in zip(layers, layer_labels):
         input(f"Press enter when you're ready to draw {label}")
         for _ in range(retrace):
