@@ -75,8 +75,8 @@ def plan_layer_proc(
 class Device:
     def __init__(
         self,
-        pen_up_position: float = -50,
-        pen_down_position: float = -120,
+        pen_up_position: float = 0,
+        pen_down_position: float = -150,
         pen_up_speed: float = 150,
         pen_down_speed: float = 150,
         pen_up_delay: int = 50,
@@ -227,7 +227,7 @@ class Device:
     def read_position(self) -> tuple[float, float]:
         """Get the xy coordinates of the pen"""
         response = self._command("QS")
-        self._readline()
+        self._readline() # Clear out the 'OK'
         a, b = map(float, response.split(","))
         a /= self.steps_per_unit
         b /= self.steps_per_unit
