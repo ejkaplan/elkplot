@@ -93,7 +93,7 @@ class Turtle:
 
     def forward(self, distance: float) -> Turtle:
         """Move the turtle forward by some distance. You can also move the turtle
-          backwards by calling this function with a negative input
+        backwards by calling this function with a negative input
 
         Args:
             distance (float): The distance to move forward
@@ -153,6 +153,13 @@ class Turtle:
             Turtle: Return self so that commands can be chained
         """
         return self.turn_right(-angle)
+    
+    def set_heading(self, angle: float) -> Turtle:
+        new_heading = angle * (
+            DEG_TO_RAD if self._use_degrees else 1
+        )
+        self._state = dataclasses.replace(self._state, heading=new_heading)
+        return self
 
     def goto(self, x: float, y: float) -> Turtle:
         """Move the turtle directly to a given coordinate
