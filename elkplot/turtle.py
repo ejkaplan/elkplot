@@ -155,6 +155,15 @@ class Turtle:
         return self.turn_right(-angle)
     
     def set_heading(self, angle: float) -> Turtle:
+        """
+        Turns the turtle in place to directly face a particular direction
+
+        Args:
+            angle (float): The new heading, where 0 is facing right.
+
+        Returns:
+            Turtle: Return self so that commands can be chained.
+        """
         new_heading = angle * (
             DEG_TO_RAD if self._use_degrees else 1
         )
