@@ -53,7 +53,7 @@ def _batch_drawings(
     return batch
 
 
-@UNITS.wraps(None, (None, "inch", "inch", None), False)
+@UNITS.wraps(None, (None, "inch", "inch", None, None), False)
 def render(
     drawings: list[shapely.MultiLineString],
     width: float | pint.Quantity,
