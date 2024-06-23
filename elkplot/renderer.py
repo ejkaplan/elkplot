@@ -86,7 +86,6 @@ def render(
         int(height * dpi),
         "plot preview",
         config=config,
-        color=bg_color,
     )
 
     @win.event
