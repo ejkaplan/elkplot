@@ -59,6 +59,7 @@ def render(
     width: float | pint.Quantity,
     height: float | pint.Quantity,
     dpi: float = 64,
+    bg_color: tuple[float,...] = (0, 0, 0),
 ) -> None:
     """
     NOTE: You will probably not want to call this directly and instead use elkplot.draw
@@ -71,6 +72,8 @@ def render(
     :param dpi: How large would you like the preview shown in screen pixels per plotter-inch
     :return:
     """
+    if len(bg_color) == 3:
+        bg_color += (255,)
     if isinstance(width, pint.Quantity):
         width = width.to("inch").magnitude
     if isinstance(height, pint.Quantity):
@@ -78,7 +81,7 @@ def render(
     batch = _batch_drawings(drawings, height, dpi)
     config = gl.Config(sample_buffers=1, samples=8, double_buffer=True)
     win = window.Window(
-        int(width * dpi), int(height * dpi), "plot preview", config=config
+        int(width * dpi), int(height * dpi), "plot preview", config=config, color=bg_color
     )
 
     @win.event
