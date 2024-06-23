@@ -6,12 +6,10 @@ import shapely
 import elkplot
 
 
-class AxidrawNotFoundError(IOError):
-    ...
+class AxidrawNotFoundError(IOError): ...
 
 
-class DrawingOutOfBoundsError(Exception):
-    ...
+class DrawingOutOfBoundsError(Exception): ...
 
 
 @elkplot.UNITS.wraps(
@@ -27,6 +25,7 @@ def draw(
     plot: bool = True,
     retrace: int = 1,
     device: Optional[elkplot.Device] = None,
+    bg_color: tuple[float, ...] = (0, 0, 0),
 ) -> None:
     """
     Visualize and/or plot a given drawing. Automatically pauses the plotter between layers to allow for changing pens.
@@ -71,9 +70,9 @@ def draw(
     out_of_bounds = min_x < 0 or min_y < 0 or max_x > width or max_y > height
     if out_of_bounds:
         warnings.warn("THIS DRAWING GOES OUT OF BOUNDS!")
-    
+
     if preview:
-        elkplot.render(layers, width, height, preview_dpi)
+        elkplot.render(layers, width, height, preview_dpi, bg_color=bg_color)
     if not plot:
         return
     min_x = min([layer.bounds[0] for layer in layers])
@@ -85,10 +84,14 @@ def draw(
             f"Drawing has bounds ({min_x}, {min_y}) to ({max_x}, {max_y}), which extends outside the plottable bounds (0, 0) to ({width}, {height})"
         )
     if not elkplot.device.axidraw_available():
-        raise AxidrawNotFoundError("Unable to communicate with device. Is the USB cable plugged in?")
+        raise AxidrawNotFoundError(
+            "Unable to communicate with device. Is the USB cable plugged in?"
+        )
     device = elkplot.Device() if device is None else device
     if not device.powered_on():
-        raise AxidrawNotFoundError("Motors do not have power. Is the AxiDraw plugged in and turned on?")
+        raise AxidrawNotFoundError(
+            "Motors do not have power. Is the AxiDraw plugged in and turned on?"
+        )
     device.zero_position()
     device.enable_motors()
     device.pen_up()
