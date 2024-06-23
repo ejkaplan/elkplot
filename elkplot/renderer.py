@@ -73,8 +73,6 @@ def render(
     :param dpi: How large would you like the preview shown in screen pixels per plotter-inch
     :return:
     """
-    if len(bg_color) == 3:
-        bg_color += (255,)
     if isinstance(width, pint.Quantity):
         width = width.to("inch").magnitude
     if isinstance(height, pint.Quantity):
@@ -92,7 +90,7 @@ def render(
     def on_draw():
         gl.glEnable(gl.GL_LINE_SMOOTH)
         shapes.Rectangle(
-            0, 0, int(width * dpi), int(height * dpi), color=bg_color, batch=None
+            0, int(height * dpi), int(width * dpi), int(height * dpi), color=bg_color, batch=None
         ).draw()
         win.clear()
         batch.draw()
