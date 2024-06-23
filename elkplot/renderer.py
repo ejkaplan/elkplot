@@ -8,6 +8,7 @@ import pint
 import shapely
 from pyglet import window, gl, app, canvas
 from pyglet.graphics import Batch, Group
+from pyglet import shapes
 
 from elkplot.sizes import UNITS
 
@@ -59,7 +60,7 @@ def render(
     width: float | pint.Quantity,
     height: float | pint.Quantity,
     dpi: float = 64,
-    bg_color: tuple[float,...] = (0, 0, 0),
+    bg_color: tuple[float, ...] = (0, 0, 0),
 ) -> None:
     """
     NOTE: You will probably not want to call this directly and instead use elkplot.draw
@@ -81,12 +82,19 @@ def render(
     batch = _batch_drawings(drawings, height, dpi)
     config = gl.Config(sample_buffers=1, samples=8, double_buffer=True)
     win = window.Window(
-        int(width * dpi), int(height * dpi), "plot preview", config=config, color=bg_color
+        int(width * dpi),
+        int(height * dpi),
+        "plot preview",
+        config=config,
+        color=bg_color,
     )
 
     @win.event
     def on_draw():
         gl.glEnable(gl.GL_LINE_SMOOTH)
+        shapes.Rectangle(
+            0, 0, int(width * dpi), int(height * dpi), color=bg_color, batch=None
+        ).draw()
         win.clear()
         batch.draw()
 
