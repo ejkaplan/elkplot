@@ -89,10 +89,10 @@ def render(
     @win.event
     def on_draw():
         gl.glEnable(gl.GL_LINE_SMOOTH)
+        win.clear()
         shapes.Rectangle(
             0, int(height * dpi), int(width * dpi), int(height * dpi), color=bg_color, batch=None
         ).draw()
-        win.clear()
         batch.draw()
 
     app.run()
