@@ -4,14 +4,11 @@ from dataclasses import dataclass
 from typing import Optional
 
 import numpy as np
-import pint
 import shapely
 import shapely.affinity as affinity
 import shapely.ops
 from rtree.index import Index
 from tqdm import tqdm
-
-from elkplot.sizes import UNITS
 
 
 def flatten_geometry(geom: shapely.Geometry) -> shapely.MultiLineString:
@@ -31,14 +28,14 @@ def flatten_geometry(geom: shapely.Geometry) -> shapely.MultiLineString:
         return shapely.multilinestrings([geom])
     elif isinstance(geom, shapely.Polygon):
         shapes = [geom.exterior] + list(geom.interiors)
-        return shapely.union_all([flatten_geometry(shape) for shape in shapes])
+        return shapely.MultiLineString(shapes)
     elif isinstance(geom, (shapely.GeometryCollection, shapely.MultiPolygon)):
         parts = [flatten_geometry(sub_geom) for sub_geom in shapely.get_parts(geom)]
         return shapely.union_all(parts)
     return shapely.MultiLineString()
 
 
-def size(geom: shapely.Geometry) -> tuple[pint.Quantity, pint.Quantity]:
+def size(geom: shapely.Geometry) -> tuple[float, float]:
     """
     Calculate the width and height of the bounding box of a shapely geometry.
     Args:
@@ -49,11 +46,11 @@ def size(geom: shapely.Geometry) -> tuple[pint.Quantity, pint.Quantity]:
         height in inches
 
     """
-    x_min, y_min, x_max, y_max = geom.bounds
-    return (x_max - x_min) * UNITS.inch, (y_max - y_min) * UNITS.inch
+    x_min, y_min, x_max, y_max = shapely.bounds(geom)
+    return (x_max - x_min), (y_max - y_min)
 
 
-def up_length(drawing: shapely.MultiLineString) -> pint.Quantity:
+def up_length(drawing: shapely.MultiLineString) -> float:
     """
     Calculate the total distance travelled by the pen while not in contact with the page.
     This can be improved by merging and/or reordering the paths using the `optimize` function.
@@ -73,10 +70,9 @@ def up_length(drawing: shapely.MultiLineString) -> pint.Quantity:
         )
         distance += shapely.distance(pen_position, path_start)
         pen_position = path_end
-    return distance * UNITS.inch
+    return distance
 
 
-@UNITS.wraps(None, (None, "inch", "inch", "inch"), False)
 def scale_to_fit(
     drawing: shapely.Geometry,
     width: float = 0,
@@ -100,7 +96,7 @@ def scale_to_fit(
         box (including the padding) is at the origin
 
     """
-    w, h = (dim.magnitude for dim in size(drawing))
+    w, h = size(drawing)
     if w == 0 or width == 0:
         scale = (height - padding * 2) / h
     elif h == 0 or height == 0:
@@ -110,7 +106,6 @@ def scale_to_fit(
     return center(affinity.scale(drawing, scale, scale), width, height)
 
 
-@UNITS.wraps(None, (None, "inch", "inch", "inch", "rad"), False)
 def rotate_and_scale_to_fit(
     drawing: shapely.Geometry,
     width: float,
@@ -137,7 +132,7 @@ def rotate_and_scale_to_fit(
     """
     best_geom: shapely.Geometry = drawing
     biggest = 0
-    for angle in np.arange(0, np.pi, increment):
+    for angle in np.arange(0, np.pi, increment, dtype=float):
         rotated = affinity.rotate(drawing, angle, use_radians=True)
         scaled = scale_to_fit(rotated, width, height, padding)
         w, h = size(scaled)
@@ -148,7 +143,6 @@ def rotate_and_scale_to_fit(
     return best_geom
 
 
-@UNITS.wraps(None, (None, "inch", "inch", "inch", "inch"), False)
 def center(
     drawing: shapely.Geometry,
     width: float,
@@ -168,7 +162,7 @@ def center(
     Returns:
         A copy of the drawing having been translated to the center of the rectangle
     """
-    x_min, y_min, x_max, y_max = drawing.bounds
+    x_min, y_min, x_max, y_max = shapely.bounds(drawing)
     center_point = shapely.Point((x_min + x_max) / 2, (y_min + y_max) / 2)
     dx, dy = x + width / 2 - center_point.x, y + height / 2 - center_point.y
     return affinity.translate(drawing, dx, dy)
@@ -326,7 +320,6 @@ def _join_paths_single(
     return shapely.MultiLineString(out)
 
 
-@UNITS.wraps(None, (None, "inch", None), False)
 def _join_paths(
     geometry: shapely.Geometry, tolerance: float, pbar: bool = True
 ) -> shapely.MultiLineString | shapely.GeometryCollection:
@@ -391,7 +384,6 @@ def _reloop_paths(
     return geometry
 
 
-@UNITS.wraps(None, (None, "inch", None), False)
 def _delete_short_paths_single(
     geometry: shapely.MultiLineString, min_length: float, pbar: bool = True
 ) -> shapely.MultiLineString:
@@ -410,7 +402,6 @@ def _delete_short_paths_single(
     )
 
 
-@UNITS.wraps(None, (None, "inch", None), False)
 def _delete_short_paths(
     geometry: shapely.Geometry, min_length: float, pbar: bool = True
 ) -> shapely.MultiLineString | shapely.GeometryCollection:
@@ -429,7 +420,6 @@ def _delete_short_paths(
     return geometry
 
 
-@UNITS.wraps(None, (None, "inch", None, None, None, None, None), False)
 def optimize(
     geometry: shapely.Geometry,
     tolerance: float = 0,
@@ -472,7 +462,6 @@ def optimize(
     return geometry
 
 
-@UNITS.wraps(None, (None, "rad", "inch", None), False)
 def shade(
     polygon: shapely.Polygon | shapely.MultiPolygon,
     angle: float,
@@ -504,8 +493,8 @@ def shade(
 
 @dataclass
 class DrawingMetrics:
-    pen_down_dist: pint.Quantity
-    pen_up_dist: pint.Quantity
+    pen_down_dist: float
+    pen_up_dist: float
     path_count: int
 
     def __str__(self) -> str:
@@ -531,16 +520,20 @@ def metrics(drawing: shapely.Geometry) -> DrawingMetrics:
 
     """
     if isinstance(drawing, shapely.GeometryCollection):
-        out = DrawingMetrics(0 * UNITS.inch, 0 * UNITS.inch, 0)
+        out = DrawingMetrics(0, 0, 0)
         for layer in shapely.get_parts(drawing):
             out += metrics(flatten_geometry(layer))
         return out
-    else:
+    elif isinstance(drawing, shapely.MultiLineString):
         return DrawingMetrics(
-            drawing.length * UNITS.inch,
+            shapely.length(drawing),
             up_length(drawing),
             shapely.get_num_geometries(drawing),
         )
+    elif isinstance(drawing, (shapely.LineString, shapely.LinearRing)):
+        return DrawingMetrics(shapely.length(drawing), 0, 1)
+    else:
+        raise TypeError("Geometry is not a supported type.")
 
 
 def layer_wise_merge(

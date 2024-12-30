@@ -4,13 +4,10 @@ from itertools import chain
 from typing import Optional
 
 import numpy as np
-import pint
 import shapely
 from pyglet import window, gl, app, canvas
 from pyglet.graphics import Batch, Group
 from pyglet import shapes
-
-from elkplot.sizes import UNITS
 
 COLORS = [
     (0, 0, 255, 255),  # blue
@@ -54,11 +51,10 @@ def _batch_drawings(
     return batch
 
 
-@UNITS.wraps(None, (None, "inch", "inch", None, None), False)
 def render(
     drawings: list[shapely.MultiLineString],
-    width: float | pint.Quantity,
-    height: float | pint.Quantity,
+    width: float,
+    height: float,
     dpi: float = 64,
     bg_color: tuple[float, ...] = (0, 0, 0),
 ) -> None:
@@ -73,10 +69,6 @@ def render(
     :param dpi: How large would you like the preview shown in screen pixels per plotter-inch
     :return:
     """
-    if isinstance(width, pint.Quantity):
-        width = width.to("inch").magnitude
-    if isinstance(height, pint.Quantity):
-        height = height.to("inch").magnitude
     batch = _batch_drawings(drawings, height, dpi)
     config = gl.Config(sample_buffers=1, samples=8, double_buffer=True)
     win = window.Window(

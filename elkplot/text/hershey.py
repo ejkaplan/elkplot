@@ -3,7 +3,6 @@ from __future__ import division
 import itertools
 from string import printable
 
-import pint
 import shapely
 import shapely.affinity as affinity
 
@@ -16,11 +15,10 @@ from .hershey_fonts import *
 HersheyFont = list[tuple[float, float, list[list[tuple[float, float]]]]]
 
 
-@elkplot.UNITS.wraps(None, [None, None, "inch", "inch"], False)
 def text(
         string: str, font: HersheyFont = FUTURAL, spacing: float = 0, extra: float = 0
 ) -> shapely.MultiLineString:
-    results = []
+    results: list[shapely.LineString] = []
     x = 0
     for ch in string:
         index = ord(ch) - 32
@@ -31,7 +29,7 @@ def text(
         for path in coords:
             path = [(x + i - lt, j) for i, j in path]
             if path:
-                results.append(shapely.linestrings(path))
+                results += shapely.linestrings(path)
         x += rt - lt + spacing
         if index == 0:
             x += extra
@@ -67,7 +65,7 @@ class Font:
         """A class that renders text in a given font and point size"""
         self.font = font
         self.max_height = size(text(printable, font))[1]
-        self.scale = ((point_size / 72) / self.max_height).magnitude
+        self.scale = (point_size / 72) / self.max_height
 
     def text(self, string: str) -> shapely.MultiLineString:
         """
@@ -83,12 +81,11 @@ class Font:
         t = affinity.scale(t, self.scale, self.scale, origin=(0, 0))
         return t
 
-    def measure(self, string: str) -> tuple[pint.Quantity, pint.Quantity]:
+    def measure(self, string: str) -> tuple[float, float]:
         """Return the width and height of a given string rendered using this font/size combo"""
         t = self.text(string)
         return size(t)
 
-    @elkplot.UNITS.wraps(None, [None, None, "inch", None, None], False)
     def wrap(
             self,
             string: str,
@@ -120,10 +117,10 @@ class Font:
             if align == 0:
                 x = 0
             elif align == 1:
-                x = (max_width - w).m
+                x = (max_width - w)
             else:
-                x = (max_width / 2 - w / 2).m
+                x = (max_width / 2 - w / 2)
             line_shape = affinity.translate(line_shape, x, y)
             result.append(line_shape)
-            y += spacing.m
+            y += spacing
         return shapely.union_all(result)

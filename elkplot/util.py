@@ -12,9 +12,6 @@ class AxidrawNotFoundError(IOError): ...
 class DrawingOutOfBoundsError(Exception): ...
 
 
-@elkplot.UNITS.wraps(
-    None, (None, "inch", "inch", None, None, None, None, None, None, None), False
-)
 def draw(
     drawing: shapely.Geometry | list[shapely.Geometry],
     width: float = elkplot.sizes.A3[0],

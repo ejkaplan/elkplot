@@ -14,7 +14,6 @@ from .shape_utils import (
     add_layer,
     merge_layers,
 )
-from .sizes import UNITS
 from .svg_load import load_svg
 from .text.hershey import text, Font
 from .text.hershey_fonts import (
