@@ -210,3 +210,7 @@ def ease_in_out_bounce(x: npt.ArrayLike) -> npt.ArrayLike:
     first_half = (1 - ease_out_bounce(1 - 2 * x)) / 2
     second_half = (1 + ease_out_bounce(2 * x - 1)) / 2
     return np.where(x < 0.5, first_half, second_half)
+
+
+if __name__ == "__main__":
+    main()

@@ -3,7 +3,8 @@ import warnings
 
 import shapely
 
-import elkplot
+from elkplot import sizes, Device, flatten_geometry, render
+from elkplot.device import axidraw_available
 
 
 class AxidrawNotFoundError(IOError): ...
@@ -14,14 +15,14 @@ class DrawingOutOfBoundsError(Exception): ...
 
 def draw(
     drawing: shapely.Geometry | list[shapely.Geometry],
-    width: float = elkplot.sizes.A3[0],
-    height: float = elkplot.sizes.A3[1],
+    width: float = sizes.A3[0],
+    height: float = sizes.A3[1],
     layer_labels: Optional[list[str]] = None,
     preview: bool = True,
     preview_dpi: float = 64,
     plot: bool = True,
     retrace: int = 1,
-    device: Optional[elkplot.Device] = None,
+    device: Optional[Device] = None,
     bg_color: tuple[float, ...] = (0, 0, 0),
 ) -> None:
     """
@@ -49,12 +50,12 @@ def draw(
     """
     if isinstance(drawing, shapely.GeometryCollection):
         layers = [
-            elkplot.flatten_geometry(layer) for layer in shapely.get_parts(drawing)
+            flatten_geometry(layer) for layer in shapely.get_parts(drawing)
         ]
     elif isinstance(drawing, list):
-        layers = [elkplot.flatten_geometry(layer) for layer in drawing]
+        layers = [flatten_geometry(layer) for layer in drawing]
     else:
-        layers = [elkplot.flatten_geometry(drawing)]
+        layers = [flatten_geometry(drawing)]
     if layer_labels is None:
         layer_labels = [f"Layer #{i}" for i in range(len(layers))]
     else:
@@ -69,7 +70,7 @@ def draw(
         warnings.warn("THIS DRAWING GOES OUT OF BOUNDS!")
 
     if preview:
-        elkplot.render(layers, width, height, preview_dpi, bg_color=bg_color)
+        render(layers, width, height, preview_dpi, bg_color=bg_color)
     if not plot:
         return
     min_x = min([layer.bounds[0] for layer in layers])
@@ -80,11 +81,11 @@ def draw(
         raise DrawingOutOfBoundsError(
             f"Drawing has bounds ({min_x}, {min_y}) to ({max_x}, {max_y}), which extends outside the plottable bounds (0, 0) to ({width}, {height})"
         )
-    if not elkplot.device.axidraw_available():
+    if not axidraw_available():
         raise AxidrawNotFoundError(
             "Unable to communicate with device. Is the USB cable plugged in?"
         )
-    device = elkplot.Device() if device is None else device
+    device = Device() if device is None else device
     if not device.powered_on():
         raise AxidrawNotFoundError(
             "Motors do not have power. Is the AxiDraw plugged in and turned on?"

@@ -111,7 +111,7 @@ class Point(NamedTuple):
     def mul(self, factor: float) -> "Point":
         return Point(self.x * factor, self.y * factor)
 
-    def dot(self, other: "Point") -> "Point":
+    def dot(self, other: "Point") -> float:
         return self.x * other.x + self.y * other.y
 
     def lerps(self, other: "Point", s: float) -> "Point":
@@ -167,7 +167,7 @@ def trapezoid(
     return Trapezoid(s1, s2, s3, t1, t2, t3, p1, p2, p3, p4)
 
 
-def corner_velocity(s1: float, s2: float, vmax: float, a: float, delta: float):
+def corner_velocity(s1: "Segment", s2: "Segment", vmax: float, a: float, delta: float):
     # compute a maximum velocity at the corner of two segments
     # https://onehossshay.wordpress.com/2011/09/24/improving_grbl_cornering_algorithm/
     cosine = -s1.vector.dot(s2.vector)
@@ -188,8 +188,8 @@ class Segment:
         self.p2 = p2
         self.length = p1.distance(p2)
         self.vector = p2.sub(p1).normalize()
-        self.max_entry_velocity = 0
-        self.entry_velocity = 0
+        self.max_entry_velocity = 0.0
+        self.entry_velocity = 0.0
         self.blocks = []
 
 
@@ -255,16 +255,16 @@ def constant_acceleration_plan(
     points: list[Point | tuple[float, float]], a: float, vmax: float, cf: float
 ) -> Plan:
     # make sure points are Point objects
-    points = [Point(x, y) for x, y in points]
+    points2: list[Point] = [Point(x, y) for x, y in points]
 
     # the throttler reduces speeds based on the discrete timeslicing nature of
     # the device
     # TODO: expose parameters
-    throttler = Throttler(points, vmax, 0.02, 0.001)
+    throttler = Throttler(points2, vmax, 0.02, 0.001)
     max_velocities = throttler.compute_max_velocities()
 
     # create segments for each consecutive pair of points
-    segments = [Segment(p1, p2) for p1, p2 in zip(points, points[1:])]
+    segments = [Segment(p1, p2) for p1, p2 in zip(points2, points2[1:])]
 
     # compute a max_entry_velocity for each segment
     # based on the angle formed by the two segments at the vertex
@@ -273,7 +273,7 @@ def constant_acceleration_plan(
         s2.max_entry_velocity = corner_velocity(s1, s2, vmax, a, cf)
 
     # add a dummy segment at the end to force a final velocity of zero
-    segments.append(Segment(points[-1], points[-1]))
+    segments.append(Segment(points2[-1], points2[-1]))
 
     # loop over segments
     i = 0
