@@ -33,22 +33,15 @@ def render(
     height: float,
     dpi: float = 64,
     bg_color: tuple[int, int, int] = (0, 0, 0),
+    layer_colors: Optional[list[tuple[int, int, int]]] = None,
 ) -> None:
-    """
-    NOTE: You will probably not want to call this directly and instead use elkplot.draw
-    Displays a preview of what the plotter will draw. Each layer is rendered in a different color. The first 8 layers'
-    colors have been chosen with maximum distinguishability in mind. If (for some reason) you need more than 8 layers,
-    subsequent layers' colors are chosen randomly and no guarantees are made about legibility.
-    :param drawings: A list of MultiLineStrings, one per layer to be drawn
-    :param width: The width of the page (in inches)
-    :param height: The height of the page (in inches)
-    :param dpi: How large would you like the preview shown in screen pixels per plotter-inch
-    :return:
-    """
     pygame.init()
     win = pygame.display.set_mode((int(dpi * width), int(dpi * height)))
     rng = np.random.default_rng()
-    my_colors = COLORS + [_random_color(rng) for _ in range(len(layers) - len(COLORS))]
+    if layer_colors is not None:
+        my_colors = layer_colors + [_random_color(rng) for _ in range(len(layers) - len(layer_colors))]
+    else:
+        my_colors = COLORS + [_random_color(rng) for _ in range(len(layers) - len(COLORS))]
     run = True
     first_run = True
     while run:

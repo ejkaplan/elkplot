@@ -23,7 +23,8 @@ def draw(
     plot: bool = True,
     retrace: int = 1,
     device: Optional[Device] = None,
-    bg_color: tuple[float, ...] = (0, 0, 0),
+    bg_color: tuple[int, int, int] = (0, 0, 0),
+    layer_colors: Optional[list[tuple[int, int, int]]] = None,
 ) -> None:
     """
     Visualize and/or plot a given drawing. Automatically pauses the plotter between layers to allow for changing pens.
@@ -47,11 +48,11 @@ def draw(
             draw that layer a second time, then either finish or prompt you to change pens.
         device: The AxiDraw config to which the plot should be sent. If excluded, a `Device` with all default settings
             will be used.
+        bg_color: The color of the background on which the preview is rendered (r, g, b)
+        layer_colors: A list of colors for each layer - good for previewing pen colors. Each color given as (r,g,b)
     """
     if isinstance(drawing, shapely.GeometryCollection):
-        layers = [
-            flatten_geometry(layer) for layer in shapely.get_parts(drawing)
-        ]
+        layers = [flatten_geometry(layer) for layer in shapely.get_parts(drawing)]
     elif isinstance(drawing, list):
         layers = [flatten_geometry(layer) for layer in drawing]
     else:
@@ -70,7 +71,14 @@ def draw(
         warnings.warn("THIS DRAWING GOES OUT OF BOUNDS!")
 
     if preview:
-        render(layers, width, height, preview_dpi, bg_color=bg_color)
+        render(
+            layers,
+            width,
+            height,
+            preview_dpi,
+            bg_color=bg_color,
+            layer_colors=layer_colors,
+        )
     if not plot:
         return
     min_x = min([layer.bounds[0] for layer in layers])
