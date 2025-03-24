@@ -5,9 +5,10 @@ from typing import Optional
 
 import numpy as np
 import shapely
-from pyglet import window, gl, app, canvas
-from pyglet.graphics import Batch, Group
-from pyglet import shapes
+from os import environ
+
+environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "1"
+import pygame
 
 COLORS = [
     (0, 0, 255, 255),  # blue
@@ -26,37 +27,12 @@ def _random_color(rng: np.random.Generator) -> tuple[int, int, int, int]:
     return (r, g, b, 255)
 
 
-def _batch_drawings(
-    layers: list[shapely.MultiLineString], height: float, dpi: float
-) -> Batch:
-    rng = np.random.default_rng()
-    my_colors = COLORS + [_random_color(rng) for _ in range(len(layers) - len(COLORS))]
-    batch = Batch()
-    for i, layer in enumerate(layers):
-        color = my_colors[i]
-        path: shapely.LineString
-        for path in shapely.get_parts(layer):
-            grp = Group()
-            screen_coords = [(dpi * x, dpi * (height - y)) for x, y in path.coords]
-            vertices = (
-                screen_coords[0] + tuple(chain(*screen_coords)) + screen_coords[-1]
-            )
-            batch.add(
-                len(vertices) // 2,
-                gl.GL_LINE_STRIP,
-                grp,
-                ("v2f", vertices),
-                ("c4B", color * (len(vertices) // 2)),
-            )
-    return batch
-
-
 def render(
-    drawings: list[shapely.MultiLineString],
+    layers: list[shapely.MultiLineString],
     width: float,
     height: float,
     dpi: float = 64,
-    bg_color: tuple[float, ...] = (0, 0, 0),
+    bg_color: tuple[int, int, int] = (0, 0, 0),
 ) -> None:
     """
     NOTE: You will probably not want to call this directly and instead use elkplot.draw
@@ -69,22 +45,25 @@ def render(
     :param dpi: How large would you like the preview shown in screen pixels per plotter-inch
     :return:
     """
-    batch = _batch_drawings(drawings, height, dpi)
-    config = gl.Config(sample_buffers=1, samples=8, double_buffer=True)
-    win = window.Window(
-        int(width * dpi),
-        int(height * dpi),
-        "plot preview",
-        config=config,
-    )
-
-    @win.event
-    def on_draw():
-        gl.glEnable(gl.GL_LINE_SMOOTH)
-        win.clear()
-        shapes.Rectangle(
-            0, int(height * dpi), int(width * dpi), int(height * dpi), color=bg_color, batch=None
-        ).draw()
-        batch.draw()
-
-    app.run()
+    pygame.init()
+    win = pygame.display.set_mode((int(dpi * width), int(dpi * height)))
+    rng = np.random.default_rng()
+    my_colors = COLORS + [_random_color(rng) for _ in range(len(layers) - len(COLORS))]
+    run = True
+    first_run = True
+    while run:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+        if not first_run:
+            continue
+        win.fill(bg_color)
+        for i, layer in enumerate(layers):
+            color = my_colors[i]
+            path: shapely.LineString
+            for path in shapely.get_parts(layer):
+                screen_coords = [(dpi * x, dpi * (height - y)) for x, y in path.coords]
+                pygame.draw.lines(win, color, False, screen_coords)
+        pygame.display.flip()
+        first_run = False
+    pygame.quit()
