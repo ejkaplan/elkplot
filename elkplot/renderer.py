@@ -56,7 +56,7 @@ def render(
             path: shapely.LineString
             for path in shapely.get_parts(layer):
                 screen_coords = [(dpi * x, dpi * (height - y)) for x, y in path.coords]
-                pygame.draw.lines(win, color, False, screen_coords)
+                pygame.draw.aalines(win, color, False, screen_coords)
         pygame.display.flip()
         first_run = False
     pygame.quit()
