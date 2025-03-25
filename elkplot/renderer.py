@@ -39,9 +39,13 @@ def render(
     win = pygame.display.set_mode((int(dpi * width), int(dpi * height)))
     rng = np.random.default_rng()
     if layer_colors is not None:
-        my_colors = layer_colors + [_random_color(rng) for _ in range(len(layers) - len(layer_colors))]
+        my_colors = layer_colors + [
+            _random_color(rng) for _ in range(len(layers) - len(layer_colors))
+        ]
     else:
-        my_colors = COLORS + [_random_color(rng) for _ in range(len(layers) - len(COLORS))]
+        my_colors = COLORS + [
+            _random_color(rng) for _ in range(len(layers) - len(COLORS))
+        ]
     run = True
     first_run = True
     while run:
@@ -55,7 +59,7 @@ def render(
             color = my_colors[i]
             path: shapely.LineString
             for path in shapely.get_parts(layer):
-                screen_coords = [(dpi * x, dpi * (height - y)) for x, y in path.coords]
+                screen_coords = [(dpi * x, dpi * y) for x, y in path.coords]
                 pygame.draw.aalines(win, color, False, screen_coords)
         pygame.display.flip()
         first_run = False
