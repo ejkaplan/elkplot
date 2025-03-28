@@ -16,7 +16,7 @@ HersheyFont = list[tuple[float, float, list[list[tuple[float, float]]]]]
 
 
 def text(
-        string: str, font: HersheyFont = FUTURAL, spacing: float = 0, extra: float = 0
+    string: str, font: HersheyFont = FUTURAL, spacing: float = 0, extra: float = 0
 ) -> shapely.MultiLineString:
     results: list[shapely.LineString] = []
     x = 0
@@ -29,11 +29,11 @@ def text(
         for path in coords:
             path = [(x + i - lt, j) for i, j in path]
             if path:
-                results += shapely.linestrings(path)
+                results.append(shapely.LineString(path))
         x += rt - lt + spacing
         if index == 0:
             x += extra
-    return shapely.union_all(results)
+    return shapely.MultiLineString(results)
 
 
 def word_wrap(string: str, width: float, measure_func) -> list[str]:
@@ -87,11 +87,11 @@ class Font:
         return size(t)
 
     def wrap(
-            self,
-            string: str,
-            width: float,
-            line_spacing: float = 1,
-            align: float = 0,
+        self,
+        string: str,
+        width: float,
+        line_spacing: float = 1,
+        align: float = 0,
     ) -> shapely.MultiLineString:
         """
         Render a given string such that the text is confined to a column of a given width by inserting line breaks.
@@ -117,9 +117,9 @@ class Font:
             if align == 0:
                 x = 0
             elif align == 1:
-                x = (max_width - w)
+                x = max_width - w
             else:
-                x = (max_width / 2 - w / 2)
+                x = max_width / 2 - w / 2
             line_shape = affinity.translate(line_shape, x, y)
             result.append(line_shape)
             y += spacing
