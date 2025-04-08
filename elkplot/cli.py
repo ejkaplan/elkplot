@@ -1,11 +1,11 @@
+from typing import Optional
 import click
 
 import elkplot
 
 
 @click.group()
-def cli():
-    ...
+def cli(): ...
 
 
 @cli.command()
@@ -21,15 +21,25 @@ def home():
 
 
 @cli.command()
-def up():
+@click.argument("height", type=float, required=False)
+def up(height: Optional[float] = None):
     """Lift the pen off the page"""
-    elkplot.Device().pen_up()
+    if height is not None:
+        device = elkplot.Device(pen_up_position=height)
+    else:
+        device = elkplot.Device()
+    device.pen_up()
 
 
 @cli.command()
-def down():
+@click.argument("height", type=float, required=False)
+def down(height: Optional[float] = None):
     """Bring the pen down onto the page"""
-    elkplot.Device().pen_down()
+    if height is not None:
+        device = elkplot.Device(pen_up_position=height)
+    else:
+        device = elkplot.Device()
+    device.pen_down()
 
 
 @cli.command()
