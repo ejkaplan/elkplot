@@ -36,7 +36,7 @@ def up(height: Optional[float] = None):
 def down(height: Optional[float] = None):
     """Bring the pen down onto the page"""
     if height is not None:
-        device = elkplot.Device(pen_up_position=height)
+        device = elkplot.Device(pen_down_position=height)
     else:
         device = elkplot.Device()
     device.pen_down()
