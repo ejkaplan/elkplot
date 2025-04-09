@@ -277,7 +277,12 @@ class Device:
             args=(queue, layer_coord_list, jog_planner, draw_planner),
         )
         p.start()
-        bar = tqdm(total=layer.length + elkplot.up_length(layer), desc=label)
+        bar = tqdm(
+            total=layer.length + elkplot.up_length(layer),
+            desc=label,
+            bar_format="{l_bar}{bar}| {n:.1f}/{total:.1f} {unit} [{elapsed}<{remaining} {rate_fmt}{postfix}]",
+            unit="inches",
+        )
         idx = 0
         while True:
             jog_plan, length = queue.get()
